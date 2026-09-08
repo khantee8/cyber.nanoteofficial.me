@@ -9,11 +9,12 @@ export function parseRansomware(raw: unknown): RansomVictim[] {
     .filter(isRecord)
     .map((v) => {
       const country = str(v.country).trim().toUpperCase();
+      const sector = str(v.activity).trim();
       return {
         victim: str(v.victim).trim(),
         group: str(v.group).trim(),
         country: /^[A-Z]{2}$/.test(country) ? country : null,
-        sector: str(v.activity).trim() || null,
+        sector: sector && !/^not found$/i.test(sector) ? sector : null,
         attackDate: str(v.attackdate).slice(0, 10),
         discovered: str(v.discovered),
         url: str(v.url) || 'https://www.ransomware.live/',

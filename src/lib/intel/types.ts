@@ -53,7 +53,7 @@ export async function fetchText(url: string, accept: string, signal?: AbortSigna
   try {
     const res = await fetch(url, {
       headers: { accept, 'user-agent': 'nanote-cyber/1.0 (+https://cyber.nanoteofficial.me)' },
-      signal: signal ?? AbortSignal.timeout(8000),
+      signal: signal ?? AbortSignal.timeout(12000),
       cache: 'no-store',
     });
     if (!res.ok) return null;

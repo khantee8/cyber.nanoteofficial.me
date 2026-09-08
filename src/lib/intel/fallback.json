@@ -1,0 +1,2084 @@
+{
+ "generatedAt": "2026-09-08T17:30:57.747Z",
+ "kev": [
+  {
+   "cveId": "CVE-2026-85046",
+   "vendor": "Google",
+   "product": "Chromium V8",
+   "name": "Google Chromium V8 Type Confusion Vulnerability",
+   "dateAdded": "2026-09-04",
+   "dueDate": "2026-09-18",
+   "ransomwareUse": false,
+   "description": "Google Chromium V8 contains a type confusion vulnerability that allows a remote attacker to execute arbitrary code inside the sandbox via a crafted HTML page. This vulnerability could affect multiple web browsers that utilize Chromium, including, but not limited to, Google Chrome, Microsoft Edge, and Opera.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-85046",
+   "epss": 0.01162
+  },
+  {
+   "cveId": "CVE-2026-9586",
+   "vendor": "Sangoma",
+   "product": "Switchvox",
+   "name": "Sangoma Switchvox SQL Injection Vulnerability",
+   "dateAdded": "2026-09-02",
+   "dueDate": "2026-09-05",
+   "ransomwareUse": false,
+   "description": "Sangoma Switchvox contains a SQL injection vulnerability which allows an unauthenticated remote attacker to execute arbitrary SQL statements against the backend PostgreSQL database using a single crafted request, including database operations and remote code execution.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-9586",
+   "epss": 0.11845
+  },
+  {
+   "cveId": "CVE-2026-83549",
+   "vendor": "SonicWall",
+   "product": "SMA1000 Appliances",
+   "name": "SonicWall SMA1000 Appliances OS Command Injection Vulnerability",
+   "dateAdded": "2026-09-02",
+   "dueDate": "2026-09-05",
+   "ransomwareUse": false,
+   "description": "SonicWall SMA1000 Appliances contains an OS command injection vulnerability that could enable a remote authenticated attacker as administrator to execute arbitrary OS commands, resulting in remote code execution.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-83549",
+   "epss": 0.01625
+  },
+  {
+   "cveId": "CVE-2026-83548",
+   "vendor": "SonicWall",
+   "product": "SMA1000 Appliances",
+   "name": "SonicWall SMA1000 Appliances Server-Side Request Forgery Vulnerability",
+   "dateAdded": "2026-09-02",
+   "dueDate": "2026-09-05",
+   "ransomwareUse": false,
+   "description": "SonicWall SMA1000 Appliances contains a server-side request forgery vulnerability that could allow a remote unauthenticated attacker to gain unauthorized access to sensitive functionality and perform unauthorized operations.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-83548",
+   "epss": 0.0071
+  },
+  {
+   "cveId": "CVE-2026-82329",
+   "vendor": "JFrog",
+   "product": "Artifactory",
+   "name": "JFrog Artifactory Improper Authentication Vulnerability",
+   "dateAdded": "2026-09-02",
+   "dueDate": "2026-09-05",
+   "ransomwareUse": false,
+   "description": "JFrog Artifactory contains an improper authentication vulnerability that under default configuration can allow an unauthenticated attacker with network access to obtain administrative privileges. ",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-82329",
+   "epss": 0.07666
+  },
+  {
+   "cveId": "CVE-2026-59822",
+   "vendor": "BerriAI",
+   "product": "LiteLLM",
+   "name": "BerriAI LiteLLM Improper Authentication Vulnerability",
+   "dateAdded": "2026-09-02",
+   "dueDate": "2026-09-16",
+   "ransomwareUse": false,
+   "description": "BerriAI LiteLLM contains an improper authentication vulnerability in the MCP Streamable HTTP endpoint that could allow an unauthenticated attacker to establish an authenticated MCP session using an arbitrary Bearer token.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-59822",
+   "epss": 0.0087
+  },
+  {
+   "cveId": "CVE-2026-49869",
+   "vendor": "Kestra",
+   "product": "Kestra OSS",
+   "name": "Kestra OSS OS Command Injection Vulnerability",
+   "dateAdded": "2026-09-02",
+   "dueDate": "2026-09-05",
+   "ransomwareUse": false,
+   "description": "Kestra OSS contains an OS command injection vulnerability that could allow an unauthenticated remote attacker to create and execute arbitrary workflows without credentials.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-49869",
+   "epss": 0.01917
+  },
+  {
+   "cveId": "CVE-2026-48710",
+   "vendor": "Kludex",
+   "product": "Starlette",
+   "name": "Kludex Starlette HTTP Request/Response Smuggling Vulnerability",
+   "dateAdded": "2026-09-02",
+   "dueDate": "2026-09-16",
+   "ransomwareUse": false,
+   "description": "Kludex Starlette contains a HTTP request/response smuggling vulnerability that could allow attackers to inject paths into the host part, prepending the actual path leading to issues such as authentication bypass when the authentication depends on the reconstructed URL’s path. This vulnerability could be chaned with CVE-2026-42271.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-48710",
+   "epss": 0.36257
+  },
+  {
+   "cveId": "CVE-2026-82078",
+   "vendor": "PaperCut",
+   "product": "NG/MF",
+   "name": "PaperCut NG/MF Unsafe Reflection Vulnerability",
+   "dateAdded": "2026-08-31",
+   "dueDate": "2026-09-14",
+   "ransomwareUse": false,
+   "description": "PaperCut NG/MF contains an unsafe reflection vulnerability that allows an attacker to manipulate system configuration parameters and execute arbitrary Java bytecode residing on the application classpath under the security context of the PaperCut server process. This vulnerability can be chained with CVE-2026-81578.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-82078",
+   "epss": 0.01691
+  },
+  {
+   "cveId": "CVE-2026-81578",
+   "vendor": "PaperCut",
+   "product": "NG/MF",
+   "name": "PaperCut NG/MF Missing Authentication for Critical Function Vulnerability",
+   "dateAdded": "2026-08-31",
+   "dueDate": "2026-09-14",
+   "ransomwareUse": false,
+   "description": "PaperCut NG/MF contains a missing authentication for critical function vulnerability which allows an unauthenticated remote attacker to modify certain system configurations. This vulnerability can be chained with CVE-2026-82078.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-81578",
+   "epss": 0.01617
+  },
+  {
+   "cveId": "CVE-2026-66384",
+   "vendor": "JFrog",
+   "product": "Artifactory",
+   "name": "JFrog Artifactory Improper Limitation of a Pathname to a Restricted Directory Vulnerability",
+   "dateAdded": "2026-08-27",
+   "dueDate": "2026-09-10",
+   "ransomwareUse": false,
+   "description": "JFrog Artifactory contains an improper limitation of a pathname to a restricted directory vulnerability. This can allow an authenticated user to write data outside the intended Docker cache path under specific remote-repository conditions.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-66384",
+   "epss": 0.00579
+  },
+  {
+   "cveId": "CVE-2026-53362",
+   "vendor": "Linux",
+   "product": "Kernel",
+   "name": "Linux Kernel Unspecified Vulnerability",
+   "dateAdded": "2026-08-27",
+   "dueDate": "2026-08-30",
+   "ransomwareUse": false,
+   "description": "Linux Kernel contains an unspecified vulnerability that can allow for privilege escalation via IPv6 networking subsystem. This vulnerability can impact multiple products, including but not limited to Suse, Red Hat, and other products using Linux. ",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-53362",
+   "epss": 0.0051
+  },
+  {
+   "cveId": "CVE-2023-49105",
+   "vendor": "ownCloud",
+   "product": "ownCloud",
+   "name": "ownCloud Improper Authentication Vulnerability",
+   "dateAdded": "2026-08-27",
+   "dueDate": "2026-08-30",
+   "ransomwareUse": false,
+   "description": "ownCloud contains an improper authentication vulnerability that allows an attacker to access, modify, or delete any file without authentication if the username of a victim is known, and the victim has no signing-key configured.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2023-49105",
+   "epss": 0.43205
+  },
+  {
+   "cveId": "CVE-2026-8452",
+   "vendor": "Citrix",
+   "product": "NetScaler ADC and NetScaler Gateway",
+   "name": "Citrix NetScaler ADC and NetScaler Gateway Improper Restriction of Operations within the Bounds of a Memory Buffer Vulnerability",
+   "dateAdded": "2026-08-26",
+   "dueDate": "2026-08-29",
+   "ransomwareUse": false,
+   "description": "Citrix NetScaler ADC and NetScaler Gateway contain an improper restriction of operations within the bounds of a memory buffer vulnerability which could lead to denial of service. ",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-8452",
+   "epss": 0.01606
+  },
+  {
+   "cveId": "CVE-2022-0995",
+   "vendor": "Linux",
+   "product": "Kernel",
+   "name": "Linux Kernel Out-of-Bounds Write Vulnerability",
+   "dateAdded": "2026-08-26",
+   "dueDate": "2026-09-09",
+   "ransomwareUse": false,
+   "description": "Linux Kernel contains an out-of-bounds memory write vulnerability which could allow a local user to gain privileged access or cause a denial of service on the system.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2022-0995",
+   "epss": 0.09518
+  },
+  {
+   "cveId": "CVE-2021-23758",
+   "vendor": "Ajax.NET Professional",
+   "product": "Ajax.NET Professional",
+   "name": "Ajax.NET Professional Deserialization of Untrusted Data Vulnerability",
+   "dateAdded": "2026-08-26",
+   "dueDate": "2026-09-09",
+   "ransomwareUse": false,
+   "description": "Ajax.NET Professional (AjaxPro) contains a deserialization of untrusted data vulnerability that could allow for remote code execution via arbitrary .NET classes. The impacted product(s) could be end-of-life (EoL) and/or end-of-service (EoS). Users are advised to discontinue use and/or transition to a supported version.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2021-23758",
+   "epss": 0.83633
+  },
+  {
+   "cveId": "CVE-2019-1068",
+   "vendor": "Microsoft",
+   "product": "SQL Server",
+   "name": "Microsoft SQL Server Remote Code Execution Vulnerability",
+   "dateAdded": "2026-08-26",
+   "dueDate": "2026-08-29",
+   "ransomwareUse": false,
+   "description": "Microsoft SQL Server contains a remote code execution vulnerability that could allow an attacker to execute code in the context of the SQL Server Database Engine service account.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2019-1068",
+   "epss": 0.52845
+  },
+  {
+   "cveId": "CVE-2015-5287",
+   "vendor": "Red Hat",
+   "product": "Automatic Bug Reporting Tool",
+   "name": "Red Hat Automatic Bug Reporting Tool Privilege Escalation Vulnerability",
+   "dateAdded": "2026-08-26",
+   "dueDate": "2026-09-09",
+   "ransomwareUse": false,
+   "description": "Red Hat Automatic Bug Reporting Tool (ABRT) contains a privilege escalation vulnerability that could allow local users with certain permissions to gain privileges via a symlink attack on a file with a predictable name. The impacted product(s) could be end-of-life (EoL) and/or end-of-service (EoS). Users are advised to discontinue use and/or transition to a supported version.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2015-5287",
+   "epss": 0.04962
+  },
+  {
+   "cveId": "CVE-2015-3246",
+   "vendor": "Red Hat",
+   "product": "Libuser",
+   "name": "Red Hat Libuser Race Condition Vulnerability",
+   "dateAdded": "2026-08-26",
+   "dueDate": "2026-09-09",
+   "ransomwareUse": false,
+   "description": "Red Hat libuser contains a race condition vulnerability that allows authenticated local users to corrupt the /etc/passwd file to cause a denial of service or privilege escalation. ",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2015-3246",
+   "epss": 0.08799
+  },
+  {
+   "cveId": "CVE-2026-60004",
+   "vendor": "Gitea",
+   "product": "Gitea",
+   "name": "Gitea Code Injection Vulnerability",
+   "dateAdded": "2026-08-25",
+   "dueDate": "2026-08-28",
+   "ransomwareUse": false,
+   "description": "Gitea contains a code injection vulnerability that allows an attacker with repository write access to send a malicious patch to the diffpatch API endpoint to plant an executable Git hook and run shell commands as the Gitea service account.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-60004",
+   "epss": 0.86777
+  },
+  {
+   "cveId": "CVE-2026-21962",
+   "vendor": "Oracle",
+   "product": "HTTP Server and Oracle Weblogic Server Proxy Plug-in",
+   "name": "Oracle HTTP Server and Oracle Weblogic Server Proxy Plug-in Improper Access Control Vulnerability",
+   "dateAdded": "2026-08-24",
+   "dueDate": "2026-08-27",
+   "ransomwareUse": false,
+   "description": "Oracle HTTP Server and Oracle Weblogic Server Proxy Plug-in contain an improper access control vulnerability that can result in unauthorized creation, deletion or modification access to critical data as well as unauthorized access to critical data or complete access to all Oracle HTTP Server and Oracle Weblogic Server Proxy Plug-in accessible data.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-21962",
+   "epss": 0.4202
+  },
+  {
+   "cveId": "CVE-2026-73570",
+   "vendor": "Synacor",
+   "product": "Zimbra Collaboration Suite (ZCS)",
+   "name": "Zimbra Collaboration Suite (ZCS) OS Command Injection Vulnerability",
+   "dateAdded": "2026-08-21",
+   "dueDate": "2026-08-24",
+   "ransomwareUse": false,
+   "description": "Zimbra Collaboration Suite (ZCS) contains an OS command injection vulnerability which could allow an unauthenticated attacker to send specially crafted SMTP requests that may result in execution of arbitrary operating system commands as the Zimbra user.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-73570",
+   "epss": 0.32383
+  },
+  {
+   "cveId": "CVE-2026-72530",
+   "vendor": "TrueConf",
+   "product": "Server",
+   "name": "TrueConf Server Code Injection Vulnerability",
+   "dateAdded": "2026-08-20",
+   "dueDate": "2026-09-03",
+   "ransomwareUse": false,
+   "description": "TrueConf Server contains a code injection vulnerability that could allow an unauthorized remote attacker with network access via port 4307/TCP to use a specially crafted script to break out of the isolated environment and execute arbitrary code on the host system.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-72530",
+   "epss": 0.01827
+  },
+  {
+   "cveId": "CVE-2026-72529",
+   "vendor": "TrueConf",
+   "product": "Server",
+   "name": "TrueConf Server Missing Authentication for Critical Function Vulnerability",
+   "dateAdded": "2026-08-20",
+   "dueDate": "2026-08-23",
+   "ransomwareUse": false,
+   "description": "TrueConf Server contains a missing authentication for critical function vulnerability which could allow a remote unauthorized attacker with network access via port 4307/TCP to execute an arbitrary script.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-72529",
+   "epss": 0.01554
+  },
+  {
+   "cveId": "CVE-2026-64849",
+   "vendor": "MLflow",
+   "product": "MLflow",
+   "name": "MLflow Server-Side Request Forgery Vulnerability",
+   "dateAdded": "2026-08-19",
+   "dueDate": "2026-09-02",
+   "ransomwareUse": false,
+   "description": "MLflow contains a server-side request forgery vulnerability that can allow attackers to reach internal or cloud metadata services and receive response_status and response_body.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-64849",
+   "epss": 0.1641
+  },
+  {
+   "cveId": "CVE-2026-65400",
+   "vendor": "Apple",
+   "product": "macOS",
+   "name": "Apple macOS Improper Authentication Vulnerability",
+   "dateAdded": "2026-08-18",
+   "dueDate": "2026-08-21",
+   "ransomwareUse": false,
+   "description": "Apple macOS contains an improper authentication vulnerability that could allow an attacker on the network to authenticate to Screen Sharing without valid credentials.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-65400",
+   "epss": 0.09905
+  },
+  {
+   "cveId": "CVE-2026-59310",
+   "vendor": "Broadcom",
+   "product": "VMware vCenter",
+   "name": "Broadcom VMware vCenter Path Traversal Vulnerability",
+   "dateAdded": "2026-08-18",
+   "dueDate": "2026-08-21",
+   "ransomwareUse": false,
+   "description": "Broadcom VMware vCenter contains a path traversal vulnerability which could allow a threat actor with network access to vCenter to execute arbitrary code.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-59310",
+   "epss": 0.45878
+  },
+  {
+   "cveId": "CVE-2026-55040",
+   "vendor": "Microsoft",
+   "product": "SharePoint",
+   "name": "Microsoft SharePoint Weak Authentication Vulnerability",
+   "dateAdded": "2026-08-18",
+   "dueDate": "2026-08-21",
+   "ransomwareUse": false,
+   "description": "Microsoft SharePoint contains a weak authentication vulnerability which allows an unauthorized attacker to bypass a security feature over a network.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-55040",
+   "epss": 0.39652
+  },
+  {
+   "cveId": "CVE-2026-33824",
+   "vendor": "Microsoft",
+   "product": "Internet Key Exchange (IKE) Service Extensions",
+   "name": "Microsoft Internet Key Exchange (IKE) Service Extensions Double Free Vulnerability",
+   "dateAdded": "2026-08-18",
+   "dueDate": "2026-08-21",
+   "ransomwareUse": false,
+   "description": "Microsoft Internet Key Exchange (IKE) Service Extensions contains a double free vulnerability that could enable remote code execution.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-33824",
+   "epss": 0.72695
+  },
+  {
+   "cveId": "CVE-2025-62593",
+   "vendor": "Ray-Project",
+   "product": "Ray",
+   "name": "Ray-Project Ray Code Injection Vulnerability",
+   "dateAdded": "2026-08-17",
+   "dueDate": "2026-08-20",
+   "ransomwareUse": false,
+   "description": "Ray-Project Ray contains a code injection vulnerability that could allow remote code execution. Developers using Ray as a development tool may be exposed to this vulnerability exploitable through Firefox and Safari.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2025-62593",
+   "epss": 0.16888
+  },
+  {
+   "cveId": "CVE-2026-72898",
+   "vendor": "Metabase",
+   "product": "Metabase",
+   "name": "Metabase SQL Injection Vulnerability",
+   "dateAdded": "2026-08-11",
+   "dueDate": "2026-08-14",
+   "ransomwareUse": false,
+   "description": "Metabase contains a SQL Injection vulnerability that allows an unauthenticated remote attacker to inject arbitrary SQL into the Metabase application database, which can give them administrator access to the instance. From there, the attacker could change the application configuration, steal stored credentials for the connected databases, read any data accessible through those connections, and export data.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-72898"
+  },
+  {
+   "cveId": "CVE-2026-68820",
+   "vendor": "Microsoft",
+   "product": "Windows Ancillary Function Driver for WinSock ",
+   "name": "Microsoft Windows Ancillary Function Driver for WinSock Use-After-Free Vulnerability",
+   "dateAdded": "2026-08-11",
+   "dueDate": "2026-08-25",
+   "ransomwareUse": false,
+   "description": "Microsoft Windows Ancillary Function Driver for WinSock contains a use-after-free vulnerability that allows an authorized attacker to elevate privileges locally.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-68820"
+  },
+  {
+   "cveId": "CVE-2026-20349",
+   "vendor": "Cisco",
+   "product": "Secure Firewall Adaptive Security Appliance (ASA) and Secure Firewall Threat Defense (FTD) ",
+   "name": "Cisco Secure Firewall Adaptive Security Appliance (ASA) and Secure Firewall Threat Defense (FTD) Heap Inspection Vulnerability",
+   "dateAdded": "2026-08-11",
+   "dueDate": "2026-08-14",
+   "ransomwareUse": false,
+   "description": "Cisco Secure Firewall Adaptive Security Appliance (ASA) and Secure Firewall Threat Defense (FTD) contain a heap inspection vulnerability that could allow an unauthenticated, remote attacker to cause the device to reload unexpectedly, resulting in a denial of service (DoS) condition.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-20349"
+  },
+  {
+   "cveId": "CVE-2026-8037",
+   "vendor": "Progress",
+   "product": "LoadMaster",
+   "name": "Progress LoadMaster Command Injection Vulnerability",
+   "dateAdded": "2026-08-07",
+   "dueDate": "2026-08-10",
+   "ransomwareUse": false,
+   "description": "Progress LoadMaster contains a command injection vulnerability that allows an un-authenticated attacker to execute arbitrary commands on the LoadMaster appliance by exploiting unsanitized input in multiple command endpoints.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-8037"
+  },
+  {
+   "cveId": "CVE-2026-63077",
+   "vendor": "JetBrains",
+   "product": "TeamCity",
+   "name": "JetBrains TeamCity Deserialization of Untrusted Data Vulnerability",
+   "dateAdded": "2026-08-05",
+   "dueDate": "2026-08-08",
+   "ransomwareUse": false,
+   "description": "JetBrains TeamCity contains a deserialization of untrusted data vulnerability that could allow unauthenticated remote code execution via the agent polling protocol.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-63077"
+  },
+  {
+   "cveId": "CVE-2026-9198",
+   "vendor": "IBM",
+   "product": "Langflow",
+   "name": "IBM Langflow Code Injection Vulnerability",
+   "dateAdded": "2026-08-04",
+   "dueDate": "2026-08-07",
+   "ransomwareUse": false,
+   "description": "Langflow contains a code injection vulnerability that allows unauthenticated attackers to achieve full remote code execution on default Langflow deployments.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-9198"
+  },
+  {
+   "cveId": "CVE-2026-34486",
+   "vendor": "Apache",
+   "product": "Tomcat",
+   "name": "Apache Tomcat Missing Encryption of Sensitive Data Vulnerability",
+   "dateAdded": "2026-08-04",
+   "dueDate": "2026-08-07",
+   "ransomwareUse": false,
+   "description": "Apache Tomcat contains a missing encryption of sensitive data vulnerability that allows the bypass of the EncryptInterceptor. This vulnerability can be chained with CVE‑2025‑24813.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-34486"
+  },
+  {
+   "cveId": "CVE-2026-18556",
+   "vendor": "N-able",
+   "product": "N-central",
+   "name": "N-able N-central Authentication Bypass Using an Alternate Path or Channel Vulnerability",
+   "dateAdded": "2026-08-04",
+   "dueDate": "2026-08-07",
+   "ransomwareUse": false,
+   "description": "N-able N-central contains an authentication bypass using an alternate path or channel that allows for authentication bypass.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-18556"
+  },
+  {
+   "cveId": "CVE-2026-18577",
+   "vendor": "N-able",
+   "product": "N-central",
+   "name": "N-able N-central Authentication Bypass Using an Alternate Path or Channel Vulnerability",
+   "dateAdded": "2026-08-03",
+   "dueDate": "2026-08-06",
+   "ransomwareUse": false,
+   "description": "N-able N-central contains an authentication bypass using an alternate path or channel allows for authentication bypass and account takeover in N-central. This vulnerability is the result of an incomplete patch for CVE-2026-18556.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-18577"
+  },
+  {
+   "cveId": "CVE-2026-20316",
+   "vendor": "Cisco",
+   "product": "Secure Firewall Management Center (FMC)",
+   "name": "Cisco Secure Firewall Management Center Use of Hard-coded Password Vulnerability",
+   "dateAdded": "2026-07-29",
+   "dueDate": "2026-08-01",
+   "ransomwareUse": false,
+   "description": "Cisco Secure Firewall Management Center (FMC) formerly known as Firepower Management Center contains a use of hard-coded password vulnerability that could allow an unauthenticated, remote attacker to log in to an affected device using a low-privileged account to access sensitive data within the impacted systems.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-20316"
+  },
+  {
+   "cveId": "CVE-2026-16812",
+   "vendor": "Arista",
+   "product": "VeloCloud Orchestrator",
+   "name": "Arista VeloCloud Orchestrator On-Prem OS Command Injection Vulnerability",
+   "dateAdded": "2026-07-27",
+   "dueDate": "2026-07-30",
+   "ransomwareUse": false,
+   "description": "Arista VeloCloud Orchestrator On-Prem contains an OS command injection vulnerability that may allow a remote attacker to access privileged internal functionality and impact the VCO host. Successful exploitation may compromise the confidentiality, integrity, and availability of the orchestrator and data managed by the orchestrator.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-16812"
+  },
+  {
+   "cveId": "CVE-2025-68686",
+   "vendor": "Fortinet",
+   "product": "FortiOS",
+   "name": "Fortinet FortiOS Exposure of Sensitive Information to an Unauthorized Actor Vulnerability",
+   "dateAdded": "2026-07-27",
+   "dueDate": "2026-08-10",
+   "ransomwareUse": false,
+   "description": "Fortinet FortiOS contains an exposure of sensitive information to an unauthorized actor vulnerability. This may allow a remote unauthenticated attacker to bypass the patch developed for the symbolic link persistency mechanism observed in some post-exploit cases, via crafted HTTP requests. An attacker would need first to have compromised the product via another vulnerability, at filesystem level.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2025-68686"
+  },
+  {
+   "cveId": "CVE-2026-50522",
+   "vendor": "Microsoft",
+   "product": "SharePoint",
+   "name": "Microsoft SharePoint Deserialization of Untrusted Data Vulnerability ",
+   "dateAdded": "2026-07-22",
+   "dueDate": "2026-07-25",
+   "ransomwareUse": false,
+   "description": "Microsoft SharePoint contains a deserialization of untrusted data vulnerability which could allow an unauthorized attacker to execute code over a network.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-50522"
+  },
+  {
+   "cveId": "CVE-2026-16232",
+   "vendor": "Check Point",
+   "product": "SmartConsole",
+   "name": "Check Point SmartConsole Improper Authentication Vulnerability",
+   "dateAdded": "2026-07-22",
+   "dueDate": "2026-07-25",
+   "ransomwareUse": false,
+   "description": "Check Point SmartConsole contains an improper authentication vulnerability which could allow an unauthenticated remote attacker to obtain an application login token and use it to authenticate with full administrative privileges.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-16232"
+  },
+  {
+   "cveId": "CVE-2026-63030",
+   "vendor": "WordPress",
+   "product": "Core",
+   "name": "WordPress Core Interpretation Conflict Vulnerability",
+   "dateAdded": "2026-07-21",
+   "dueDate": "2026-07-24",
+   "ransomwareUse": false,
+   "description": "WordPress Core contains an interpretation conflict vulnerability that could allow an attacker to perform SQL Injection and achieve Remote Code Execution. This vulnerability can be chained with CVE-2026-60137.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-63030"
+  },
+  {
+   "cveId": "CVE-2026-60137",
+   "vendor": "WordPress",
+   "product": "Core",
+   "name": "WordPress Core SQL Injection Vulnerability",
+   "dateAdded": "2026-07-21",
+   "dueDate": "2026-08-04",
+   "ransomwareUse": false,
+   "description": "WordPress Core contains a SQL injection vulnerability when a plugin or theme passes untrusted input to the parameter. This vulnerability can be chained with CVE-2026-63030 to allow an unauthenticated attacker to gain remote code execution on default WordPress installations.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-60137"
+  },
+  {
+   "cveId": "CVE-2026-0770",
+   "vendor": "Langflow",
+   "product": "Langflow",
+   "name": "Langflow Inclusion of Functionality from Untrusted Control Sphere Vulnerability",
+   "dateAdded": "2026-07-21",
+   "dueDate": "2026-07-24",
+   "ransomwareUse": false,
+   "description": "Langflow contains an inclusion of functionality from untrusted control sphere vulnerability that allows remote attackers to execute arbitrary code on affected installations. ",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-0770"
+  },
+  {
+   "cveId": "CVE-2021-27137",
+   "vendor": "DD-WRT",
+   "product": "DD-WRT",
+   "name": "DD-WRT Stack-Based Buffer Overflow Vulnerability",
+   "dateAdded": "2026-07-21",
+   "dueDate": "2026-07-24",
+   "ransomwareUse": false,
+   "description": "DD-WRT contains a stack-based buffer overflow vulnerability that could allow an unauthenticated attacker to overflow an internal buffer used by UPnP and trigger a code execution vulnerability.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2021-27137"
+  },
+  {
+   "cveId": "CVE-2026-58644",
+   "vendor": "Microsoft",
+   "product": "SharePoint",
+   "name": "Microsoft SharePoint Deserialization of Untrusted Data Vulnerability",
+   "dateAdded": "2026-07-16",
+   "dueDate": "2026-07-19",
+   "ransomwareUse": false,
+   "description": "Microsoft SharePoint contains a deserialization of untrusted data vulnerability that allows an unauthorized attacker to execute code over a network.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-58644"
+  },
+  {
+   "cveId": "CVE-2026-39808",
+   "vendor": "Fortinet",
+   "product": "FortiSandbox",
+   "name": "Fortinet FortiSandbox OS Command Injection Vulnerability",
+   "dateAdded": "2026-07-16",
+   "dueDate": "2026-07-19",
+   "ransomwareUse": false,
+   "description": "Fortinet FortiSandbox contains an OS command injection vulnerability that could allow an unauthenticated attacker to execute unauthorized code or commands via crafted HTTP requests.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-39808"
+  },
+  {
+   "cveId": "CVE-2026-25089",
+   "vendor": "Fortinet",
+   "product": "FortiSandbox",
+   "name": "Fortinet FortiSandbox OS Command Injection Vulnerability",
+   "dateAdded": "2026-07-16",
+   "dueDate": "2026-07-19",
+   "ransomwareUse": false,
+   "description": "Fortinet FortiSandbox, FortiSandbox Cloud, and FortiSandbox PaaS contain an OS command injection vulnerability that allows an unauthenticated attacker to execute unauthorized commands via specifically crafted HTTP requests.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-25089"
+  },
+  {
+   "cveId": "CVE-2026-46817",
+   "vendor": "Oracle",
+   "product": "E-Business Suite",
+   "name": "Oracle E-Business Suite Improper Privilege Management Vulnerability",
+   "dateAdded": "2026-07-15",
+   "dueDate": "2026-07-18",
+   "ransomwareUse": false,
+   "description": "Oracle E-Business Suite contains an improper privilege management vulnerability that allows an unauthenticated attacker with network access via HTTP to compromise Oracle Payments. Successful attacks of this vulnerability can result in takeover of Oracle Payments.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-46817"
+  },
+  {
+   "cveId": "CVE-2023-4346",
+   "vendor": "KNX Association",
+   "product": "KNX Protocol Connection Authorization Option 1",
+   "name": "KNX Association KNX Protocol Connection Authorization Option 1 Overly Restrictive Account Lockout Mechanism Vulnerability",
+   "dateAdded": "2026-07-15",
+   "dueDate": "2026-07-29",
+   "ransomwareUse": false,
+   "description": "KNX Association KNX Protocol Connection Authorization Option 1 contains an overly restrictive account lockout mechanism vulnerability that could allow an attacker to purge all devices without additional security options enabled and set a BCU key to lock the device. ",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2023-4346"
+  },
+  {
+   "cveId": "CVE-2026-56164",
+   "vendor": "Microsoft",
+   "product": "SharePoint Server",
+   "name": "Microsoft SharePoint Server Missing Authentication for Critical Function Vulnerability",
+   "dateAdded": "2026-07-14",
+   "dueDate": "2026-07-17",
+   "ransomwareUse": false,
+   "description": "Microsoft SharePoint contains a missing authentication for critical function vulnerability that allows an unauthorized attacker to elevate privileges over a network.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-56164"
+  },
+  {
+   "cveId": "CVE-2026-56155",
+   "vendor": "Microsoft",
+   "product": "Active Directory Federation Services",
+   "name": "Microsoft Active Directory Federation Services Insufficient Granularity of Access Control Vulnerability ",
+   "dateAdded": "2026-07-14",
+   "dueDate": "2026-07-28",
+   "ransomwareUse": false,
+   "description": "Microsoft Active Directory Federation Services contains an insufficient granularity of access control vulnerability that allows an authorized attacker to elevate privileges locally.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-56155"
+  },
+  {
+   "cveId": "CVE-2026-15410",
+   "vendor": "SonicWall",
+   "product": "SMA1000 Appliances",
+   "name": "SonicWall SMA1000 Appliances Code Injection Vulnerability",
+   "dateAdded": "2026-07-14",
+   "dueDate": "2026-07-17",
+   "ransomwareUse": true,
+   "description": "SonicWall SMA1000 Appliances contain a code injection vulnerability which in specific conditions could potentially enable a remote authenticated attacker as administrator to execute arbitrary OS commands.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-15410"
+  },
+  {
+   "cveId": "CVE-2026-15409",
+   "vendor": "SonicWall",
+   "product": "SMA1000 Appliances",
+   "name": "SonicWall SMA1000 Appliances Server-Side Request Forgery Vulnerability",
+   "dateAdded": "2026-07-14",
+   "dueDate": "2026-07-17",
+   "ransomwareUse": true,
+   "description": "SonicWall SMA1000 Appliances contain a server-side request forgery vulnerability that could allow a remote unauthenticated attacker to potentially cause the appliance to make requests to unintended location.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-15409"
+  },
+  {
+   "cveId": "CVE-2008-4128",
+   "vendor": "Cisco",
+   "product": "IOS",
+   "name": "Cisco IOS Cross-Site Request Forgery Vulnerability",
+   "dateAdded": "2026-07-13",
+   "dueDate": "2026-07-16",
+   "ransomwareUse": false,
+   "description": "Cisco IOS 12.4 contains multiple cross-site forgery vulnerabilities that allows remote attackers to execute arbitrary commands via (1) a certain \"show privilege\" command to the /level/15/exec/- URI, and (2) a certain \"alias exec\" command to the /level/15/exec/-/configure/http URI.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2008-4128"
+  },
+  {
+   "cveId": "CVE-2026-56291",
+   "vendor": "Balbooa",
+   "product": "Forms",
+   "name": "Balbooa Forms Unrestricted Upload of File with Dangerous Type Vulnerability",
+   "dateAdded": "2026-07-10",
+   "dueDate": "2026-07-13",
+   "ransomwareUse": false,
+   "description": "Balbooa Forms contains an unrestricted upload of file with dangerous type vulnerability that allows an unauthenticated arbitrary file upload which could allow uploading of executable files leading to full RCE.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-56291"
+  },
+  {
+   "cveId": "CVE-2026-48939",
+   "vendor": "iCagenda",
+   "product": "iCagenda",
+   "name": "iCagenda Unrestricted Upload of File with Dangerous Type Vulnerability",
+   "dateAdded": "2026-07-10",
+   "dueDate": "2026-07-13",
+   "ransomwareUse": false,
+   "description": "iCagenda contains an unrestricted upload of file with dangerous type vulnerability that allows the upload of arbitrary files in the file attachment feature, ultimately resulting in PHP code upload and execution.",
+   "url": "https://www.cisa.gov/known-exploited-vulnerabilities-catalog?search_api_fulltext=CVE-2026-48939"
+  }
+ ],
+ "ransomware": [
+  {
+   "victim": "Wi***IT",
+   "group": "AuditTeam",
+   "country": "UA",
+   "sector": "Technology",
+   "attackDate": "2026-09-08",
+   "discovered": "2026-09-08T11:20:28.759010+00:00",
+   "url": "https://www.ransomware.live/id/V2kqKipJVEBBdWRpdFRlYW0="
+  },
+  {
+   "victim": "SAD'S Interim",
+   "group": "rhysida",
+   "country": "FR",
+   "sector": "Professional Services",
+   "attackDate": "2026-09-08",
+   "discovered": "2026-09-08T06:02:10.597437+00:00",
+   "url": "https://www.ransomware.live/id/U0FEJ1MgSW50ZXJpbUByaHlzaWRh"
+  },
+  {
+   "victim": "pa***op",
+   "group": "AuditTeam",
+   "country": "RU",
+   "sector": null,
+   "attackDate": "2026-09-08",
+   "discovered": "2026-09-08T04:50:22.809431+00:00",
+   "url": "https://www.ransomware.live/id/cGEqKipvcEBBdWRpdFRlYW0="
+  },
+  {
+   "victim": "MEI Architects",
+   "group": "Dark Project",
+   "country": "US",
+   "sector": "Professional Services",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T22:20:59.692694+00:00",
+   "url": "https://www.ransomware.live/id/TUVJIEFyY2hpdGVjdHNARGFyayBQcm9qZWN0"
+  },
+  {
+   "victim": "Hollard Insurance Group",
+   "group": "thegentlemen",
+   "country": "ZA",
+   "sector": "Financial Services",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:56:38.361994+00:00",
+   "url": "https://www.ransomware.live/id/SG9sbGFyZCBJbnN1cmFuY2UgR3JvdXBAdGhlZ2VudGxlbWVu"
+  },
+  {
+   "victim": "Drogueria Saporiti Sacifia",
+   "group": "thegentlemen",
+   "country": "AR",
+   "sector": "Retail & E-Commerce",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:56:17.591537+00:00",
+   "url": "https://www.ransomware.live/id/RHJvZ3VlcmlhIFNhcG9yaXRpIFNhY2lmaWFAdGhlZ2VudGxlbWVu"
+  },
+  {
+   "victim": "Mutant",
+   "group": "thegentlemen",
+   "country": "BR",
+   "sector": "Other",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:55:57.479911+00:00",
+   "url": "https://www.ransomware.live/id/TXV0YW50QHRoZWdlbnRsZW1lbg=="
+  },
+  {
+   "victim": "University of San Francisco",
+   "group": "thegentlemen",
+   "country": "US",
+   "sector": "Education",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:55:37.369133+00:00",
+   "url": "https://www.ransomware.live/id/VW5pdmVyc2l0eSBvZiBTYW4gRnJhbmNpc2NvQHRoZWdlbnRsZW1lbg=="
+  },
+  {
+   "victim": "Nile Projects Trading",
+   "group": "thegentlemen",
+   "country": "EG",
+   "sector": "Other",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:55:16.561605+00:00",
+   "url": "https://www.ransomware.live/id/TmlsZSBQcm9qZWN0cyBUcmFkaW5nQHRoZWdlbnRsZW1lbg=="
+  },
+  {
+   "victim": "Chip7",
+   "group": "thegentlemen",
+   "country": "PT",
+   "sector": "Technology",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:54:56.429592+00:00",
+   "url": "https://www.ransomware.live/id/Q2hpcDdAdGhlZ2VudGxlbWVu"
+  },
+  {
+   "victim": "Sharp Office",
+   "group": "thegentlemen",
+   "country": "AU",
+   "sector": "Professional Services",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:54:35.623984+00:00",
+   "url": "https://www.ransomware.live/id/U2hhcnAgT2ZmaWNlQHRoZWdlbnRsZW1lbg=="
+  },
+  {
+   "victim": "S A Chile",
+   "group": "thegentlemen",
+   "country": "CL",
+   "sector": "Energy & Utilities",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:54:15.556609+00:00",
+   "url": "https://www.ransomware.live/id/UyBBIENoaWxlQHRoZWdlbnRsZW1lbg=="
+  },
+  {
+   "victim": "Yapı Merkezi",
+   "group": "thegentlemen",
+   "country": "TR",
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:54:05.195624+00:00",
+   "url": "https://www.ransomware.live/id/WWFwxLEgTWVya2V6aUB0aGVnZW50bGVtZW4="
+  },
+  {
+   "victim": "Soni Dwarkadas Virchand",
+   "group": "thegentlemen",
+   "country": "IN",
+   "sector": "Other",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:53:44.917197+00:00",
+   "url": "https://www.ransomware.live/id/U29uaSBEd2Fya2FkYXMgVmlyY2hhbmRAdGhlZ2VudGxlbWVu"
+  },
+  {
+   "victim": "Zanini",
+   "group": "thegentlemen",
+   "country": "BR",
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:53:24.730906+00:00",
+   "url": "https://www.ransomware.live/id/WmFuaW5pQHRoZWdlbnRsZW1lbg=="
+  },
+  {
+   "victim": "Domis",
+   "group": "thegentlemen",
+   "country": "DK",
+   "sector": "Retail & E-Commerce",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:53:04.382671+00:00",
+   "url": "https://www.ransomware.live/id/RG9taXNAdGhlZ2VudGxlbWVu"
+  },
+  {
+   "victim": "Biotipo Jeans",
+   "group": "thegentlemen",
+   "country": "BR",
+   "sector": "Retail & E-Commerce",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:52:24.536939+00:00",
+   "url": "https://www.ransomware.live/id/QmlvdGlwbyBKZWFuc0B0aGVnZW50bGVtZW4="
+  },
+  {
+   "victim": "Ritz Safety",
+   "group": "thegentlemen",
+   "country": "US",
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:52:05.075203+00:00",
+   "url": "https://www.ransomware.live/id/Uml0eiBTYWZldHlAdGhlZ2VudGxlbWVu"
+  },
+  {
+   "victim": "Comin Sac",
+   "group": "thegentlemen",
+   "country": "PE",
+   "sector": null,
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:51:44.943938+00:00",
+   "url": "https://www.ransomware.live/id/Q29taW4gU2FjQHRoZWdlbnRsZW1lbg=="
+  },
+  {
+   "victim": "AbacoViaggi",
+   "group": "thegentlemen",
+   "country": "IT",
+   "sector": "Hospitality",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:51:24.617975+00:00",
+   "url": "https://www.ransomware.live/id/QWJhY29WaWFnZ2lAdGhlZ2VudGxlbWVu"
+  },
+  {
+   "victim": "El Carriel",
+   "group": "thegentlemen",
+   "country": "CO",
+   "sector": "Agriculture and Food Production",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:51:03.214396+00:00",
+   "url": "https://www.ransomware.live/id/RWwgQ2FycmllbEB0aGVnZW50bGVtZW4="
+  },
+  {
+   "victim": "Superstore",
+   "group": "thegentlemen",
+   "country": "GE",
+   "sector": "Retail & E-Commerce",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:50:43.059898+00:00",
+   "url": "https://www.ransomware.live/id/U3VwZXJzdG9yZUB0aGVnZW50bGVtZW4="
+  },
+  {
+   "victim": "Partners Group SK",
+   "group": "qilin",
+   "country": "SK",
+   "sector": "Financial Services",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:36:28.374007+00:00",
+   "url": "https://www.ransomware.live/id/UGFydG5lcnMgR3JvdXAgU0tAcWlsaW4="
+  },
+  {
+   "victim": "vsbattorneys.co.za",
+   "group": "lockbit5",
+   "country": "ZA",
+   "sector": "Professional Services",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T21:34:30.112092+00:00",
+   "url": "https://www.ransomware.live/id/dnNiYXR0b3JuZXlzLmNvLnphQGxvY2tiaXQ1"
+  },
+  {
+   "victim": "State of Florida DMV",
+   "group": "shinyhunters",
+   "country": "US",
+   "sector": "Government & Defense",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T20:07:30.598993+00:00",
+   "url": "https://www.ransomware.live/id/U3RhdGUgb2YgRmxvcmlkYSBETVZAc2hpbnlodW50ZXJz"
+  },
+  {
+   "victim": "Wellness Partners network(combined revenue)",
+   "group": "incransom",
+   "country": "US",
+   "sector": "Healthcare",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T18:59:19.198606+00:00",
+   "url": "https://www.ransomware.live/id/V2VsbG5lc3MgUGFydG5lcnMgbmV0d29yayhjb21iaW5lZCByZXZlbnVlKUBpbmNyYW5zb20="
+  },
+  {
+   "victim": "United Group",
+   "group": "Vexy Ransomware",
+   "country": "IN",
+   "sector": "Other",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T17:54:08.633023+00:00",
+   "url": "https://www.ransomware.live/id/VW5pdGVkIEdyb3VwQFZleHkgUmFuc29td2FyZQ=="
+  },
+  {
+   "victim": "Master Manufacturing Co., Inc.",
+   "group": "Dark Project",
+   "country": "US",
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T17:51:49.647897+00:00",
+   "url": "https://www.ransomware.live/id/TWFzdGVyIE1hbnVmYWN0dXJpbmcgQ28uLCBJbmMuQERhcmsgUHJvamVjdA=="
+  },
+  {
+   "victim": "Alurwalls",
+   "group": "Dark Project",
+   "country": "BR",
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T17:51:07.177166+00:00",
+   "url": "https://www.ransomware.live/id/QWx1cndhbGxzQERhcmsgUHJvamVjdA=="
+  },
+  {
+   "victim": "Precision Vehicle Logistics",
+   "group": "direwolf",
+   "country": "US",
+   "sector": "Transportation",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T17:27:23.239976+00:00",
+   "url": "https://www.ransomware.live/id/UHJlY2lzaW9uIFZlaGljbGUgTG9naXN0aWNzQGRpcmV3b2xm"
+  },
+  {
+   "victim": "Rug & Home",
+   "group": "rhysida",
+   "country": "US",
+   "sector": "Retail & E-Commerce",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T17:01:07.710515+00:00",
+   "url": "https://www.ransomware.live/id/UnVnICYgSG9tZUByaHlzaWRh"
+  },
+  {
+   "victim": "TrainMe",
+   "group": "direwolf",
+   "country": "CO",
+   "sector": "Education",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T16:56:02.087558+00:00",
+   "url": "https://www.ransomware.live/id/VHJhaW5NZUBkaXJld29sZg=="
+  },
+  {
+   "victim": "NFM Lending",
+   "group": "interlock",
+   "country": "US",
+   "sector": "Financial Services",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T15:31:55.699100+00:00",
+   "url": "https://www.ransomware.live/id/TkZNIExlbmRpbmdAaW50ZXJsb2Nr"
+  },
+  {
+   "victim": "GGS",
+   "group": "everest",
+   "country": null,
+   "sector": null,
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T15:29:41.803511+00:00",
+   "url": "https://www.ransomware.live/id/R0dTQGV2ZXJlc3Q="
+  },
+  {
+   "victim": "KÖRBER",
+   "group": "everest",
+   "country": "DE",
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T15:29:01.556489+00:00",
+   "url": "https://www.ransomware.live/id/S8OWUkJFUkBldmVyZXN0"
+  },
+  {
+   "victim": "GENESILICO",
+   "group": "everest",
+   "country": "IT",
+   "sector": "Technology",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T15:28:22.826637+00:00",
+   "url": "https://www.ransomware.live/id/R0VORVNJTElDT0BldmVyZXN0"
+  },
+  {
+   "victim": "Lightcast",
+   "group": "direwolf",
+   "country": "US",
+   "sector": "Professional Services",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T14:27:42.434569+00:00",
+   "url": "https://www.ransomware.live/id/TGlnaHRjYXN0QGRpcmV3b2xm"
+  },
+  {
+   "victim": "Jinny Beauty Supply",
+   "group": "aurora",
+   "country": "US",
+   "sector": "Retail & E-Commerce",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T14:25:08.483784+00:00",
+   "url": "https://www.ransomware.live/id/SmlubnkgQmVhdXR5IFN1cHBseUBhdXJvcmE="
+  },
+  {
+   "victim": "Semper Laser",
+   "group": "direwolf",
+   "country": "SE",
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T13:26:15.875784+00:00",
+   "url": "https://www.ransomware.live/id/U2VtcGVyIExhc2VyQGRpcmV3b2xm"
+  },
+  {
+   "victim": "EllisDon Corporation",
+   "group": "metaencryptor",
+   "country": "CA",
+   "sector": "Professional Services",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T13:01:37.828237+00:00",
+   "url": "https://www.ransomware.live/id/RWxsaXNEb24gQ29ycG9yYXRpb25AbWV0YWVuY3J5cHRvcg=="
+  },
+  {
+   "victim": "Jbc",
+   "group": "qilin",
+   "country": "ES",
+   "sector": null,
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T12:04:38.555240+00:00",
+   "url": "https://www.ransomware.live/id/SmJjQHFpbGlu"
+  },
+  {
+   "victim": "SIFCO Industries INC.",
+   "group": "metaencryptor",
+   "country": "US",
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T12:03:26.153909+00:00",
+   "url": "https://www.ransomware.live/id/U0lGQ08gSW5kdXN0cmllcyBJTkMuQG1ldGFlbmNyeXB0b3I="
+  },
+  {
+   "victim": "ST Engineering",
+   "group": "metaencryptor",
+   "country": "SG",
+   "sector": "Government & Defense",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T12:02:41.941865+00:00",
+   "url": "https://www.ransomware.live/id/U1QgRW5naW5lZXJpbmdAbWV0YWVuY3J5cHRvcg=="
+  },
+  {
+   "victim": "Hologic, Inc.",
+   "group": "metaencryptor",
+   "country": "US",
+   "sector": "Healthcare",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T12:01:46.084403+00:00",
+   "url": "https://www.ransomware.live/id/SG9sb2dpYywgSW5jLkBtZXRhZW5jcnlwdG9y"
+  },
+  {
+   "victim": "LIBRERIA SANTA FE A P S SRL",
+   "group": "Vexy Ransomware",
+   "country": "AR",
+   "sector": "Retail & E-Commerce",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T08:22:00.251564+00:00",
+   "url": "https://www.ransomware.live/id/TElCUkVSSUEgU0FOVEEgRkUgQSBQIFMgU1JMQFZleHkgUmFuc29td2FyZQ=="
+  },
+  {
+   "victim": "MSM Unify: Global Education Platform - CA",
+   "group": "kazu",
+   "country": "CA",
+   "sector": "Education",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T04:54:10.656250+00:00",
+   "url": "https://www.ransomware.live/id/TVNNIFVuaWZ5OiBHbG9iYWwgRWR1Y2F0aW9uIFBsYXRmb3JtIC0gQ0FAa2F6dQ=="
+  },
+  {
+   "victim": "Ben Leeds Properties",
+   "group": "ShadowByt3$",
+   "country": "GB",
+   "sector": "Other",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T03:52:12.749532+00:00",
+   "url": "https://www.ransomware.live/id/QmVuIExlZWRzIFByb3BlcnRpZXNAU2hhZG93Qnl0MyQ="
+  },
+  {
+   "victim": "Medela.com",
+   "group": "shinyhunters",
+   "country": "CH",
+   "sector": "Healthcare",
+   "attackDate": "2026-09-07",
+   "discovered": "2026-09-07T01:32:59.937610+00:00",
+   "url": "https://www.ransomware.live/id/TWVkZWxhLmNvbUBzaGlueWh1bnRlcnM="
+  },
+  {
+   "victim": "Homewood Sales",
+   "group": "dragonforce",
+   "country": "US",
+   "sector": "Retail & E-Commerce",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-06T18:52:33.754474+00:00",
+   "url": "https://www.ransomware.live/id/SG9tZXdvb2QgU2FsZXNAZHJhZ29uZm9yY2U="
+  },
+  {
+   "victim": "Norwood Law Firm",
+   "group": "dragonforce",
+   "country": "US",
+   "sector": "Professional Services",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-06T18:51:42.171469+00:00",
+   "url": "https://www.ransomware.live/id/Tm9yd29vZCBMYXcgRmlybUBkcmFnb25mb3JjZQ=="
+  },
+  {
+   "victim": "RTAD GOV MM",
+   "group": "DYSPHOR1A",
+   "country": "MM",
+   "sector": "Government & Defense",
+   "attackDate": "2026-09-06",
+   "discovered": "2026-09-06T17:50:31.300191+00:00",
+   "url": "https://www.ransomware.live/id/UlRBRCBHT1YgTU1ARFlTUEhPUjFB"
+  },
+  {
+   "victim": "eAssist Dental Solutions",
+   "group": "direwolf",
+   "country": "US",
+   "sector": "Healthcare",
+   "attackDate": "2026-09-06",
+   "discovered": "2026-09-06T16:55:00.061014+00:00",
+   "url": "https://www.ransomware.live/id/ZUFzc2lzdCBEZW50YWwgU29sdXRpb25zQGRpcmV3b2xm"
+  },
+  {
+   "victim": "Sancity",
+   "group": "Vexy Ransomware",
+   "country": "IN",
+   "sector": "Other",
+   "attackDate": "2026-09-06",
+   "discovered": "2026-09-06T15:00:28.254541+00:00",
+   "url": "https://www.ransomware.live/id/U2FuY2l0eUBWZXh5IFJhbnNvbXdhcmU="
+  },
+  {
+   "victim": "evergenbio.com",
+   "group": "chaos",
+   "country": "US",
+   "sector": "Healthcare",
+   "attackDate": "2026-09-06",
+   "discovered": "2026-09-06T13:25:44.025363+00:00",
+   "url": "https://www.ransomware.live/id/ZXZlcmdlbmJpby5jb21AY2hhb3M="
+  },
+  {
+   "victim": "KHALED ALFAGIH ENGINEERING CONSULTANCY",
+   "group": "Panzer",
+   "country": "SA",
+   "sector": "Professional Services",
+   "attackDate": "2026-09-06",
+   "discovered": "2026-09-06T12:22:23.544880+00:00",
+   "url": "https://www.ransomware.live/id/S0hBTEVEIEFMRkFHSUggRU5HSU5FRVJJTkcgQ09OU1VMVEFOQ1lAUGFuemVy"
+  },
+  {
+   "victim": "myLaurel",
+   "group": "direwolf",
+   "country": "US",
+   "sector": "Healthcare",
+   "attackDate": "2026-09-06",
+   "discovered": "2026-09-06T11:53:36.694741+00:00",
+   "url": "https://www.ransomware.live/id/bXlMYXVyZWxAZGlyZXdvbGY="
+  },
+  {
+   "victim": "Edacentrum",
+   "group": "Panzer",
+   "country": "DE",
+   "sector": null,
+   "attackDate": "2026-09-06",
+   "discovered": "2026-09-06T10:51:32.892177+00:00",
+   "url": "https://www.ransomware.live/id/RWRhY2VudHJ1bUBQYW56ZXI="
+  },
+  {
+   "victim": "Mission Pet Health",
+   "group": "direwolf",
+   "country": "US",
+   "sector": "Healthcare",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T21:54:20.573912+00:00",
+   "url": "https://www.ransomware.live/id/TWlzc2lvbiBQZXQgSGVhbHRoQGRpcmV3b2xm"
+  },
+  {
+   "victim": "Spirit Cultural Exchange - US",
+   "group": "kazu",
+   "country": "US",
+   "sector": "Education",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T21:29:42.693866+00:00",
+   "url": "https://www.ransomware.live/id/U3Bpcml0IEN1bHR1cmFsIEV4Y2hhbmdlIC0gVVNAa2F6dQ=="
+  },
+  {
+   "victim": "Zdrowit",
+   "group": "thegentlemen",
+   "country": "PL",
+   "sector": "Healthcare",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-05T18:30:11.287716+00:00",
+   "url": "https://www.ransomware.live/id/WmRyb3dpdEB0aGVnZW50bGVtZW4="
+  },
+  {
+   "victim": "Veradigm",
+   "group": "thegentlemen",
+   "country": "US",
+   "sector": "Healthcare",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-05T18:29:58.376127+00:00",
+   "url": "https://www.ransomware.live/id/VmVyYWRpZ21AdGhlZ2VudGxlbWVu"
+  },
+  {
+   "victim": "Lider Aviacao",
+   "group": "thegentlemen",
+   "country": "BR",
+   "sector": "Transportation",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T18:29:44.230169+00:00",
+   "url": "https://www.ransomware.live/id/TGlkZXIgQXZpYWNhb0B0aGVnZW50bGVtZW4="
+  },
+  {
+   "victim": "Mega Velocity",
+   "group": "Vexy Ransomware",
+   "country": "MX",
+   "sector": "Transportation",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T17:22:03.885731+00:00",
+   "url": "https://www.ransomware.live/id/TWVnYSBWZWxvY2l0eUBWZXh5IFJhbnNvbXdhcmU="
+  },
+  {
+   "victim": "CitizensPay",
+   "group": "DYSPHOR1A",
+   "country": "MM",
+   "sector": "Financial Services",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T15:50:36.617535+00:00",
+   "url": "https://www.ransomware.live/id/Q2l0aXplbnNQYXlARFlTUEhPUjFB"
+  },
+  {
+   "victim": "Philippine Ports Authority",
+   "group": "qilin",
+   "country": "PH",
+   "sector": "Transportation",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T13:46:22.001080+00:00",
+   "url": "https://www.ransomware.live/id/UGhpbGlwcGluZSBQb3J0cyBBdXRob3JpdHlAcWlsaW4="
+  },
+  {
+   "victim": "Bauman Law Group",
+   "group": "qilin",
+   "country": "US",
+   "sector": "Professional Services",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T13:45:42.996623+00:00",
+   "url": "https://www.ransomware.live/id/QmF1bWFuIExhdyBHcm91cEBxaWxpbg=="
+  },
+  {
+   "victim": "Jouvet SAS",
+   "group": "qilin",
+   "country": "FR",
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T11:30:41.668251+00:00",
+   "url": "https://www.ransomware.live/id/Sm91dmV0IFNBU0BxaWxpbg=="
+  },
+  {
+   "victim": "G&S Technologies",
+   "group": "qilin",
+   "country": "US",
+   "sector": "Technology",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T11:30:09.498775+00:00",
+   "url": "https://www.ransomware.live/id/RyZTIFRlY2hub2xvZ2llc0BxaWxpbg=="
+  },
+  {
+   "victim": "Nolan Consulting Group",
+   "group": "qilin",
+   "country": "US",
+   "sector": "Professional Services",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T11:29:38.310374+00:00",
+   "url": "https://www.ransomware.live/id/Tm9sYW4gQ29uc3VsdGluZyBHcm91cEBxaWxpbg=="
+  },
+  {
+   "victim": "Colonial Hyundai",
+   "group": "qilin",
+   "country": "US",
+   "sector": "Retail & E-Commerce",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T11:29:05.259581+00:00",
+   "url": "https://www.ransomware.live/id/Q29sb25pYWwgSHl1bmRhaUBxaWxpbg=="
+  },
+  {
+   "victim": "The Big Table",
+   "group": "qilin",
+   "country": "GB",
+   "sector": "Hospitality",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T11:28:34.617597+00:00",
+   "url": "https://www.ransomware.live/id/VGhlIEJpZyBUYWJsZUBxaWxpbg=="
+  },
+  {
+   "victim": "Metrea LLC/Commuter Air Technology, Inc.",
+   "group": "aurora",
+   "country": "US",
+   "sector": "Transportation",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T09:53:15.683002+00:00",
+   "url": "https://www.ransomware.live/id/TWV0cmVhIExMQy9Db21tdXRlciBBaXIgVGVjaG5vbG9neSwgSW5jLkBhdXJvcmE="
+  },
+  {
+   "victim": "D-MAX Engineering, Inc",
+   "group": "spacebears",
+   "country": "US",
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T04:29:03.242636+00:00",
+   "url": "https://www.ransomware.live/id/RC1NQVggRW5naW5lZXJpbmcsIEluY0BzcGFjZWJlYXJz"
+  },
+  {
+   "victim": "Judicial Branch of the Province of Jujuy",
+   "group": "emperador",
+   "country": "AR",
+   "sector": "Government & Defense",
+   "attackDate": "2026-09-05",
+   "discovered": "2026-09-05T02:50:45.984795+00:00",
+   "url": "https://www.ransomware.live/id/SnVkaWNpYWwgQnJhbmNoIG9mIHRoZSBQcm92aW5jZSBvZiBKdWp1eUBlbXBlcmFkb3I="
+  },
+  {
+   "victim": "pscindustries.com",
+   "group": "lockbit5",
+   "country": "US",
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T20:58:40.702949+00:00",
+   "url": "https://www.ransomware.live/id/cHNjaW5kdXN0cmllcy5jb21AbG9ja2JpdDU="
+  },
+  {
+   "victim": "kalahealth.eu",
+   "group": "lockbit5",
+   "country": "DE",
+   "sector": "Healthcare",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T20:57:31.960521+00:00",
+   "url": "https://www.ransomware.live/id/a2FsYWhlYWx0aC5ldUBsb2NrYml0NQ=="
+  },
+  {
+   "victim": "huisartsencentrumkleiniterson.nl",
+   "group": "lockbit5",
+   "country": "NL",
+   "sector": "Healthcare",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T20:56:55.403583+00:00",
+   "url": "https://www.ransomware.live/id/aHVpc2FydHNlbmNlbnRydW1rbGVpbml0ZXJzb24ubmxAbG9ja2JpdDU="
+  },
+  {
+   "victim": "H... C...",
+   "group": "SilentRansomGroup",
+   "country": null,
+   "sector": null,
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T19:57:57.547279+00:00",
+   "url": "https://www.ransomware.live/id/SC4uLiBDLi4uQFNpbGVudFJhbnNvbUdyb3Vw"
+  },
+  {
+   "victim": "Wolfram Research",
+   "group": "direwolf",
+   "country": "US",
+   "sector": "Technology",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T17:55:01.272504+00:00",
+   "url": "https://www.ransomware.live/id/V29sZnJhbSBSZXNlYXJjaEBkaXJld29sZg=="
+  },
+  {
+   "victim": "Sports Endeavors",
+   "group": "spacebears",
+   "country": "US",
+   "sector": "Retail & E-Commerce",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T17:33:43.256125+00:00",
+   "url": "https://www.ransomware.live/id/U3BvcnRzIEVuZGVhdm9yc0BzcGFjZWJlYXJz"
+  },
+  {
+   "victim": "MBT Telecom",
+   "group": "DYSPHOR1A",
+   "country": "MM",
+   "sector": "Technology",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T16:50:33.931476+00:00",
+   "url": "https://www.ransomware.live/id/TUJUIFRlbGVjb21ARFlTUEhPUjFB"
+  },
+  {
+   "victim": "Palsana Enviro (PEPL)",
+   "group": "Vexy Ransomware",
+   "country": "IN",
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T16:23:53.260819+00:00",
+   "url": "https://www.ransomware.live/id/UGFsc2FuYSBFbnZpcm8gKFBFUEwpQFZleHkgUmFuc29td2FyZQ=="
+  },
+  {
+   "victim": "Annapurna Fashion",
+   "group": "Vexy Ransomware",
+   "country": "IN",
+   "sector": "Retail & E-Commerce",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T16:23:32.912477+00:00",
+   "url": "https://www.ransomware.live/id/QW5uYXB1cm5hIEZhc2hpb25AVmV4eSBSYW5zb213YXJl"
+  },
+  {
+   "victim": "Sancity Soft Touch",
+   "group": "Vexy Ransomware",
+   "country": "US",
+   "sector": "Technology",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T16:23:12.456390+00:00",
+   "url": "https://www.ransomware.live/id/U2FuY2l0eSBTb2Z0IFRvdWNoQFZleHkgUmFuc29td2FyZQ=="
+  },
+  {
+   "victim": "Stransky Heiz-Mess-Regeltechnik GmbH",
+   "group": "akira",
+   "country": "DE",
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T14:53:27.302480+00:00",
+   "url": "https://www.ransomware.live/id/U3RyYW5za3kgSGVpei1NZXNzLVJlZ2VsdGVjaG5payBHbWJIQGFraXJh"
+  },
+  {
+   "victim": "AP CAPITAL PARTNERS LIMITED",
+   "group": "qilin",
+   "country": null,
+   "sector": "Financial Services",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T14:32:00.090393+00:00",
+   "url": "https://www.ransomware.live/id/QVAgQ0FQSVRBTCBQQVJUTkVSUyBMSU1JVEVEQHFpbGlu"
+  },
+  {
+   "victim": "SouthernCarlson",
+   "group": "tridentlocker",
+   "country": null,
+   "sector": null,
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T14:04:00.266010+00:00",
+   "url": "https://www.ransomware.live/id/U291dGhlcm5DYXJsc29uQHRyaWRlbnRsb2NrZXI="
+  },
+  {
+   "victim": "Worrell",
+   "group": "akira",
+   "country": null,
+   "sector": null,
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T13:51:54.499887+00:00",
+   "url": "https://www.ransomware.live/id/V29ycmVsbEBha2lyYQ=="
+  },
+  {
+   "victim": "Commission de la construction du Quebec (CCQ)",
+   "group": "qilin",
+   "country": "CA",
+   "sector": "Government & Defense",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T11:30:59.887918+00:00",
+   "url": "https://www.ransomware.live/id/Q29tbWlzc2lvbiBkZSBsYSBjb25zdHJ1Y3Rpb24gZHUgUXVlYmVjIChDQ1EpQHFpbGlu"
+  },
+  {
+   "victim": "Blanco & Etcheverry",
+   "group": "gunra",
+   "country": "UY",
+   "sector": "Professional Services",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T06:59:19.092117+00:00",
+   "url": "https://www.ransomware.live/id/QmxhbmNvICYgRXRjaGV2ZXJyeUBndW5yYQ=="
+  },
+  {
+   "victim": "Occidental",
+   "group": "gunra",
+   "country": "VE",
+   "sector": "Energy & Utilities",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T06:58:59.451329+00:00",
+   "url": "https://www.ransomware.live/id/T2NjaWRlbnRhbEBndW5yYQ=="
+  },
+  {
+   "victim": "Complete Packaging Solutions",
+   "group": "qilin",
+   "country": null,
+   "sector": "Manufacturing",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T01:31:29.000633+00:00",
+   "url": "https://www.ransomware.live/id/Q29tcGxldGUgUGFja2FnaW5nIFNvbHV0aW9uc0BxaWxpbg=="
+  },
+  {
+   "victim": "Tanner",
+   "group": "qilin",
+   "country": "CL",
+   "sector": "Other",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T01:30:43.737853+00:00",
+   "url": "https://www.ransomware.live/id/VGFubmVyQHFpbGlu"
+  },
+  {
+   "victim": "Hochschule Heilbronn Bildungscampus",
+   "group": "Panzer",
+   "country": "DE",
+   "sector": "Education",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T00:51:09.295624+00:00",
+   "url": "https://www.ransomware.live/id/SG9jaHNjaHVsZSBIZWlsYnJvbm4gQmlsZHVuZ3NjYW1wdXNAUGFuemVy"
+  },
+  {
+   "victim": "Schwartz, Giannini, Lantsberger & Adamson (SGLA)",
+   "group": "spacebears",
+   "country": "US",
+   "sector": "Professional Services",
+   "attackDate": "2026-09-04",
+   "discovered": "2026-09-04T00:03:09.704891+00:00",
+   "url": "https://www.ransomware.live/id/U2Nod2FydHosIEdpYW5uaW5pLCBMYW50c2JlcmdlciAmIEFkYW1zb24gKFNHTEEpQHNwYWNlYmVhcnM="
+  },
+  {
+   "victim": "Studio Oculistico Ciraci",
+   "group": "spacebears",
+   "country": "IT",
+   "sector": "Healthcare",
+   "attackDate": "2026-09-03",
+   "discovered": "2026-09-03T22:59:43.262661+00:00",
+   "url": "https://www.ransomware.live/id/U3R1ZGlvIE9jdWxpc3RpY28gQ2lyYWNpQHNwYWNlYmVhcnM="
+  },
+  {
+   "victim": "Katten Muchin Rosenman",
+   "group": "SilentRansomGroup",
+   "country": "US",
+   "sector": "Professional Services",
+   "attackDate": "2026-09-03",
+   "discovered": "2026-09-03T20:23:46.079304+00:00",
+   "url": "https://www.ransomware.live/id/S2F0dGVuIE11Y2hpbiBSb3Nlbm1hbkBTaWxlbnRSYW5zb21Hcm91cA=="
+  },
+  {
+   "victim": "P... S...",
+   "group": "SilentRansomGroup",
+   "country": null,
+   "sector": null,
+   "attackDate": "2026-09-03",
+   "discovered": "2026-09-03T20:23:20.968703+00:00",
+   "url": "https://www.ransomware.live/id/UC4uLiBTLi4uQFNpbGVudFJhbnNvbUdyb3Vw"
+  },
+  {
+   "victim": "A...en",
+   "group": "SilentRansomGroup",
+   "country": "DE",
+   "sector": null,
+   "attackDate": "2026-09-03",
+   "discovered": "2026-09-03T20:22:13.192189+00:00",
+   "url": "https://www.ransomware.live/id/QS4uLmVuQFNpbGVudFJhbnNvbUdyb3Vw"
+  },
+  {
+   "victim": "Paylogix",
+   "group": "akira",
+   "country": "US",
+   "sector": "Financial Services",
+   "attackDate": "2026-11-18",
+   "discovered": "2026-01-15T13:48:29.435004+00:00",
+   "url": "https://www.ransomware.live/id/UGF5bG9naXhAYWtpcmE="
+  }
+ ],
+ "c2": [
+  {
+   "ip": "50.16.16.211",
+   "port": 443,
+   "country": "US",
+   "malware": "QakBot",
+   "asName": "AMAZON-AES",
+   "status": "online",
+   "lastOnline": "2026-03-12"
+  },
+  {
+   "ip": "162.243.103.246",
+   "port": 8080,
+   "country": "US",
+   "malware": "Emotet",
+   "asName": "DIGITALOCEAN-ASN",
+   "status": "offline",
+   "lastOnline": "2026-03-07"
+  },
+  {
+   "ip": "27.133.154.218",
+   "port": 443,
+   "country": "JP",
+   "malware": "QakBot",
+   "asName": "SAKURA-B SAKURA Internet Inc.",
+   "status": "offline",
+   "lastOnline": "2026-03-05"
+  },
+  {
+   "ip": "34.204.119.63",
+   "port": 443,
+   "country": "US",
+   "malware": "QakBot",
+   "asName": "AMAZON-AES",
+   "status": "offline",
+   "lastOnline": "2026-03-01"
+  },
+  {
+   "ip": "178.62.3.223",
+   "port": 443,
+   "country": "GB",
+   "malware": "QakBot",
+   "asName": "DIGITALOCEAN-ASN - DigitalOcean, LLC",
+   "status": "offline",
+   "lastOnline": "2026-02-18"
+  }
+ ],
+ "isc": {
+  "infocon": "green",
+  "topPorts": [
+   {
+    "port": 443,
+    "records": 2169885,
+    "sources": 10488
+   },
+   {
+    "port": 80,
+    "records": 1666862,
+    "sources": 11488
+   },
+   {
+    "port": 22,
+    "records": 1149803,
+    "sources": 15424
+   },
+   {
+    "port": 8080,
+    "records": 449125,
+    "sources": 11995
+   },
+   {
+    "port": 8000,
+    "records": 335940,
+    "sources": 9492
+   },
+   {
+    "port": 2222,
+    "records": 332916,
+    "sources": 6332
+   },
+   {
+    "port": 23,
+    "records": 230690,
+    "sources": 20200
+   },
+   {
+    "port": 51413,
+    "records": 150133,
+    "sources": 5174
+   },
+   {
+    "port": 16767,
+    "records": 118081,
+    "sources": 4706
+   },
+   {
+    "port": 853,
+    "records": 112859,
+    "sources": 4077
+   }
+  ]
+ },
+ "headlines": [
+  {
+   "title": "ShinyHunters hackers claim breach of Florida \"DAVID\" DMV database",
+   "url": "https://www.bleepingcomputer.com/news/security/shinyhunters-hackers-claim-breach-of-florida-david-dmv-database/",
+   "source": "bleeping",
+   "publishedAt": "2026-09-08T16:35:47.000Z"
+  },
+  {
+   "title": "OpenAI says ChatGPT outage causes image generation errors",
+   "url": "https://www.bleepingcomputer.com/news/technology/openai-says-chatgpt-outage-causes-image-generation-errors/",
+   "source": "bleeping",
+   "publishedAt": "2026-09-08T16:28:42.000Z"
+  },
+  {
+   "title": "Slim Spider Steals Crypto Custody Secrets From Brazilian Financial Institution",
+   "url": "https://thehackernews.com/2026/09/slim-spider-steals-crypto-custody.html",
+   "source": "thn",
+   "publishedAt": "2026-09-08T16:20:23.000Z"
+  },
+  {
+   "title": "August updates trigger 0xc0000409 errors on Windows Server 2016",
+   "url": "https://www.bleepingcomputer.com/news/microsoft/august-updates-trigger-0xc0000409-errors-on-windows-server-2016/",
+   "source": "bleeping",
+   "publishedAt": "2026-09-08T15:22:33.000Z"
+  },
+  {
+   "title": "SAP warns of maximum severity 'OVERPASS' kernel vulnerability",
+   "url": "https://www.bleepingcomputer.com/news/security/sap-warns-of-maximum-severity-overpass-kernel-vulnerability/",
+   "source": "bleeping",
+   "publishedAt": "2026-09-08T14:55:20.000Z"
+  },
+  {
+   "title": "Liquid Hackers Return 3,400 Bitcoin Taken via Elements Bug, Still Holding $47M in BTC",
+   "url": "https://thehackernews.com/2026/09/liquid-hackers-return-3400-bitcoin.html",
+   "source": "thn",
+   "publishedAt": "2026-09-08T14:54:30.000Z"
+  },
+  {
+   "title": "OpenAI says GPT-6 Astra can find zero-days, but is also harder to monitor",
+   "url": "https://www.bleepingcomputer.com/news/artificial-intelligence/openai-says-gpt-6-astra-can-find-zero-days-but-is-also-harder-to-monitor/",
+   "source": "bleeping",
+   "publishedAt": "2026-09-08T14:40:32.000Z"
+  },
+  {
+   "title": "ChatGPT Flaw Let a Planted Prompt Send a Victim's Gmail Data to Another Account",
+   "url": "https://thehackernews.com/2026/09/chatgpt-flaw-let-planted-prompt-send.html",
+   "source": "thn",
+   "publishedAt": "2026-09-08T14:19:17.000Z"
+  },
+  {
+   "title": "Autonomous AI Agents Compromise Thousands of Credentials in Under Six Hours",
+   "url": "https://thehackernews.com/2026/09/autonomous-ai-agents-compromise.html",
+   "source": "thn",
+   "publishedAt": "2026-09-08T13:48:16.000Z"
+  },
+  {
+   "title": "Adobe fixes critical Magento zero-day exploited to backdoor servers",
+   "url": "https://www.bleepingcomputer.com/news/security/adobe-fixes-critical-magento-zero-day-exploited-to-backdoor-servers/",
+   "source": "bleeping",
+   "publishedAt": "2026-09-08T13:34:47.000Z"
+  },
+  {
+   "title": "Webinar: The forgotten Google Workspace access that can lead to a breach",
+   "url": "https://www.bleepingcomputer.com/news/security/webinar-the-forgotten-google-workspace-access-that-can-lead-to-a-breach/",
+   "source": "bleeping",
+   "publishedAt": "2026-09-08T12:40:48.000Z"
+  },
+  {
+   "title": "Hackers build AI frameworks for widescale credential theft",
+   "url": "https://www.bleepingcomputer.com/news/security/hackers-build-ai-frameworks-for-widescale-credential-theft/",
+   "source": "bleeping",
+   "publishedAt": "2026-09-08T12:03:03.000Z"
+  },
+  {
+   "title": "Microsoft: Windows Server 2025 changes causing app crashes",
+   "url": "https://www.bleepingcomputer.com/news/microsoft/microsoft-windows-server-2025-changes-may-cause-app-crashes/",
+   "source": "bleeping",
+   "publishedAt": "2026-09-08T11:57:51.000Z"
+  },
+  {
+   "title": "WeChat Zero-Click Worm Took Over Accounts on iPhone and Android via Incoming Calls",
+   "url": "https://thehackernews.com/2026/09/wechat-zero-click-worm-took-over.html",
+   "source": "thn",
+   "publishedAt": "2026-09-08T11:54:29.000Z"
+  },
+  {
+   "title": "What It Took to Reach 1 Billion Build Manifests",
+   "url": "https://thehackernews.com/2026/09/what-it-took-to-reach-1-billion-build.html",
+   "source": "thn",
+   "publishedAt": "2026-09-08T11:49:02.000Z"
+  },
+  {
+   "title": "FreeIPA Flaw Chain Lets Anonymous Clients Create Reusable Administrator Credentials",
+   "url": "https://thehackernews.com/2026/09/freeipa-flaw-chain-lets-anonymous.html",
+   "source": "thn",
+   "publishedAt": "2026-09-08T11:22:07.000Z"
+  },
+  {
+   "title": "Adobe Patches Magento Zero-Day Exploited to Deploy Rust Backdoor and PHP Web Shell",
+   "url": "https://thehackernews.com/2026/09/adobe-patches-magento-zero-day.html",
+   "source": "thn",
+   "publishedAt": "2026-09-08T09:13:47.000Z"
+  },
+  {
+   "title": "BengalSEO Poisons Bing Search Results to Deliver MayaBot and Tech Support Scams",
+   "url": "https://thehackernews.com/2026/09/bengalseo-poisons-bing-search-results.html",
+   "source": "thn",
+   "publishedAt": "2026-09-08T08:43:51.000Z"
+  },
+  {
+   "title": "220 million traveler records exposed in Vietnam-linked APIS leak",
+   "url": "https://www.bleepingcomputer.com/news/security/220-million-traveler-records-exposed-in-vietnam-linked-apis-leak/",
+   "source": "bleeping",
+   "publishedAt": "2026-09-08T07:35:50.000Z"
+  },
+  {
+   "title": "Grindr to Pay £26 Million to Settle U.K. Claims Over HIV Status Data Sharing",
+   "url": "https://thehackernews.com/2026/09/grindr-to-pay-26-million-to-settle-uk.html",
+   "source": "thn",
+   "publishedAt": "2026-09-08T07:00:43.000Z"
+  }
+ ],
+ "health": {
+  "kev": {
+   "status": "ok",
+   "fetchedAt": "2026-09-08T17:30:57.747Z",
+   "ms": 187
+  },
+  "ransomware": {
+   "status": "ok",
+   "fetchedAt": "2026-09-08T17:30:57.747Z",
+   "ms": 1168
+  },
+  "feodo": {
+   "status": "ok",
+   "fetchedAt": "2026-09-08T17:30:57.747Z",
+   "ms": 122
+  },
+  "isc": {
+   "status": "ok",
+   "fetchedAt": "2026-09-08T17:30:57.747Z",
+   "ms": 1565
+  },
+  "news": {
+   "status": "ok",
+   "fetchedAt": "2026-09-08T17:30:57.747Z",
+   "ms": 915
+  },
+  "epss": {
+   "status": "ok",
+   "fetchedAt": "2026-09-08T17:30:57.747Z",
+   "ms": 76
+  }
+ },
+ "stats": {
+  "kevAdded7d": 8,
+  "kevRansomware7d": 0,
+  "ransomware7d": 99,
+  "c2Online": 1,
+  "infocon": "green",
+  "topGroups7d": [
+   {
+    "group": "thegentlemen",
+    "count": 21
+   },
+   {
+    "group": "qilin",
+    "count": 13
+   },
+   {
+    "group": "direwolf",
+    "count": 8
+   },
+   {
+    "group": "Vexy Ransomware",
+    "count": 7
+   },
+   {
+    "group": "lockbit5",
+    "count": 4
+   },
+   {
+    "group": "metaencryptor",
+    "count": 4
+   },
+   {
+    "group": "SilentRansomGroup",
+    "count": 4
+   },
+   {
+    "group": "spacebears",
+    "count": 4
+   }
+  ],
+  "topSectors7d": [
+   {
+    "sector": "Manufacturing",
+    "count": 14
+   },
+   {
+    "sector": "Professional Services",
+    "count": 13
+   },
+   {
+    "sector": "Healthcare",
+    "count": 12
+   },
+   {
+    "sector": "Retail & E-Commerce",
+    "count": 11
+   },
+   {
+    "sector": "Other",
+    "count": 7
+   },
+   {
+    "sector": "Technology",
+    "count": 7
+   }
+  ],
+  "topVendors30d": [
+   {
+    "vendor": "Microsoft",
+    "count": 4
+   },
+   {
+    "vendor": "JFrog",
+    "count": 2
+   },
+   {
+    "vendor": "Linux",
+    "count": 2
+   },
+   {
+    "vendor": "PaperCut",
+    "count": 2
+   },
+   {
+    "vendor": "Red Hat",
+    "count": 2
+   },
+   {
+    "vendor": "SonicWall",
+    "count": 2
+   }
+  ],
+  "byCountry": {
+   "UA": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "FR": {
+    "ransomware": 2,
+    "c2": 0
+   },
+   "RU": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "US": {
+    "ransomware": 33,
+    "c2": 1
+   },
+   "ZA": {
+    "ransomware": 2,
+    "c2": 0
+   },
+   "AR": {
+    "ransomware": 3,
+    "c2": 0
+   },
+   "BR": {
+    "ransomware": 5,
+    "c2": 0
+   },
+   "EG": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "PT": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "AU": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "CL": {
+    "ransomware": 2,
+    "c2": 0
+   },
+   "TR": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "IN": {
+    "ransomware": 5,
+    "c2": 0
+   },
+   "DK": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "PE": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "IT": {
+    "ransomware": 3,
+    "c2": 0
+   },
+   "CO": {
+    "ransomware": 2,
+    "c2": 0
+   },
+   "GE": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "SK": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "DE": {
+    "ransomware": 6,
+    "c2": 0
+   },
+   "SE": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "CA": {
+    "ransomware": 3,
+    "c2": 0
+   },
+   "ES": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "SG": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "GB": {
+    "ransomware": 2,
+    "c2": 0
+   },
+   "CH": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "MM": {
+    "ransomware": 3,
+    "c2": 0
+   },
+   "SA": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "PL": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "MX": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "PH": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "NL": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "UY": {
+    "ransomware": 1,
+    "c2": 0
+   },
+   "VE": {
+    "ransomware": 1,
+    "c2": 0
+   }
+  }
+ }
+}
