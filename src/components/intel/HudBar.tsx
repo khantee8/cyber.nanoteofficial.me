@@ -64,7 +64,7 @@ function Tile({ label, value, accent, sub }: { label: string; value: number | st
   const n = useCountUp(typeof value === 'number' ? value : 0);
   return (
     <div className="panel flex min-w-0 flex-col gap-1 px-4 py-3">
-      <span className="eyebrow truncate">{label}</span>
+      <span className="eyebrow line-clamp-2 leading-snug">{label}</span>
       <span className="mono text-[26px] font-semibold leading-none tracking-tight" style={accent ? { color: accent } : undefined}>
         {typeof value === 'number' ? fmtInt(n) : value}
       </span>

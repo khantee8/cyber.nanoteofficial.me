@@ -147,6 +147,29 @@ const dict = {
   'intel.health.down': { en: 'down', th: 'ล่ม' },
   'intel.openFull':    { en: 'Open the full view', th: 'เปิดมุมมองเต็ม' },
   'intel.api':         { en: 'JSON API', th: 'JSON API' },
+
+  // landing
+  'home.eyebrow':      { en: 'Cybersecurity platform', th: 'แพลตฟอร์มความมั่นคงปลอดภัยไซเบอร์' },
+  'home.headline':     { en: 'Exploited in the wild, mapped within the hour.', th: 'ถูกโจมตีจริงที่ไหน เห็นบนแผนที่ภายในชั่วโมง' },
+  'home.lede':         { en: 'NaNote Cyber turns public threat feeds into a live operations picture, and gives the governance side a workspace to act on it. One login, several modules, no vendor lock-in on the data.',
+                         th: 'NaNote Cyber เปลี่ยนแหล่งข้อมูลภัยคุกคามสาธารณะให้เป็นภาพปฏิบัติการสด และให้ฝั่งกำกับดูแลมีพื้นที่ทำงานเพื่อลงมือทำ เข้าสู่ระบบครั้งเดียว หลายโมดูล ไม่ผูกติดกับผู้ขายรายใด' },
+  'home.ctaIntel':     { en: 'Open Threat Intel', th: 'เปิด Threat Intel' },
+  'home.ctaAccess':    { en: 'Request access', th: 'ขอสิทธิ์เข้าใช้' },
+  'home.hudTitle':     { en: 'Right now', th: 'ตอนนี้' },
+  'home.latestExploited': { en: 'Latest exploited', th: 'ถูกโจมตีล่าสุด' },
+  'home.mapCaption':   { en: 'Ransomware claims in the last 7 days and botnet C2 servers online, by country.', th: 'เหยื่อแรนซัมแวร์ใน 7 วันล่าสุดและเซิร์ฟเวอร์ C2 บอตเน็ตที่ออนไลน์ แยกตามประเทศ' },
+  'home.mapCountries': { en: '{n} countries', th: '{n} ประเทศ' },
+  'home.modulesEyebrow': { en: 'Modules', th: 'โมดูล' },
+  'home.modulesTitle': { en: 'One platform, built module by module.', th: 'แพลตฟอร์มเดียว สร้างทีละโมดูล' },
+  'home.modulesLede':  { en: 'Each module stands on its own and shares the same login, language toggle and design. Status is stated plainly.', th: 'แต่ละโมดูลทำงานได้ด้วยตัวเองและใช้การเข้าสู่ระบบ ภาษา และดีไซน์เดียวกัน สถานะแจ้งตรงไปตรงมา' },
+  'home.flowEyebrow':  { en: 'How it fits together', th: 'เชื่อมต่อกันอย่างไร' },
+  'home.flow1Title':   { en: 'Observe', th: 'สังเกต' },
+  'home.flow1Body':    { en: 'Threat Intel watches what is being exploited and who is being hit, so priorities come from evidence rather than headlines alone.', th: 'Threat Intel เฝ้าดูว่าอะไรถูกโจมตีและใครถูกโจมตี เพื่อให้ลำดับความสำคัญมาจากหลักฐาน ไม่ใช่แค่พาดหัวข่าว' },
+  'home.flow2Title':   { en: 'Govern', th: 'กำกับดูแล' },
+  'home.flow2Body':    { en: 'GRC turns that into control status, treated risks and an auditable Statement of Applicability.', th: 'GRC เปลี่ยนสิ่งนั้นเป็นสถานะการควบคุม ความเสี่ยงที่ได้รับการจัดการ และ Statement of Applicability ที่ตรวจสอบได้' },
+  'home.flow3Title':   { en: 'Test and train', th: 'ทดสอบและฝึก' },
+  'home.flow3Body':    { en: 'Red teaming checks the controls hold; training makes sure the people do.', th: 'Red teaming ตรวจว่าการควบคุมทนได้จริง การอบรมทำให้คนพร้อม' },
+  'home.accessEyebrow':{ en: 'Access', th: 'การเข้าใช้' },
 } as const;
 
 export type Key = keyof typeof dict;
