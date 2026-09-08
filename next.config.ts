@@ -7,9 +7,12 @@ import type { NextConfig } from "next";
  * `'unsafe-inline'` on script-src is required for RSC hydration; on style-src
  * for Tailwind v4. Neither can be dropped without a nonce-based CSP.
  */
+const dev = process.env.NODE_ENV === "development";
+
 const csp = [
   "default-src 'self'",
-  "script-src 'self' 'unsafe-inline'",
+  // React's dev overlay needs eval; production never does.
+  `script-src 'self' 'unsafe-inline'${dev ? " 'unsafe-eval'" : ""}`,
   "style-src 'self' 'unsafe-inline'",
   "img-src 'self' data:",
   "font-src 'self'",
