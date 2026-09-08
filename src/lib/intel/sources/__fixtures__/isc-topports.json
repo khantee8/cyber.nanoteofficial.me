@@ -1,0 +1,74 @@
+{
+ "0": {
+  "rank": 1,
+  "targetport": 443,
+  "records": 1096561,
+  "targets": 274,
+  "sources": 6461
+ },
+ "1": {
+  "rank": 2,
+  "targetport": 80,
+  "records": 812597,
+  "targets": 246,
+  "sources": 6139
+ },
+ "2": {
+  "rank": 3,
+  "targetport": 22,
+  "records": 554956,
+  "targets": 273,
+  "sources": 8475
+ },
+ "3": {
+  "rank": 4,
+  "targetport": 8080,
+  "records": 231662,
+  "targets": 264,
+  "sources": 7483
+ },
+ "4": {
+  "rank": 5,
+  "targetport": 8000,
+  "records": 176766,
+  "targets": 259,
+  "sources": 5239
+ },
+ "5": {
+  "rank": 6,
+  "targetport": 2222,
+  "records": 172548,
+  "targets": 268,
+  "sources": 2763
+ },
+ "6": {
+  "rank": 7,
+  "targetport": 23,
+  "records": 116287,
+  "targets": 274,
+  "sources": 11923
+ },
+ "7": {
+  "rank": 8,
+  "targetport": 16767,
+  "records": 54705,
+  "targets": 6,
+  "sources": 2764
+ },
+ "8": {
+  "rank": 9,
+  "targetport": 51413,
+  "records": 53575,
+  "targets": 186,
+  "sources": 2457
+ },
+ "9": {
+  "rank": 10,
+  "targetport": 853,
+  "records": 52229,
+  "targets": 144,
+  "sources": 3228
+ },
+ "date": "2026-09-08",
+ "limit": 10
+}
