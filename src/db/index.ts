@@ -1,4 +1,4 @@
-import { neon } from '@neondatabase/serverless';
+import { neon, neonConfig } from '@neondatabase/serverless';
 import { drizzle } from 'drizzle-orm/neon-http';
 import * as schema from './schema';
 
@@ -9,6 +9,13 @@ import * as schema from './schema';
 // missing env then fails only the individual DB-backed request, never the build.
 const PLACEHOLDER_URL =
   'postgresql://placeholder:placeholder@placeholder.neon.tech/placeholder?sslmode=require';
+
+// Local development only: point the HTTP driver at a local Neon-protocol proxy
+// (e.g. ghcr.io/timowilhelm/local-neon-http-proxy) in front of a plain Postgres.
+// Never set in production; Vercel talks to Neon directly.
+if (process.env.NEON_LOCAL_PROXY) {
+  neonConfig.fetchEndpoint = process.env.NEON_LOCAL_PROXY;
+}
 
 export const db = drizzle(neon(process.env.DATABASE_URL || PLACEHOLDER_URL), { schema });
 

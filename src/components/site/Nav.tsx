@@ -53,7 +53,7 @@ export default function Nav({ lang, right }: { lang: Lang; right?: ReactNode }) 
                 </Link>
               ))}
             </nav>
-            <div className="mt-4 flex items-center justify-between border-t border-line pt-4">
+            <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-line pt-4">
               <LangToggle lang={lang} />
               {right ?? (
                 <Link href="/signin" className="btn h-8 min-h-0 px-3 text-[13px]">

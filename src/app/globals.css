@@ -72,6 +72,7 @@ a {
 }
 
 .panel {
+  min-width: 0; /* grid/flex children must be allowed to shrink below content width */
   background: var(--surface);
   border: 1px solid var(--line);
   border-radius: 6px;

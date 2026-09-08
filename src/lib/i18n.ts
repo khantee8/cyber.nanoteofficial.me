@@ -289,6 +289,29 @@ const dict = {
   'grc.settings.reset': { en: 'Reset workspace', th: 'รีเซ็ตพื้นที่ทำงาน' },
   'grc.settings.resetLede': { en: 'Deletes every control status and every risk in this workspace. The organisation profile stays. Type the organisation name to confirm.', th: 'ลบสถานะการควบคุมและความเสี่ยงทั้งหมดในพื้นที่ทำงานนี้ โปรไฟล์องค์กรยังคงอยู่ พิมพ์ชื่อองค์กรเพื่อยืนยัน' },
   'grc.settings.resetDone': { en: 'Workspace reset.', th: 'รีเซ็ตพื้นที่ทำงานแล้ว' },
+
+  // module pages (in design)
+  'module.status':     { en: 'Status', th: 'สถานะ' },
+  'module.planned':    { en: 'Planned capabilities', th: 'ขีดความสามารถที่วางแผน' },
+  'module.briefing':   { en: 'Request a briefing', th: 'ขอรับฟังสรุป' },
+  'module.briefingLede': { en: 'This module is being designed. If it matches a need you have now, say so in an access request and it moves up the list.',
+                           th: 'โมดูลนี้กำลังอยู่ระหว่างการออกแบบ หากตรงกับความต้องการของคุณตอนนี้ ระบุไว้ในคำขอเข้าใช้ แล้วมันจะถูกเลื่อนลำดับขึ้น' },
+  'module.redteam.p1': { en: 'AI systems fail in ways ordinary application testing does not catch: a prompt that makes an assistant leak its instructions, a tool call it should never have made, a jailbreak that survives a model upgrade. The module runs those probes on a schedule against the systems you register, and records what changed between runs.',
+                         th: 'ระบบ AI ล้มเหลวในแบบที่การทดสอบแอปพลิเคชันทั่วไปตรวจไม่พบ: prompt ที่ทำให้ผู้ช่วยเปิดเผยคำสั่งของตัวเอง การเรียกเครื่องมือที่ไม่ควรเรียก jailbreak ที่ยังใช้ได้หลังอัปเกรดโมเดล โมดูลนี้รันการตรวจสอบเหล่านั้นตามกำหนดเวลากับระบบที่คุณลงทะเบียน และบันทึกสิ่งที่เปลี่ยนไประหว่างรอบ' },
+  'module.redteam.p2': { en: 'The second half is AI-assisted testing of everything else: attack-path simulation from the exposures Threat Intel already knows about, mapped to the controls in your GRC workspace, so a finding lands next to the control that should have stopped it.',
+                         th: 'อีกครึ่งหนึ่งคือการทดสอบด้วย AI สำหรับระบบอื่น ๆ: การจำลองเส้นทางโจมตีจากจุดเปิดเผยที่ Threat Intel รู้อยู่แล้ว เชื่อมโยงกับการควบคุมในพื้นที่ทำงาน GRC ของคุณ เพื่อให้สิ่งที่พบไปอยู่ข้างการควบคุมที่ควรจะหยุดมันได้' },
+  'module.redteam.b1': { en: 'Prompt-injection and jailbreak suites for LLM applications', th: 'ชุดทดสอบ prompt injection และ jailbreak สำหรับแอป LLM' },
+  'module.redteam.b2': { en: 'Tool-use and data-exfiltration probes for agents', th: 'การตรวจสอบการใช้เครื่องมือและการรั่วไหลของข้อมูลสำหรับ agent' },
+  'module.redteam.b3': { en: 'Attack-path simulation seeded from KEV and EPSS', th: 'การจำลองเส้นทางโจมตีจาก KEV และ EPSS' },
+  'module.redteam.b4': { en: 'Findings linked to ISO 27001 controls', th: 'ผลการทดสอบเชื่อมโยงกับการควบคุม ISO 27001' },
+  'module.training.p1': { en: 'Certification preparation that works like the exam does, built on the same question engine as exam.nanoteofficial.me: scenario sets, timed simulation, and a written reason behind every answer, including the ones where the community and the source disagree.',
+                          th: 'การเตรียมสอบใบรับรองที่ทำงานเหมือนข้อสอบจริง สร้างบนเอนจินคำถามเดียวกับ exam.nanoteofficial.me: ชุดสถานการณ์ การจำลองแบบจับเวลา และเหตุผลเป็นลายลักษณ์อักษรหลังทุกคำตอบ รวมถึงข้อที่ชุมชนและแหล่งที่มาเห็นต่างกัน' },
+  'module.training.p2': { en: 'Consulting is the hands-on side: tabletop exercises run against your own risk register, and implementation support for the ISMS you are building in the GRC module, from scope statement to Statement of Applicability.',
+                          th: 'ที่ปรึกษาคือด้านลงมือทำ: การฝึกซ้อม tabletop กับทะเบียนความเสี่ยงของคุณเอง และการสนับสนุนการนำ ISMS ที่คุณกำลังสร้างในโมดูล GRC ไปใช้ ตั้งแต่ขอบเขตจนถึง Statement of Applicability' },
+  'module.training.b1': { en: 'ISO/IEC 27001 Lead Implementer track', th: 'เส้นทาง ISO/IEC 27001 Lead Implementer' },
+  'module.training.b2': { en: 'Incident-response tabletop exercises', th: 'การฝึกซ้อม tabletop รับมือเหตุการณ์' },
+  'module.training.b3': { en: 'ISMS implementation support', th: 'การสนับสนุนการนำ ISMS ไปใช้' },
+  'module.training.b4': { en: 'Thai and English delivery', th: 'ดำเนินการเป็นภาษาไทยและอังกฤษ' },
 } as const;
 
 export type Key = keyof typeof dict;

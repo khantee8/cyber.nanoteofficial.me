@@ -37,7 +37,7 @@ export default async function AppLayout({ children }: { children: ReactNode }) {
       <Nav
         lang={lang}
         right={
-          <nav className="flex items-center gap-4" aria-label="Account">
+          <nav className="flex flex-wrap items-center gap-x-4 gap-y-2" aria-label="Account">
             {user.role === 'admin' ? (
               <Link href="/admin" className={linkCls}>{t(lang, 'nav.admin')}</Link>
             ) : null}
