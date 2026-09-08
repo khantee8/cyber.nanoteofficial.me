@@ -23,6 +23,7 @@ npm run lint
 npm test                    # vitest — parsers, aggregate, geo, catalogue, scoring (pure logic only)
 npx tsc --noEmit
 npm run intel:snapshot      # refresh src/lib/intel/fallback.json from the live feeds (refuses if any source is down)
+npm run seed:demo -- --org "BankX" | psql "$DATABASE_URL_UNPOOLED"   # load the fictional BankX assessment into an existing organisation (re-runnable)
 DATABASE_URL="…" npx drizzle-kit push
 ```
 
@@ -36,6 +37,7 @@ Release gate: `npx tsc --noEmit && npm run lint && npm test && npm run build`.
 - **Sources** (`src/lib/intel/sources/*.ts`): pure `parse*` (throws on shape mismatch) + `fetch*` (never throws). Fixtures in `__fixtures__/`. Excluded on purpose: URLhaus API (needs a key), URLhaus CSV (3.8 MB), NVD (rate-limited), Cloudflare Radar (403).
 - **Map**: inline SVG from `d3-geo` + `world-atlas` 110m, built and memoised in `src/lib/intel/geo/atlas.ts`. Countries are joined by ISO numeric id via `geo/iso.ts`; places too small for the atlas use `SMALL_TERRITORY_COORDS`. The browser makes no network request for the map.
 - **ISO catalogue** (`src/lib/grc/iso27001/catalogue.ts`): titles and numbering are public; the one-line summaries are **our own words** — never paste the standard's text. `catalogue.test.ts` enforces 93 / 37-8-14-34 / bilingual / tagged.
+- **Demo data** (`src/lib/grc/iso27001/demo/bankx.ts`): a fictional Thai digital bank at mid maturity — 93 statuses with owners and notes, 12 risks. Regulatory references (BOT IT-risk guidelines, CRAF, PDPA) are real; BankX and its documents are invented. `scripts/seed-demo.ts` emits one SQL transaction for `psql`, keyed by organisation name, so it can be applied to any workspace. Keep it in sync with the catalogue — `bankx.test.ts` fails if a control is missing.
 - **Scoring** (`src/lib/grc/iso27001/score.ts`) is pure and tested. Compliance weights partial at 0.5. `buildSoa` reports not-applicable controls without a justification; the CSV route returns 409 while any remain.
 - **Server actions** (`src/server/actions/grc.ts`) resolve the organisation from the session on every call and validate with `src/lib/validate.ts`. No zod.
 - **i18n**: `lang.ts` (cookie) vs `i18n.ts` (dictionary, typed keys). Every UI string has EN and TH. Data files use `LStr`.

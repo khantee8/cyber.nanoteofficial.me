@@ -8,7 +8,8 @@
     "start": "next start",
     "lint": "eslint",
     "test": "vitest run",
-    "intel:snapshot": "tsx scripts/intel-snapshot.ts"
+    "intel:snapshot": "tsx scripts/intel-snapshot.ts",
+    "seed:demo": "tsx scripts/seed-demo.ts"
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.11.3",
