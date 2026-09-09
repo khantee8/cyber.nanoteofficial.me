@@ -4,6 +4,7 @@ import { headers } from 'next/headers';
 import { and, eq, gte, sql } from 'drizzle-orm';
 import { getDb } from '@/db';
 import { accessRequests } from '@/db/schema';
+import { adminEmails, newRequestMail, sendMail } from '@/lib/mail';
 
 export interface RequestAccessState {
   ok: boolean;
@@ -54,6 +55,10 @@ export async function requestAccess(
 
     if (!pending) {
       await db.insert(accessRequests).values({ email, message: message || null, ip });
+      // Notify the admins. Awaited so the serverless function does not exit
+      // before the send completes; failures are logged, never surfaced.
+      const admins = adminEmails();
+      if (admins.length) await sendMail({ to: admins, ...newRequestMail(email, message || null) });
     }
   } catch (err) {
     console.error('requestAccess failed', err);

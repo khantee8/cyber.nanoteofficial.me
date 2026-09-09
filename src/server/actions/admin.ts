@@ -5,6 +5,7 @@ import { and, eq } from 'drizzle-orm';
 import { getDb } from '@/db';
 import { auth } from '@/auth';
 import { accessRequests, users } from '@/db/schema';
+import { approvedMail, sendMail } from '@/lib/mail';
 
 async function requireAdmin() {
   const session = await auth();
@@ -48,6 +49,8 @@ export async function decideAccessRequest(
         target: users.email,
         set: { approvedAt: new Date() },
       });
+    // Tell the requester where to sign in. Logged on failure, never thrown.
+    await sendMail({ to: email, ...approvedMail() });
   }
 
   revalidatePath('/admin');
