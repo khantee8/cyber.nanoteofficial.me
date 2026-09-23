@@ -4,6 +4,7 @@ import { useActionState, useEffect, useMemo, useState } from 'react';
 import { saveRisk, type ActionResult } from '@/server/actions/grc';
 import type { Risk } from '@/db/schema';
 import { ISO27001_CONTROLS } from '@/lib/grc/iso27001/catalogue';
+import { CSF_SUBCATEGORIES } from '@/lib/grc/nist-csf-2/catalogue';
 import { riskBand, riskScore, type Methodology } from '@/lib/grc/iso27001/score';
 import { suggestControls } from '@/lib/grc/iso27001/suggest';
 import { RISK_STATUSES, TREATMENTS } from '@/lib/grc/types';
@@ -34,6 +35,7 @@ export default function RiskForm({ risk, methodology, lang }: { risk: Risk | nul
   const [title, setTitle] = useState(risk?.title ?? '');
   const [description, setDescription] = useState(risk?.description ?? '');
   const [linked, setLinked] = useState<string[]>(risk?.linkedControlIds ?? []);
+  const [linkedCsf, setLinkedCsf] = useState<string[]>(risk?.linkedCsfIds ?? []);
   const [text, setText] = useState(`${risk?.title ?? ''} ${risk?.description ?? ''}`);
   const [rl, setRl] = useState<string>(risk?.residualLikelihood?.toString() ?? '');
   const [ri, setRi] = useState<string>(risk?.residualImpact?.toString() ?? '');
@@ -145,6 +147,35 @@ export default function RiskForm({ risk, methodology, lang }: { risk: Risk | nul
           <option value="">+ …</option>
           {ISO27001_CONTROLS.filter((c) => !linked.includes(c.id)).map((c) => (
             <option key={c.id} value={c.id}>{c.id} {pick(c.title, lang)}</option>
+          ))}
+        </select>
+      </div>
+
+      <div className="flex flex-col gap-2 text-[13px]">
+        <span className="text-muted">{t(lang, 'grc.risk.linkedCsf')}</span>
+        {linkedCsf.map((id) => <input key={id} type="hidden" name="linkedCsfIds" value={id} />)}
+        <div className="flex flex-wrap gap-1.5">
+          {linkedCsf.map((id) => {
+            const s = CSF_SUBCATEGORIES.find((x) => x.id === id);
+            return (
+              <button key={id} type="button" onClick={() => setLinkedCsf(linkedCsf.filter((x) => x !== id))}
+                className="mono inline-flex items-center gap-1.5 rounded border border-accent/50 bg-accent-dim px-2 py-1 text-[11.5px] text-accent"
+                title={s ? pick(s.text, lang) : id}>
+                {id} <span className="max-w-[220px] truncate font-sans text-fg">{s ? pick(s.text, lang) : ''}</span> <span aria-hidden>×</span>
+              </button>
+            );
+          })}
+          {linkedCsf.length === 0 ? <span className="text-[12px] text-muted-soft">{t(lang, 'common.none')}</span> : null}
+        </div>
+        <select
+          aria-label={t(lang, 'grc.risk.linkedCsf')}
+          value=""
+          onChange={(e) => { if (e.target.value && !linkedCsf.includes(e.target.value)) setLinkedCsf([...linkedCsf, e.target.value]); }}
+          className="field mt-1 max-w-md text-[12.5px]"
+        >
+          <option value="">+ …</option>
+          {CSF_SUBCATEGORIES.filter((s) => !linkedCsf.includes(s.id)).map((s) => (
+            <option key={s.id} value={s.id}>{s.id} {pick(s.text, lang).slice(0, 80)}</option>
           ))}
         </select>
       </div>
