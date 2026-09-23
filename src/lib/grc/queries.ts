@@ -20,6 +20,21 @@ export async function getViewer(): Promise<Viewer | null> {
   return u ? { userId: u.id, email, role: u.role } : null;
 }
 
+/**
+ * The signed-in AND approved user, or null. Unlike `getViewer()`, this also re-reads
+ * approval from the database. Routes under `src/app/api/` sit outside the `(app)` layout
+ * (which is the only place approval is normally enforced), so any route that serves
+ * organisation data directly from a session must call this instead of `getViewer()`.
+ */
+export async function getApprovedViewer(): Promise<Viewer | null> {
+  const session = await auth();
+  const email = session?.user?.email;
+  if (!email) return null;
+  const [u] = await getDb().select({ id: users.id, role: users.role, approvedAt: users.approvedAt })
+    .from(users).where(eq(users.email, email)).limit(1);
+  return u?.approvedAt ? { userId: u.id, email, role: u.role } : null;
+}
+
 export async function getOrgForUser(userId: string): Promise<Organisation | null> {
   const [org] = await getDb().select().from(organisations).where(eq(organisations.ownerId, userId)).limit(1);
   return org ?? null;

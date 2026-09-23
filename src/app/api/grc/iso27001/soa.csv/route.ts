@@ -1,11 +1,11 @@
 import { getLang } from '@/lib/lang';
-import { getOrgForUser, getStatuses, getViewer } from '@/lib/grc/queries';
+import { getApprovedViewer, getOrgForUser, getStatuses } from '@/lib/grc/queries';
 import { ISO27001_CONTROLS } from '@/lib/grc/iso27001/catalogue';
 import { buildSoa, soaCsv } from '@/lib/grc/iso27001/score';
 
 /** Statement of Applicability as CSV. Refuses (409) while any exclusion lacks a justification. */
 export async function GET() {
-  const viewer = await getViewer();
+  const viewer = await getApprovedViewer();
   if (!viewer) return new Response('Unauthorized', { status: 401 });
   const org = await getOrgForUser(viewer.userId);
   if (!org) return new Response('No organisation', { status: 404 });
