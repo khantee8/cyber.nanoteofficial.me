@@ -24,7 +24,7 @@ export default async function SubcategoryPage({ params }: PageProps<'/grc/nist-c
   const linked = risks.filter((r) => r.linkedCsfIds.includes(id));
 
   return (
-    <div className="grid gap-6 lg:grid-cols-12">
+    <div className="grid grid-cols-1 gap-6 lg:grid-cols-12">
       <div className="lg:col-span-7">
         <Link href={`${CSF_BASE}/profile?fn=${sub.fn}`} className="mono text-[11px] uppercase tracking-wider text-muted-soft hover:text-fg">
           ← {sub.fn} {pick(fn.name, lang)} / {cat.id} {pick(cat.name, lang)}
@@ -40,7 +40,7 @@ export default async function SubcategoryPage({ params }: PageProps<'/grc/nist-c
             <p className="eyebrow mb-2">{t(lang, 'csf.examples')}</p>
             <ol className="flex flex-col gap-2 text-[13px] leading-relaxed text-muted">
               {sub.examples.map((e, i) => (
-                <li key={e.id} className="flex gap-3"><span className="mono shrink-0 text-[11px] text-muted-soft">Ex{i + 1}</span><span>{pick(e.text, lang)}</span></li>
+                <li key={e.id} className="flex gap-3"><span className="mono shrink-0 text-[11px] text-muted-soft">Ex{i + 1}</span><span className="min-w-0">{pick(e.text, lang)}</span></li>
               ))}
             </ol>
           </section>

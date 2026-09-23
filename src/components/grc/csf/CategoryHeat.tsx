@@ -15,7 +15,7 @@ function gapColor(g: number | null): string {
 
 export default function CategoryHeat({ items, base, lang }: { items: { id: string; name: string; s: CsfSummary }[]; base: string; lang: Lang }) {
   return (
-    <ul className="grid gap-1.5 sm:grid-cols-2">
+    <ul className="grid grid-cols-1 gap-1.5 sm:grid-cols-2">
       {items.map(({ id, name, s }) => (
         <li key={id}>
           <Link href={`${base}/profile?fn=${id.slice(0, 2)}`} className="flex items-center gap-3 rounded px-3 py-2 text-[12.5px] hover:outline hover:outline-1 hover:outline-line-strong"

@@ -57,7 +57,7 @@ export default function CsfScoreForm({ subcategoryId, initial, lang }: { subcate
         });
       }}
     >
-      <div className="grid gap-4 sm:grid-cols-2">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
         <ScoreField name="current" label={t(lang, 'csf.current')} value={current} onChange={setCurrent} lang={lang} />
         <ScoreField name="target" label={t(lang, 'csf.target')} value={target} onChange={setTarget} lang={lang} />
       </div>
@@ -65,7 +65,7 @@ export default function CsfScoreForm({ subcategoryId, initial, lang }: { subcate
       <label className="inline-flex items-center gap-2 text-[13px]">
         <input type="checkbox" name="inScope" defaultChecked={initial?.inScope ?? true} /> {t(lang, 'csf.inScope')}
       </label>
-      <div className="grid gap-4 sm:grid-cols-3">
+      <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
         <label className="flex flex-col gap-1 text-[13px]">
           <span className="text-muted">{t(lang, 'grc.controls.owner')}</span>
           <input name="owner" maxLength={120} defaultValue={initial?.owner ?? ''} className="field" />
