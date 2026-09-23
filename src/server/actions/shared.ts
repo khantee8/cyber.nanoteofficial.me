@@ -1,11 +1,15 @@
 import 'server-only';
-import { getOrgForUser, getViewer } from '@/lib/grc/queries';
+import { getApprovedViewer, getOrgForUser } from '@/lib/grc/queries';
 import { ValidationError } from '@/lib/validate';
 
 export interface ActionResult { ok: boolean; message?: string }
 
+/**
+ * Invoking a server action never renders `(app)/layout.tsx`, so its approval redirect
+ * does not protect writes — every action must re-check approval itself.
+ */
 export async function requireOrg() {
-  const viewer = await getViewer();
+  const viewer = await getApprovedViewer();
   if (!viewer) throw new Error('Unauthorized');
   const org = await getOrgForUser(viewer.userId);
   if (!org) throw new Error('No organisation');

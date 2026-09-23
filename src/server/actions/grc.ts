@@ -5,7 +5,7 @@ import { redirect } from 'next/navigation';
 import { and, eq, sql } from 'drizzle-orm';
 import { getDb } from '@/db';
 import { controlStatuses, organisations, riskMethodologies, risks } from '@/db/schema';
-import { getOrgForUser, getViewer } from '@/lib/grc/queries';
+import { getApprovedViewer, getOrgForUser } from '@/lib/grc/queries';
 import { CONTROL_BY_ID } from '@/lib/grc/iso27001/catalogue';
 import { CSF_IDS } from '@/lib/grc/nist-csf-2/catalogue';
 import { CSF_BASE } from '@/lib/grc/nist-csf-2/workspace';
@@ -32,7 +32,7 @@ function orgFields(fd: FormData) {
 
 export async function createOrganisation(_prev: ActionResult | null, fd: FormData): Promise<ActionResult> {
   try {
-    const viewer = await getViewer();
+    const viewer = await getApprovedViewer();
     if (!viewer) throw new Error('Unauthorized');
     const existing = await getOrgForUser(viewer.userId);
     if (existing) return { ok: true };

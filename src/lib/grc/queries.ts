@@ -11,27 +11,33 @@ import type { CsfScoreRow } from './nist-csf-2/types';
 
 export interface Viewer { userId: string; email: string; role: 'admin' | 'member' }
 
+async function lookupUser(email: string) {
+  const [u] = await getDb().select({ id: users.id, role: users.role, approvedAt: users.approvedAt })
+    .from(users).where(eq(users.email, email)).limit(1);
+  return u ?? null;
+}
+
 /** The signed-in user, or null. The (app) layout already redirected anonymous visitors. */
 export async function getViewer(): Promise<Viewer | null> {
   const session = await auth();
   const email = session?.user?.email;
   if (!email) return null;
-  const [u] = await getDb().select({ id: users.id, role: users.role }).from(users).where(eq(users.email, email)).limit(1);
+  const u = await lookupUser(email);
   return u ? { userId: u.id, email, role: u.role } : null;
 }
 
 /**
  * The signed-in AND approved user, or null. Unlike `getViewer()`, this also re-reads
- * approval from the database. Routes under `src/app/api/` sit outside the `(app)` layout
- * (which is the only place approval is normally enforced), so any route that serves
- * organisation data directly from a session must call this instead of `getViewer()`.
+ * approval from the database. Anything outside the `(app)` layout (which is the only
+ * place approval is normally enforced) — API routes, and server actions, since invoking
+ * an action does not render the layout — must call this instead of `getViewer()` before
+ * doing a write or returning organisation data.
  */
 export async function getApprovedViewer(): Promise<Viewer | null> {
   const session = await auth();
   const email = session?.user?.email;
   if (!email) return null;
-  const [u] = await getDb().select({ id: users.id, role: users.role, approvedAt: users.approvedAt })
-    .from(users).where(eq(users.email, email)).limit(1);
+  const u = await lookupUser(email);
   return u?.approvedAt ? { userId: u.id, email, role: u.role } : null;
 }
 

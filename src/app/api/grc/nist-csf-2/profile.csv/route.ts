@@ -13,7 +13,7 @@ export async function GET() {
     observedAt: r.observedAt, owner: r.owner, notes: r.notes,
   }));
   const safeName = org.name.replace(/[^a-z0-9]+/gi, '-').replace(/^-|-$/g, '').toLowerCase() || 'organisation';
-  return new Response('﻿' + profileCsv(rows), {
+  return new Response('\uFEFF' + profileCsv(rows), {
     headers: {
       'Content-Type': 'text/csv; charset=utf-8',
       'Content-Disposition': `attachment; filename="csf-profile-${safeName}-${new Date().toISOString().slice(0, 10)}.csv"`,
