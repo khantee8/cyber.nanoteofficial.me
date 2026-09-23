@@ -1,5 +1,5 @@
 import {
-  integer, jsonb, pgTable, primaryKey, text, timestamp, uniqueIndex,
+  boolean, date, integer, jsonb, pgTable, primaryKey, real, text, timestamp, uniqueIndex,
 } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
 
@@ -99,12 +99,40 @@ export const risks = pgTable('risk', {
   owner: text('owner'),
   status: text('status', { enum: ['open', 'in_treatment', 'closed'] }).notNull().default('open'),
   linkedControlIds: jsonb('linkedControlIds').$type<string[]>().notNull().default([]),
+  linkedCsfIds: jsonb('linkedCsfIds').$type<string[]>().notNull().default([]),
   residualLikelihood: integer('residualLikelihood'),
   residualImpact: integer('residualImpact'),
   createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull().defaultNow(),
 }, (t) => [uniqueIndex('risk_org_ref').on(t.organisationId, t.ref)]);
 
+export const csfScores = pgTable('csf_score', {
+  organisationId: text('organisationId').notNull().references(() => organisations.id, { onDelete: 'cascade' }),
+  subcategoryId: text('subcategoryId').notNull(),
+  current: real('current'),
+  target: real('target'),
+  inScope: boolean('inScope').notNull().default(true),
+  owner: text('owner'),
+  testingStatus: text('testingStatus', { enum: ['not_started', 'in_progress', 'complete'] }).notNull().default('not_started'),
+  examined: boolean('examined').notNull().default(false),
+  interviewed: boolean('interviewed').notNull().default(false),
+  tested: boolean('tested').notNull().default(false),
+  observedAt: date('observedAt', { mode: 'string' }),
+  notes: text('notes'),
+  evidenceUrls: jsonb('evidenceUrls').$type<string[]>().notNull().default([]),
+  updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull().defaultNow(),
+}, (t) => [primaryKey({ columns: [t.organisationId, t.subcategoryId] })]);
+
+export const csfProfiles = pgTable('csf_profile', {
+  organisationId: text('organisationId').primaryKey().references(() => organisations.id, { onDelete: 'cascade' }),
+  scope: text('scope'),
+  currentTier: integer('currentTier'),
+  targetTier: integer('targetTier'),
+  updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull().defaultNow(),
+});
+
 export type Organisation = typeof organisations.$inferSelect;
 export type Risk = typeof risks.$inferSelect;
 export type ControlStatusRow = typeof controlStatuses.$inferSelect;
+export type CsfScore = typeof csfScores.$inferSelect;
+export type CsfProfile = typeof csfProfiles.$inferSelect;

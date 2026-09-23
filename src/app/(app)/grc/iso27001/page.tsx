@@ -14,7 +14,7 @@ export const metadata = { title: 'ISO 27001 dashboard' };
 
 export default async function Dashboard() {
   const { lang, org, methodology } = await loadWorkspace();
-  const [statusRows, risks] = await Promise.all([getStatusRows(org.id, FRAMEWORK), getRisks(org.id, FRAMEWORK)]);
+  const [statusRows, risks] = await Promise.all([getStatusRows(org.id, FRAMEWORK), getRisks(org.id)]);
   const rows = statusRows.map((r) => ({ controlId: r.controlId, status: r.status, justification: r.justification, owner: r.owner }));
   const c = compliance(rows, ISO27001_CONTROLS);
   const byTheme = complianceByTheme(rows, ISO27001_CONTROLS);

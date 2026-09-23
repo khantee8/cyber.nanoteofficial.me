@@ -14,7 +14,7 @@ export default async function ControlPage({ params }: PageProps<'/grc/iso27001/c
   const control = CONTROL_BY_ID[id];
   if (!control) notFound();
   const { lang, org, methodology } = await loadWorkspace();
-  const [row, risks] = await Promise.all([getStatusRow(org.id, FRAMEWORK, id), getRisks(org.id, FRAMEWORK)]);
+  const [row, risks] = await Promise.all([getStatusRow(org.id, FRAMEWORK, id), getRisks(org.id)]);
   const linked = risks.filter((r) => r.linkedControlIds.includes(id));
   const theme = THEMES.find((x) => x.key === control.theme)!;
   const Tag = ({ children }: { children: string }) => <span className="mono rounded border border-line px-1.5 py-0.5 text-[10.5px] text-muted">{children}</span>;

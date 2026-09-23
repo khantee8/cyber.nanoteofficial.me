@@ -2,8 +2,12 @@ import 'server-only';
 import { and, asc, desc, eq } from 'drizzle-orm';
 import { auth } from '@/auth';
 import { getDb } from '@/db';
-import { controlStatuses, organisations, riskMethodologies, risks, users, type Organisation, type Risk } from '@/db/schema';
+import {
+  controlStatuses, csfProfiles, csfScores, organisations, riskMethodologies, risks, users,
+  type CsfProfile, type CsfScore, type Organisation, type Risk,
+} from '@/db/schema';
 import { DEFAULT_METHODOLOGY, type Methodology, type StatusRow } from './iso27001/score';
+import type { CsfScoreRow } from './nist-csf-2/types';
 
 export interface Viewer { userId: string; email: string; role: 'admin' | 'member' }
 
@@ -39,9 +43,10 @@ export async function getStatusRow(orgId: string, framework: string, controlId: 
   return row ?? null;
 }
 
-export async function getRisks(orgId: string, framework: string): Promise<Risk[]> {
+/** Every risk of the organisation. The register is shared by ISO 27001 and CSF 2.0; `framework` only records where a risk was created. */
+export async function getRisks(orgId: string): Promise<Risk[]> {
   return getDb().select().from(risks)
-    .where(and(eq(risks.organisationId, orgId), eq(risks.framework, framework)))
+    .where(eq(risks.organisationId, orgId))
     .orderBy(desc(risks.createdAt), asc(risks.ref));
 }
 
@@ -53,4 +58,23 @@ export async function getRisk(orgId: string, id: string): Promise<Risk | null> {
 export async function getMethodology(orgId: string): Promise<Methodology> {
   const [m] = await getDb().select().from(riskMethodologies).where(eq(riskMethodologies.organisationId, orgId)).limit(1);
   return m ? { lowMax: m.lowMax, mediumMax: m.mediumMax, highMax: m.highMax, acceptMax: m.acceptMax } : DEFAULT_METHODOLOGY;
+}
+
+export async function getCsfScores(orgId: string): Promise<CsfScore[]> {
+  return getDb().select().from(csfScores).where(eq(csfScores.organisationId, orgId));
+}
+
+export async function getCsfScore(orgId: string, subcategoryId: string): Promise<CsfScore | null> {
+  const [r] = await getDb().select().from(csfScores)
+    .where(and(eq(csfScores.organisationId, orgId), eq(csfScores.subcategoryId, subcategoryId))).limit(1);
+  return r ?? null;
+}
+
+export async function getCsfProfile(orgId: string): Promise<CsfProfile | null> {
+  const [p] = await getDb().select().from(csfProfiles).where(eq(csfProfiles.organisationId, orgId)).limit(1);
+  return p ?? null;
+}
+
+export function toScoreRows(rows: CsfScore[]): CsfScoreRow[] {
+  return rows.map((r) => ({ subcategoryId: r.subcategoryId, current: r.current, target: r.target, inScope: r.inScope }));
 }

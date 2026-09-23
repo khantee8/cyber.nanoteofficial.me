@@ -1,5 +1,5 @@
 import Link from 'next/link';
-import { BASE, FRAMEWORK, loadWorkspace } from '@/lib/grc/workspace';
+import { BASE, loadWorkspace } from '@/lib/grc/workspace';
 import { getRisks } from '@/lib/grc/queries';
 import { heatmap, riskBand, riskScore } from '@/lib/grc/iso27001/score';
 import { t } from '@/lib/i18n';
@@ -11,7 +11,7 @@ export const metadata = { title: 'Risk register' };
 
 export default async function RisksPage() {
   const { lang, org, methodology } = await loadWorkspace();
-  const risks = await getRisks(org.id, FRAMEWORK);
+  const risks = await getRisks(org.id);
   const sorted = [...risks].sort((a, b) => (a.status === 'closed') === (b.status === 'closed') ? riskScore(b.likelihood, b.impact) - riskScore(a.likelihood, a.impact) : a.status === 'closed' ? 1 : -1);
   const open = risks.filter((r) => r.status !== 'closed');
   return (
