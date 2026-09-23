@@ -1,6 +1,7 @@
 import type { ControlStatusValue } from '../types';
 import { CSF_SUBCATEGORIES } from './catalogue';
-import type { CsfScoreRow, FunctionRating } from './types';
+import type { CsfScoreRow, FunctionRating, TestingStatus } from './types';
+import { band } from './scale';
 
 // Re-export scale helpers for convenience
 export { SCORE_STEPS, band, bandColor } from './scale';
@@ -90,6 +91,32 @@ export function suggestCurrent(iso27001: string[], statuses: { controlId: string
 
 export function csvCell(v: string): string {
   return /[",\n\r]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
+}
+
+export interface CsvScore extends CsfScoreRow {
+  testingStatus: TestingStatus; examined: boolean; interviewed: boolean; tested: boolean;
+  observedAt: string | null; owner: string | null; notes: string | null;
+}
+
+/** Full profile as CSV, one line per subcategory in catalogue order. Codes (band, status) stay English so files compare across languages. */
+export function profileCsv(rows: CsvScore[]): string {
+  const m = new Map(rows.map((r) => [r.subcategoryId, r]));
+  const yn = (b: boolean) => (b ? 'yes' : 'no');
+  const num = (n: number | null) => (n === null ? '' : String(n));
+  const header = ['id', 'function', 'category', 'current', 'target', 'gap', 'band', 'in_scope', 'testing_status', 'examined', 'interviewed', 'tested', 'observed_at', 'owner', 'notes'];
+  const lines = [header.join(',')];
+  for (const s of CSF_SUBCATEGORIES) {
+    const r = m.get(s.id);
+    const g = r ? gap(r) : null;
+    lines.push([
+      s.id, s.fn, s.category, num(r?.current ?? null), num(r?.target ?? null), num(g),
+      r?.current != null ? band(r.current) : '',
+      yn(r?.inScope ?? true), r?.testingStatus ?? 'not_started',
+      yn(r?.examined ?? false), yn(r?.interviewed ?? false), yn(r?.tested ?? false),
+      r?.observedAt ?? '', r?.owner ?? '', r?.notes ?? '',
+    ].map(csvCell).join(','));
+  }
+  return lines.join('\n') + '\n';
 }
 
 /** Subcategories whose Current is empty and for which ISO statuses give a suggestion. */

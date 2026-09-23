@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { SCORE_STEPS, band, functionRating, gap, prefillPlan, rankGaps, roundHalf, rowsFor, suggestCurrent, summary } from './score';
+import { SCORE_STEPS, band, functionRating, gap, prefillPlan, profileCsv, rankGaps, roundHalf, rowsFor, suggestCurrent, summary } from './score';
 import { CSF_SUBCATEGORIES } from './catalogue';
 import type { CsfScoreRow } from './types';
 
@@ -80,6 +80,20 @@ describe('suggestCurrent', () => {
     expect(suggestCurrent(['5.1'], [st('5.1', 'not_applicable')]).value).toBeNull();
     expect(suggestCurrent(['5.1'], []).value).toBeNull();
     expect(suggestCurrent([], []).value).toBeNull();
+  });
+});
+
+describe('profileCsv', () => {
+  it('writes a header and one line per subcategory, quoting where needed', () => {
+    const csv = profileCsv([{
+      subcategoryId: 'GV.OC-01', current: 3, target: 6, inScope: true, testingStatus: 'complete',
+      examined: true, interviewed: false, tested: true, observedAt: '2026-09-01', owner: 'CISO', notes: 'Board pack, "Q3"',
+    }]);
+    const lines = csv.trimEnd().split('\n');
+    expect(lines[0]).toBe('id,function,category,current,target,gap,band,in_scope,testing_status,examined,interviewed,tested,observed_at,owner,notes');
+    expect(lines).toHaveLength(107);
+    expect(lines[1]).toBe('GV.OC-01,GV,GV.OC,3,6,3,some,yes,complete,yes,no,yes,2026-09-01,CISO,"Board pack, ""Q3"""');
+    expect(lines.find((l) => l.startsWith('GV.OC-02,'))).toBe('GV.OC-02,GV,GV.OC,,,,,yes,not_started,no,no,no,,,');
   });
 });
 
