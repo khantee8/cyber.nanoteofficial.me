@@ -16,19 +16,21 @@ export default async function GrcHub() {
         <p className="mt-3 text-[14.5px] leading-relaxed text-muted">{t(lang, 'grc.lede')}</p>
       </div>
       <div className="grid gap-3 md:grid-cols-3">
-        {frameworks.map((f) => (
-          <Link key={f.slug} href={f.href} className="panel group flex flex-col p-5 transition-colors hover:border-accent/50 md:col-span-2">
-            <div className="flex items-center justify-between">
-              <span className="grid h-9 w-9 place-items-center rounded-md border border-line bg-surface-2 text-accent"><Icon name="clipboard" /></span>
-              <span className="mono rounded border border-accent/50 px-1.5 py-0.5 text-[10.5px] uppercase tracking-wider text-accent">{t(lang, 'common.available')}</span>
-            </div>
-            <h2 className="mt-5 text-[20px] font-semibold tracking-tight">{pick(f.name, lang)} <span className="mono text-[12px] font-normal text-muted-soft">{t(lang, 'grc.version')} {f.version}</span></h2>
-            <p className="mt-2 text-[13.5px] leading-relaxed text-muted">{pick(f.blurb, lang)}</p>
-            <span className="mono mt-auto inline-flex items-center gap-1 pt-6 text-[11.5px] text-muted-soft group-hover:text-fg">
-              {t(lang, 'common.open')} <Icon name="arrow" className="h-3.5 w-3.5" />
-            </span>
-          </Link>
-        ))}
+        <div className="grid gap-3 md:col-span-2 sm:grid-cols-2">
+          {frameworks.map((f) => (
+            <Link key={f.slug} href={f.href} className="panel group flex flex-col p-5 transition-colors hover:border-accent/50">
+              <div className="flex items-center justify-between">
+                <span className="grid h-9 w-9 place-items-center rounded-md border border-line bg-surface-2 text-accent"><Icon name="clipboard" /></span>
+                <span className="mono rounded border border-accent/50 px-1.5 py-0.5 text-[10.5px] uppercase tracking-wider text-accent">{t(lang, 'common.available')}</span>
+              </div>
+              <h2 className="mt-5 text-[20px] font-semibold tracking-tight">{pick(f.name, lang)} <span className="mono text-[12px] font-normal text-muted-soft">{t(lang, 'grc.version')} {f.version}</span></h2>
+              <p className="mt-2 text-[13.5px] leading-relaxed text-muted">{pick(f.blurb, lang)}</p>
+              <span className="mono mt-auto inline-flex items-center gap-1 pt-6 text-[11.5px] text-muted-soft group-hover:text-fg">
+                {t(lang, 'common.open')} <Icon name="arrow" className="h-3.5 w-3.5" />
+              </span>
+            </Link>
+          ))}
+        </div>
         <div className="flex flex-col gap-3">
           <p className="eyebrow">{t(lang, 'grc.planned')}</p>
           {plannedFrameworks.map((p) => (

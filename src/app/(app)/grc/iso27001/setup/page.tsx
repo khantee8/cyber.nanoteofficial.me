@@ -6,10 +6,12 @@ import OrgForm from '@/components/grc/OrgForm';
 
 export const metadata = { title: 'ISO 27001 setup' };
 
-export default async function SetupPage() {
+export default async function SetupPage({ searchParams }: PageProps<'/grc/iso27001/setup'>) {
+  const params = await searchParams;
+  const next = typeof params.next === 'string' && params.next.startsWith('/grc/') && !params.next.startsWith('//') ? params.next : '/grc/iso27001';
   const [lang, viewer] = await Promise.all([getLang(), getViewer()]);
   if (!viewer) redirect('/signin');
-  if (await getOrgForUser(viewer.userId)) redirect('/grc/iso27001');
+  if (await getOrgForUser(viewer.userId)) redirect(next);
   return (
     <div className="mx-auto max-w-2xl">
       <p className="eyebrow">{t(lang, 'grc.setup.eyebrow')}</p>
