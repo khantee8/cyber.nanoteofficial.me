@@ -35,6 +35,7 @@ export interface DemoRisk {
   owner: string;
   status: RiskStatus;
   linkedControlIds: string[];
+  linkedCsfIds?: string[];
   residualLikelihood?: number;
   residualImpact?: number;
 }
@@ -180,7 +181,7 @@ export const bankxRisks: DemoRisk[] = [
     asset: 'Mobile banking app and customer accounts', threat: 'Banking malware, remote-access scam, SIM swap', vulnerability: 'Transaction limits and device-binding gaps on older app versions; customers on outdated OS',
     likelihood: 5, impact: 5, treatment: 'mitigate',
     treatmentPlan: 'Block app on devices below iOS 14 / Android 10 (BOT measure, effective Feb 2026); facial biometric for transfers above THB 50,000; screen-sharing detection; scam-warning prompts; real-time fraud scoring on new-device enrolment.',
-    owner: 'Head of Digital Banking', status: 'in_treatment', linkedControlIds: ['8.5', '8.28', '8.16', '6.3'], residualLikelihood: 3, residualImpact: 4,
+    owner: 'Head of Digital Banking', status: 'in_treatment', linkedControlIds: ['8.5', '8.28', '8.16', '6.3'], linkedCsfIds: ['PR.AA-03', 'DE.AE-02'], residualLikelihood: 3, residualImpact: 4,
   },
   {
     title: 'Ransomware encrypts the core banking environment',
@@ -188,7 +189,7 @@ export const bankxRisks: DemoRisk[] = [
     asset: 'Core banking platform', threat: 'Ransomware group', vulnerability: 'Flat segments between server zones; legacy modules patched outside SLA',
     likelihood: 3, impact: 5, treatment: 'mitigate',
     treatmentPlan: 'Micro-segmentation programme (2027); PAM enforcement for all admin paths; immutable backups verified quarterly; ransomware tabletop with the executive team.',
-    owner: CISO, status: 'in_treatment', linkedControlIds: ['8.7', '8.13', '8.22', '8.8', '8.2'], residualLikelihood: 2, residualImpact: 4,
+    owner: CISO, status: 'in_treatment', linkedControlIds: ['8.7', '8.13', '8.22', '8.8', '8.2'], linkedCsfIds: ['PR.IR-01', 'PR.DS-11', 'RC.RP-03'], residualLikelihood: 2, residualImpact: 4,
   },
   {
     title: 'Exploitation of a critical vulnerability in an internet-facing gateway',
@@ -196,7 +197,7 @@ export const bankxRisks: DemoRisk[] = [
     asset: 'API gateway, VPN concentrators', threat: 'Opportunistic exploitation of known vulnerabilities', vulnerability: '14-day patch SLA for internet-facing systems; no virtual patching on some devices',
     likelihood: 4, impact: 4, treatment: 'mitigate',
     treatmentPlan: 'Move to 72-hour SLA for KEV-listed vulnerabilities on edge devices; subscribe to KEV and EPSS feeds in the vulnerability tool; emergency change path pre-approved.',
-    owner: INFRA, status: 'open', linkedControlIds: ['8.8', '5.7', '8.32'],
+    owner: INFRA, status: 'open', linkedControlIds: ['8.8', '5.7', '8.32'], linkedCsfIds: ['ID.RA-01', 'PR.PS-02'],
   },
   {
     title: 'DDoS attack takes internet and mobile banking offline',
@@ -212,7 +213,7 @@ export const bankxRisks: DemoRisk[] = [
     asset: 'Customer PII in the analytics platform', threat: 'Insider misuse or misconfigured storage', vulnerability: 'Broad IAM roles; deletion not automated; no DLP on SaaS tools',
     likelihood: 3, impact: 4, treatment: 'mitigate',
     treatmentPlan: 'Fine-grained IAM roles with SoD; automated retention deletion; cloud configuration baseline with continuous compliance monitoring; DPIA update.',
-    owner: DPO, status: 'open', linkedControlIds: ['5.34', '8.10', '5.3', '8.9', '8.12'],
+    owner: DPO, status: 'open', linkedControlIds: ['5.34', '8.10', '5.3', '8.9', '8.12'], linkedCsfIds: ['PR.DS-01', 'PR.AA-05'],
   },
   {
     title: 'Compromise of a critical technology supplier',
@@ -220,7 +221,7 @@ export const bankxRisks: DemoRisk[] = [
     asset: 'Supplier remote access and software updates', threat: 'Supply-chain compromise', vulnerability: 'Standing vendor VPN accounts; SBOM only for top-10 suppliers',
     likelihood: 3, impact: 4, treatment: 'mitigate',
     treatmentPlan: 'Just-in-time vendor access through PAM; SBOM and update signing verification for all software suppliers; annual assurance for critical suppliers per BOT third-party expectations.',
-    owner: VENDOR, status: 'open', linkedControlIds: ['5.19', '5.21', '5.22', '8.2'],
+    owner: VENDOR, status: 'open', linkedControlIds: ['5.19', '5.21', '5.22', '8.2'], linkedCsfIds: ['GV.SC-05', 'GV.SC-07'],
   },
   {
     title: 'Insider fraud through excessive access in payment operations',

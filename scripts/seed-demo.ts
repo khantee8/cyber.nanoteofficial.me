@@ -2,9 +2,11 @@
  * Emit SQL that loads the BankX demo assessment into an existing organisation:
  *   npm run seed:demo -- --org "BankX" | psql "$DATABASE_URL_UNPOOLED"
  * One transaction; aborts if the organisation is not found; upserts control
- * statuses and replaces the organisation's risks so it can be re-run.
+ * statuses and the CSF 2.0 profile, and replaces the organisation's risks so
+ * it can be re-run.
  */
 import { bankxOrg, bankxRisks, bankxStatuses } from '../src/lib/grc/iso27001/demo/bankx';
+import { bankxCsfProfile, bankxCsfScores } from '../src/lib/grc/nist-csf-2/demo/bankx';
 
 const argOrg = process.argv.indexOf('--org');
 const orgName = argOrg >= 0 ? process.argv[argOrg + 1] : '';
@@ -31,13 +33,26 @@ for (const s of bankxStatuses) {
   );
 }
 
-out.push(`DELETE FROM risk WHERE "organisationId" = ${ORG} AND framework = 'iso27001';`);
+out.push(`DELETE FROM risk WHERE "organisationId" = ${ORG};`);
 bankxRisks.forEach((r, i) => {
   const ref = `RISK-${String(i + 1).padStart(3, '0')}`;
   out.push(
-    `INSERT INTO risk (id, "organisationId", framework, ref, title, description, asset, threat, vulnerability, likelihood, impact, treatment, "treatmentPlan", owner, status, "linkedControlIds", "residualLikelihood", "residualImpact", "createdAt", "updatedAt") ` +
-    `VALUES (gen_random_uuid()::text, ${ORG}, 'iso27001', ${q(ref)}, ${q(r.title)}, ${q(r.description)}, ${q(r.asset)}, ${q(r.threat)}, ${q(r.vulnerability)}, ${r.likelihood}, ${r.impact}, ${q(r.treatment)}, ${q(r.treatmentPlan)}, ${q(r.owner)}, ${q(r.status)}, ${j(r.linkedControlIds)}, ${r.residualLikelihood ?? 'NULL'}, ${r.residualImpact ?? 'NULL'}, now() - interval '${bankxRisks.length - i} days', now());`,
+    `INSERT INTO risk (id, "organisationId", framework, ref, title, description, asset, threat, vulnerability, likelihood, impact, treatment, "treatmentPlan", owner, status, "linkedControlIds", "linkedCsfIds", "residualLikelihood", "residualImpact", "createdAt", "updatedAt") ` +
+    `VALUES (gen_random_uuid()::text, ${ORG}, 'iso27001', ${q(ref)}, ${q(r.title)}, ${q(r.description)}, ${q(r.asset)}, ${q(r.threat)}, ${q(r.vulnerability)}, ${r.likelihood}, ${r.impact}, ${q(r.treatment)}, ${q(r.treatmentPlan)}, ${q(r.owner)}, ${q(r.status)}, ${j(r.linkedControlIds)}, ${j(r.linkedCsfIds ?? [])}, ${r.residualLikelihood ?? 'NULL'}, ${r.residualImpact ?? 'NULL'}, now() - interval '${bankxRisks.length - i} days', now());`,
   );
 });
+
+const n = (v: number | null) => (v === null ? 'NULL' : String(v));
+out.push(
+  `INSERT INTO csf_profile ("organisationId", scope, "currentTier", "targetTier", "updatedAt") VALUES (${ORG}, ${q(bankxCsfProfile.scope)}, ${bankxCsfProfile.currentTier}, ${bankxCsfProfile.targetTier}, now()) ` +
+  `ON CONFLICT ("organisationId") DO UPDATE SET scope = EXCLUDED.scope, "currentTier" = EXCLUDED."currentTier", "targetTier" = EXCLUDED."targetTier", "updatedAt" = now();`,
+);
+for (const s of bankxCsfScores) {
+  out.push(
+    `INSERT INTO csf_score ("organisationId", "subcategoryId", current, target, "inScope", owner, "testingStatus", examined, interviewed, tested, "observedAt", notes, "evidenceUrls", "updatedAt") ` +
+    `VALUES (${ORG}, ${q(s.subcategoryId)}, ${n(s.current)}, ${n(s.target)}, true, ${q(s.owner)}, ${q(s.testingStatus)}, ${s.examined}, ${s.interviewed}, ${s.tested}, ${s.observedAt ? `${q(s.observedAt)}::date` : 'NULL'}, ${q(s.notes)}, '[]'::jsonb, now()) ` +
+    `ON CONFLICT ("organisationId", "subcategoryId") DO UPDATE SET current = EXCLUDED.current, target = EXCLUDED.target, "inScope" = true, owner = EXCLUDED.owner, "testingStatus" = EXCLUDED."testingStatus", examined = EXCLUDED.examined, interviewed = EXCLUDED.interviewed, tested = EXCLUDED.tested, "observedAt" = EXCLUDED."observedAt", notes = EXCLUDED.notes, "updatedAt" = now();`,
+  );
+}
 out.push('COMMIT;');
 process.stdout.write(out.join('\n') + '\n');
