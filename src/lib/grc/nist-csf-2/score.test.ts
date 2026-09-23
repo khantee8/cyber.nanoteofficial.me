@@ -1,5 +1,6 @@
 import { describe, expect, it } from 'vitest';
-import { SCORE_STEPS, band, functionRating, gap, rankGaps, roundHalf, rowsFor, suggestCurrent, summary } from './score';
+import { SCORE_STEPS, band, functionRating, gap, prefillPlan, rankGaps, roundHalf, rowsFor, suggestCurrent, summary } from './score';
+import { CSF_SUBCATEGORIES } from './catalogue';
 import type { CsfScoreRow } from './types';
 
 const row = (subcategoryId: string, current: number | null, target: number | null, inScope = true): CsfScoreRow =>
@@ -79,5 +80,17 @@ describe('suggestCurrent', () => {
     expect(suggestCurrent(['5.1'], [st('5.1', 'not_applicable')]).value).toBeNull();
     expect(suggestCurrent(['5.1'], []).value).toBeNull();
     expect(suggestCurrent([], []).value).toBeNull();
+  });
+});
+
+describe('prefillPlan', () => {
+  it('fills only empty Current values that have a suggestion', () => {
+    const withIso = CSF_SUBCATEGORIES.filter((s) => s.iso27001.length > 0);
+    const [a, b] = withIso;
+    const statuses = [...a.iso27001, ...b.iso27001].map((controlId) => ({ controlId, status: 'implemented' as const }));
+    const plan = prefillPlan([{ subcategoryId: a.id, current: 2, target: 6, inScope: true }], statuses);
+    expect(plan.find((p) => p.subcategoryId === a.id)).toBeUndefined();
+    expect(plan.find((p) => p.subcategoryId === b.id)).toEqual({ subcategoryId: b.id, value: 5 });
+    expect(prefillPlan([], [])).toEqual([]);
   });
 });

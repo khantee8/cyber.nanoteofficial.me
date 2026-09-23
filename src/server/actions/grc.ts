@@ -7,27 +7,16 @@ import { getDb } from '@/db';
 import { controlStatuses, organisations, riskMethodologies, risks } from '@/db/schema';
 import { getOrgForUser, getViewer } from '@/lib/grc/queries';
 import { CONTROL_BY_ID } from '@/lib/grc/iso27001/catalogue';
+import { CSF_IDS } from '@/lib/grc/nist-csf-2/catalogue';
+import { CSF_BASE } from '@/lib/grc/nist-csf-2/workspace';
 import { CONTROL_STATUSES, RISK_STATUSES, TREATMENTS } from '@/lib/grc/types';
 import { ValidationError, idList, int, oneOf, optionalInt, str, urlList } from '@/lib/validate';
+import { fail, requireOrg, type ActionResult } from './shared';
 
-export interface ActionResult { ok: boolean; message?: string }
+export type { ActionResult } from './shared';
 
 const FRAMEWORK = 'iso27001';
 const BASE = '/grc/iso27001';
-
-async function requireOrg() {
-  const viewer = await getViewer();
-  if (!viewer) throw new Error('Unauthorized');
-  const org = await getOrgForUser(viewer.userId);
-  if (!org) throw new Error('No organisation');
-  return { viewer, org };
-}
-
-function fail(err: unknown): ActionResult {
-  if (err instanceof ValidationError) return { ok: false, message: err.message };
-  console.error('grc action failed', err);
-  return { ok: false, message: 'Something went wrong. Try again.' };
-}
 
 const SIZE_BANDS = ['1-10', '11-50', '51-250', '251-1000', '1000+'] as const;
 
@@ -115,6 +104,7 @@ export async function saveRisk(_prev: ActionResult | null, fd: FormData): Promis
       owner: str(fd.get('owner'), 120, { field: 'Owner' }),
       status: oneOf(fd.get('status') ?? 'open', RISK_STATUSES, 'Status'),
       linkedControlIds: idList(fd.getAll('linkedControlIds'), new Set(Object.keys(CONTROL_BY_ID))),
+      linkedCsfIds: idList(fd.getAll('linkedCsfIds'), CSF_IDS, 30),
       residualLikelihood: optionalInt(fd.get('residualLikelihood'), 1, 5, 'Residual likelihood'),
       residualImpact: optionalInt(fd.get('residualImpact'), 1, 5, 'Residual impact'),
       updatedAt: new Date(),
@@ -142,6 +132,7 @@ export async function saveRisk(_prev: ActionResult | null, fd: FormData): Promis
     return fail(err);
   }
   revalidatePath(BASE, 'layout');
+  revalidatePath(CSF_BASE, 'layout');
   redirect(`${BASE}/risks/${id}`);
 }
 
@@ -153,6 +144,7 @@ export async function deleteRisk(id: string): Promise<ActionResult> {
     return fail(err);
   }
   revalidatePath(BASE, 'layout');
+  revalidatePath(CSF_BASE, 'layout');
   redirect(`${BASE}/risks`);
 }
 

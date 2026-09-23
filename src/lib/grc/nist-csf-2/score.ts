@@ -1,4 +1,5 @@
 import type { ControlStatusValue } from '../types';
+import { CSF_SUBCATEGORIES } from './catalogue';
 import type { CsfScoreRow, FunctionRating } from './types';
 
 // Re-export scale helpers for convenience
@@ -89,4 +90,16 @@ export function suggestCurrent(iso27001: string[], statuses: { controlId: string
 
 export function csvCell(v: string): string {
   return /[",\n\r]/.test(v) ? `"${v.replace(/"/g, '""')}"` : v;
+}
+
+/** Subcategories whose Current is empty and for which ISO statuses give a suggestion. */
+export function prefillPlan(scores: CsfScoreRow[], statuses: { controlId: string; status: ControlStatusValue }[]) {
+  const have = new Map(scores.map((s) => [s.subcategoryId, s]));
+  const out: { subcategoryId: string; value: number }[] = [];
+  for (const sub of CSF_SUBCATEGORIES) {
+    if (have.get(sub.id)?.current != null) continue;
+    const { value } = suggestCurrent(sub.iso27001, statuses);
+    if (value !== null) out.push({ subcategoryId: sub.id, value });
+  }
+  return out;
 }
