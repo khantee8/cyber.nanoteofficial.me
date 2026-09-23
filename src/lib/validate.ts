@@ -54,3 +54,33 @@ export function idList(v: unknown, valid: Set<string>, max = 20): string[] {
   if (out.length > max) throw new ValidationError(`at most ${max} linked controls`);
   return out;
 }
+
+/** CSF score: null, or a multiple of 0.5 from 0 to 10. */
+export function halfStep(v: unknown, field = 'score'): number | null {
+  const s = typeof v === 'string' ? v.trim() : v;
+  if (s === '' || s === null || s === undefined) return null;
+  const n = typeof s === 'number' ? s : Number(s);
+  if (!Number.isFinite(n) || n < 0 || n > 10 || !Number.isInteger(n * 2)) {
+    throw new ValidationError(`${field} must be 0 to 10 in steps of 0.5`);
+  }
+  return n;
+}
+
+export function optionalTier(v: unknown, field = 'Tier'): number | null {
+  return optionalInt(v, 1, 4, field);
+}
+
+/** A calendar date "YYYY-MM-DD" that exists and is not after today (UTC). */
+export function isoDate(v: unknown, field = 'date', today = new Date()): string | null {
+  const s = typeof v === 'string' ? v.trim() : '';
+  if (!s) return null;
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+  const d = m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])) : null;
+  if (!m || !d || d.getUTCMonth() !== +m[2] - 1 || d.getUTCDate() !== +m[3]) throw new ValidationError(`${field} is not a valid date`);
+  if (s > today.toISOString().slice(0, 10)) throw new ValidationError(`${field} cannot be in the future`);
+  return s;
+}
+
+export function bool(v: unknown): boolean {
+  return v === true || v === 'true' || v === 'on' || v === '1';
+}
