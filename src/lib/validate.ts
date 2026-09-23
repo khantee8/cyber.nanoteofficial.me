@@ -59,6 +59,9 @@ export function idList(v: unknown, valid: Set<string>, max = 20): string[] {
 export function halfStep(v: unknown, field = 'score'): number | null {
   const s = typeof v === 'string' ? v.trim() : v;
   if (s === '' || s === null || s === undefined) return null;
+  if (typeof s !== 'number' && typeof s !== 'string') {
+    throw new ValidationError(`${field} must be 0 to 10 in steps of 0.5`);
+  }
   const n = typeof s === 'number' ? s : Number(s);
   if (!Number.isFinite(n) || n < 0 || n > 10 || !Number.isInteger(n * 2)) {
     throw new ValidationError(`${field} must be 0 to 10 in steps of 0.5`);

@@ -6,8 +6,14 @@ describe('halfStep', () => {
     expect(halfStep('')).toBeNull(); expect(halfStep(null)).toBeNull(); expect(halfStep(undefined)).toBeNull();
     expect(halfStep('4.5')).toBe(4.5); expect(halfStep(0)).toBe(0); expect(halfStep(10)).toBe(10);
   });
+  it('accepts whitespace-trimmed strings', () => {
+    expect(halfStep(' 4.5 ')).toBe(4.5);
+  });
   it('rejects other values', () => {
     for (const v of ['4.25', '10.5', '-0.5', 'abc', 11]) expect(() => halfStep(v), String(v)).toThrow(ValidationError);
+  });
+  it('rejects non-numeric input: booleans, arrays, special numbers', () => {
+    for (const v of [true, false, [], [4.5], Infinity, NaN]) expect(() => halfStep(v), String(v)).toThrow(ValidationError);
   });
 });
 
