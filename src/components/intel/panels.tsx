@@ -1,18 +1,25 @@
 'use client';
 
 import type { ReactNode } from 'react';
-import type { IntelSnapshot } from '@/lib/intel/aggregate';
-import { epssBand, fmtDate, fmtInt, sevColor } from '@/lib/intel/format';
+import type { IntelSnapshot, SourceHealth } from '@/lib/intel/aggregate';
+import { ago, epssBand, fmtDate, fmtInt, sevColor } from '@/lib/intel/format';
 import type { Lang } from '@/lib/lang';
 import { t } from '@/lib/i18n';
 import Icon from '@/components/site/Icon';
 
-export function PanelHeader({ title, sub, source, right }: { title: string; sub?: string; source?: string; right?: ReactNode }) {
+export function PanelHeader({ title, sub, source, right, age, lang }: { title: string; sub?: string; source?: string; right?: ReactNode; age?: SourceHealth; lang?: Lang }) {
   return (
     <header className="flex items-start justify-between gap-3 border-b border-line px-4 py-3">
       <div className="min-w-0">
         <h3 className="text-[14px] font-semibold tracking-tight">{title}</h3>
         {sub ? <p className="mt-0.5 text-[12px] leading-snug text-muted">{sub}</p> : null}
+        {age && lang ? (
+          age.status === 'down' ? (
+            <span className="mono text-[10.5px]" style={{ color: 'var(--sev-critical)' }}>{t(lang, 'intel.health.down')}</span>
+          ) : (
+            <span className="mono text-[10.5px]" style={{ color: age.status === 'ok' ? 'var(--muted-soft)' : 'var(--sev-medium)' }}>{t(lang, 'intel.updated', { ago: ago(age.fetchedAt, new Date(), lang) })}</span>
+          )
+        ) : null}
       </div>
       {right ?? (source ? <span className="eyebrow shrink-0 pt-0.5">{source}</span> : null)}
     </header>
@@ -51,7 +58,7 @@ export function ExploitedPanel({ snapshot, lang, limit = 30, scroll }: { snapsho
   const kev = snapshot.kev.slice(0, limit);
   return (
     <section className="panel min-w-0 overflow-hidden">
-      <PanelHeader title={t(lang, 'intel.exploited.title')} sub={t(lang, 'intel.exploited.sub')} source="CISA · FIRST" />
+      <PanelHeader title={t(lang, 'intel.exploited.title')} sub={t(lang, 'intel.exploited.sub')} source="CISA · FIRST" age={snapshot.health.kev} lang={lang} />
       {snapshot.stats.topVendors30d.length ? (
         <div className="border-b border-line px-4 py-3">
           <p className="eyebrow mb-2">{t(lang, 'intel.exploited.vendors')}</p>
@@ -95,7 +102,7 @@ export function RansomwarePanel({ snapshot, lang, country, limit = 40, scroll }:
   const list = (country ? snapshot.ransomware.filter((v) => v.country === country) : snapshot.ransomware).slice(0, limit);
   return (
     <section className="panel min-w-0 overflow-hidden">
-      <PanelHeader title={t(lang, 'intel.ransom.title')} sub={t(lang, 'intel.ransom.sub')} source="ransomware.live" />
+      <PanelHeader title={t(lang, 'intel.ransom.title')} sub={t(lang, 'intel.ransom.sub')} source="ransomware.live" age={snapshot.health.ransomware} lang={lang} />
       <div className="grid gap-4 border-b border-line px-4 py-3 sm:grid-cols-2">
         <div>
           <p className="eyebrow mb-2">{t(lang, 'intel.ransom.groups')}</p>
@@ -134,9 +141,14 @@ export function RansomwarePanel({ snapshot, lang, country, limit = 40, scroll }:
 
 export function InfraPanel({ snapshot, lang, country }: { snapshot: IntelSnapshot; lang: Lang; country: string | null }) {
   const c2 = country ? snapshot.c2.filter((c) => c.country === country) : snapshot.c2;
+  const feodo = snapshot.health.feodo;
+  const isc = snapshot.health.isc;
+  const age = feodo.status === 'stale' || isc.status === 'stale'
+    ? feodo.status === 'stale' ? feodo : isc
+    : new Date(feodo.fetchedAt) < new Date(isc.fetchedAt) ? feodo : isc;
   return (
     <section className="panel min-w-0 overflow-hidden">
-      <PanelHeader title={t(lang, 'intel.infra.title')} sub={t(lang, 'intel.infra.sub')} source="abuse.ch · SANS" />
+      <PanelHeader title={t(lang, 'intel.infra.title')} sub={t(lang, 'intel.infra.sub')} source="abuse.ch · SANS" age={age} lang={lang} />
       {c2.length === 0 ? (
         <p className="px-4 py-6 text-center text-[12.5px] text-muted">{t(lang, 'intel.infra.empty')}</p>
       ) : (
@@ -180,7 +192,7 @@ export function InfraPanel({ snapshot, lang, country }: { snapshot: IntelSnapsho
 export function HeadlinesPanel({ snapshot, lang, limit = 20, scroll }: { snapshot: IntelSnapshot; lang: Lang; limit?: number; scroll?: boolean }) {
   return (
     <section className="panel min-w-0 overflow-hidden">
-      <PanelHeader title={t(lang, 'intel.news.title')} sub={t(lang, 'intel.news.sub')} source="RSS" />
+      <PanelHeader title={t(lang, 'intel.news.title')} sub={t(lang, 'intel.news.sub')} source="RSS" age={snapshot.health.news} lang={lang} />
       <ul className={`divide-y divide-line ${scrollCls(scroll)}`}>
         {snapshot.headlines.slice(0, limit).map((h) => (
           <li key={h.url} className="px-4 py-2.5">

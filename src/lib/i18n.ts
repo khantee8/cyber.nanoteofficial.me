@@ -142,6 +142,7 @@ const dict = {
   'intel.infra.empty': { en: 'No C2 servers in this selection.', th: 'ไม่มีเซิร์ฟเวอร์ C2 ในตัวกรองนี้' },
   'intel.news.title':  { en: 'Headlines', th: 'ข่าว' },
   'intel.news.sub':    { en: 'The Hacker News and BleepingComputer, newest first.', th: 'The Hacker News และ BleepingComputer เรียงจากใหม่สุด' },
+  'intel.updated':     { en: 'updated {ago}', th: 'อัปเดต {ago}' },
   'intel.health.ok':   { en: 'live', th: 'สด' },
   'intel.health.stale':{ en: 'stale', th: 'เก่า' },
   'intel.health.down': { en: 'down', th: 'ล่ม' },
