@@ -2,7 +2,7 @@
 
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
-import { and, eq, sql } from 'drizzle-orm';
+import { and, eq, notExists, sql } from 'drizzle-orm';
 import type { BatchItem } from 'drizzle-orm/batch';
 import { getDb } from '@/db';
 import {
@@ -15,7 +15,7 @@ import { CSF_IDS } from '@/lib/grc/nist-csf-2/catalogue';
 import { planCsfCopy, planIsoCopy } from '@/lib/grc/copy';
 import { ancestorsOf, canMove, MAX_FOLDER_DEPTH, type FolderRow } from '@/lib/grc/tree';
 import { CONTROL_STATUSES, RISK_STATUSES, TREATMENTS } from '@/lib/grc/types';
-import { ValidationError, idList, int, oneOf, optionalInt, str, urlList, isoDate } from '@/lib/validate';
+import { ValidationError, idList, int, oneOf, optionalDate, optionalInt, str, urlList } from '@/lib/validate';
 import { fail, requireApproved, requireAssessment, requireCustomer, type ActionResult } from './shared';
 
 export type { ActionResult } from './shared';
@@ -66,7 +66,7 @@ export async function updateCustomer(_prev: ActionResult | null, fd: FormData): 
 export async function setCustomerArchived(customerId: string, archived: boolean): Promise<ActionResult> {
   try {
     const { customer } = await requireCustomer(customerId);
-    await getDb().update(customers).set({ archivedAt: archived ? new Date() : null }).where(eq(customers.id, customer.id));
+    await getDb().update(customers).set({ archivedAt: archived === true ? new Date() : null }).where(eq(customers.id, customer.id));
   } catch (err) {
     return fail(err);
   }
@@ -133,10 +133,15 @@ export async function deleteFolder(folderId: string): Promise<ActionResult> {
     const id = str(folderId, 64, { required: true, field: 'folder id' })!;
     const existing = await loadFolder(id);
     if (!existing) throw new ValidationError('folder not found');
-    const [{ subCount }] = await getDb().select({ subCount: sql<number>`count(*)::int` }).from(folders).where(eq(folders.parentId, existing.id));
-    const [{ assessmentCount }] = await getDb().select({ assessmentCount: sql<number>`count(*)::int` }).from(assessments).where(eq(assessments.folderId, existing.id));
-    if (subCount > 0 || assessmentCount > 0) throw new ValidationError('folder not empty');
-    await getDb().delete(folders).where(eq(folders.id, existing.id));
+    // One conditional DELETE instead of count-then-delete: the emptiness check and the
+    // delete itself run as a single statement, so a folder/assessment created between a
+    // check and a delete can never sneak the folder into being deleted non-empty.
+    const childFolder = getDb().select({ one: sql`1` }).from(folders).where(eq(folders.parentId, existing.id));
+    const childAssessment = getDb().select({ one: sql`1` }).from(assessments).where(eq(assessments.folderId, existing.id));
+    const [deleted] = await getDb().delete(folders)
+      .where(and(eq(folders.id, existing.id), notExists(childFolder), notExists(childAssessment)))
+      .returning({ id: folders.id });
+    if (!deleted) throw new ValidationError('folder not empty');
   } catch (err) {
     return fail(err);
   }
@@ -149,8 +154,7 @@ export async function deleteFolder(folderId: string): Promise<ActionResult> {
 export async function createAssessment(_prev: ActionResult | null, fd: FormData): Promise<ActionResult> {
   let id: string | null = null;
   try {
-    const viewer = await requireApproved();
-    const { customer } = await requireCustomer(fd.get('customerId'));
+    const { viewer, customer } = await requireCustomer(fd.get('customerId'));
     const framework = oneOf(fd.get('framework'), FRAMEWORK_IDS, 'Framework');
     const title = str(fd.get('title'), 200, { required: true, field: 'Title' })!;
     const fiscalYear = optionalInt(fd.get('fiscalYear'), 1990, 2100, 'Fiscal year');
@@ -216,14 +220,21 @@ export async function createAssessment(_prev: ActionResult | null, fd: FormData)
   redirect(`/grc/a/${id}`);
 }
 
+/**
+ * The assessment details form posts every field on every save (there is no partial-patch
+ * form), so every field below is read and validated as required or explicitly optional —
+ * none of them silently falls back to a default the caller didn't ask for. A dedicated
+ * status picker should call `setAssessmentStatus` instead of a partial post here.
+ */
 export async function updateAssessment(_prev: ActionResult | null, fd: FormData): Promise<ActionResult> {
   try {
     const { assessment } = await requireAssessment(fd.get('assessmentId'));
     const title = str(fd.get('title'), 200, { required: true, field: 'Title' })!;
     const fiscalYear = optionalInt(fd.get('fiscalYear'), 1990, 2100, 'Fiscal year');
-    const periodStart = isoDate(fd.get('periodStart'), 'Period start');
-    const periodEnd = isoDate(fd.get('periodEnd'), 'Period end');
-    const status = oneOf(fd.get('status') ?? 'draft', ASSESSMENT_STATUSES, 'Status');
+    const periodStart = optionalDate(fd.get('periodStart'), 'Period start');
+    const periodEnd = optionalDate(fd.get('periodEnd'), 'Period end');
+    if (periodStart && periodEnd && periodEnd < periodStart) throw new ValidationError('period end is before period start');
+    const status = oneOf(fd.get('status'), ASSESSMENT_STATUSES, 'Status');
     const scope = str(fd.get('scope'), 2000, { field: 'Scope' });
     const lead = str(fd.get('lead'), 120, { field: 'Lead' });
 
@@ -238,6 +249,19 @@ export async function updateAssessment(_prev: ActionResult | null, fd: FormData)
     await getDb().update(assessments).set({
       title, fiscalYear, periodStart, periodEnd, status, scope, lead, folderId, updatedAt: new Date(),
     }).where(eq(assessments.id, assessment.id));
+  } catch (err) {
+    return fail(err);
+  }
+  revalidatePath(GRC_BASE, 'layout');
+  return { ok: true, message: 'saved' };
+}
+
+/** A lightweight status change (e.g. a header status picker) that doesn't require posting every other field. */
+export async function setAssessmentStatus(assessmentId: string, status: string): Promise<ActionResult> {
+  try {
+    const { assessment } = await requireAssessment(assessmentId);
+    const value = oneOf(status, ASSESSMENT_STATUSES, 'Status');
+    await getDb().update(assessments).set({ status: value, updatedAt: new Date() }).where(eq(assessments.id, assessment.id));
   } catch (err) {
     return fail(err);
   }
@@ -274,7 +298,7 @@ export interface ControlStatusInput {
 export async function setControlStatus(input: ControlStatusInput): Promise<ActionResult> {
   try {
     const { assessment } = await requireAssessment(input.assessmentId, 'iso27001');
-    if (!CONTROL_BY_ID[input.controlId]) throw new ValidationError('unknown control');
+    if (!Object.hasOwn(CONTROL_BY_ID, input.controlId)) throw new ValidationError('unknown control');
     const status = oneOf(input.status, CONTROL_STATUSES, 'Status');
     const patch: Partial<typeof controlStatuses.$inferInsert> = { status, updatedAt: new Date() };
     if (input.justification !== undefined) patch.justification = str(input.justification, 4000, { field: 'Justification' });
@@ -345,14 +369,20 @@ export async function saveRisk(_prev: ActionResult | null, fd: FormData): Promis
 }
 
 export async function deleteRisk(customerId: string, id: string): Promise<ActionResult> {
+  let resolvedCustomerId: string | null = null;
   try {
     const { customer } = await requireCustomer(customerId);
-    await getDb().delete(risks).where(and(eq(risks.id, id), eq(risks.customerId, customer.id)));
+    resolvedCustomerId = customer.id;
+    const riskId = str(id, 64, { required: true, field: 'risk id' })!;
+    const [deleted] = await getDb().delete(risks)
+      .where(and(eq(risks.id, riskId), eq(risks.customerId, customer.id)))
+      .returning({ id: risks.id });
+    if (!deleted) throw new ValidationError('risk not found');
   } catch (err) {
     return fail(err);
   }
   revalidatePath(GRC_BASE, 'layout');
-  redirect(`/grc/c/${customerId}/risks`);
+  redirect(`/grc/c/${resolvedCustomerId}/risks`);
 }
 
 export async function updateMethodology(_prev: ActionResult | null, fd: FormData): Promise<ActionResult> {

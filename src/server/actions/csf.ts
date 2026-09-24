@@ -47,7 +47,7 @@ async function requireIsoSource(customerId: string, fiscalYear: number | null): 
 export async function saveCsfScore(input: CsfScoreInput): Promise<ActionResult> {
   try {
     const { assessment } = await requireAssessment(input.assessmentId, 'nist-csf-2');
-    if (!CSF_BY_ID[input.subcategoryId]) throw new ValidationError('unknown subcategory');
+    if (!Object.hasOwn(CSF_BY_ID, input.subcategoryId)) throw new ValidationError('unknown subcategory');
     const p: Patch = {};
     if (input.current !== undefined) p.current = halfStep(input.current, 'Current');
     if (input.target !== undefined) p.target = halfStep(input.target, 'Target');
@@ -71,7 +71,7 @@ export async function saveCsfScore(input: CsfScoreInput): Promise<ActionResult> 
 export async function bulkSetTarget(assessmentId: string, categoryId: string, target: string): Promise<ActionResult> {
   try {
     const { assessment } = await requireAssessment(assessmentId, 'nist-csf-2');
-    if (!CSF_CATEGORY_BY_ID[categoryId]) throw new ValidationError('unknown category');
+    if (!Object.hasOwn(CSF_CATEGORY_BY_ID, categoryId)) throw new ValidationError('unknown category');
     const value = halfStep(target, 'Target');
     if (value === null) throw new ValidationError('choose a Target');
     for (const s of CSF_SUBCATEGORIES.filter((x) => x.category === categoryId)) await upsert(assessment.id, s.id, { target: value });
@@ -85,8 +85,8 @@ export async function bulkSetTarget(assessmentId: string, categoryId: string, ta
 export async function acceptSuggestion(assessmentId: string, subcategoryId: string): Promise<ActionResult> {
   try {
     const { customer, assessment } = await requireAssessment(assessmentId, 'nist-csf-2');
+    if (!Object.hasOwn(CSF_BY_ID, subcategoryId)) throw new ValidationError('unknown subcategory');
     const sub = CSF_BY_ID[subcategoryId];
-    if (!sub) throw new ValidationError('unknown subcategory');
     const sourceId = await requireIsoSource(customer.id, assessment.fiscalYear);
     const { value } = suggestCurrent(sub.iso27001, await getStatuses(sourceId));
     if (value === null) throw new ValidationError('no suggestion for this subcategory');

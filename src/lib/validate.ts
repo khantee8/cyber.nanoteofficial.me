@@ -75,15 +75,31 @@ export function optionalTier(v: unknown, field = 'Tier'): number | null {
 
 const BANGKOK_DATE = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok' });
 
+/** Format + real-calendar-date check shared by `isoDate` and `optionalDate`. */
+function parseCalendarDate(s: string, field: string): string {
+  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
+  const d = m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])) : null;
+  if (!m || !d || d.getUTCMonth() !== +m[2] - 1 || d.getUTCDate() !== +m[3]) throw new ValidationError(`${field} is not a valid date`);
+  return s;
+}
+
 /** A calendar date "YYYY-MM-DD" that exists and is not after today in Asia/Bangkok (the product's audience) — not UTC, which would reject a Thai user's local "today" between 00:00 and 06:59 ICT. */
 export function isoDate(v: unknown, field = 'date', today = new Date()): string | null {
   const s = typeof v === 'string' ? v.trim() : '';
   if (!s) return null;
-  const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
-  const d = m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])) : null;
-  if (!m || !d || d.getUTCMonth() !== +m[2] - 1 || d.getUTCDate() !== +m[3]) throw new ValidationError(`${field} is not a valid date`);
+  parseCalendarDate(s, field);
   if (s > BANGKOK_DATE.format(today)) throw new ValidationError(`${field} cannot be in the future`);
   return s;
+}
+
+/**
+ * A calendar date "YYYY-MM-DD" that exists, with no past/future constraint — for planning
+ * fields such as an assessment period that may legitimately be set ahead of today (e.g. FY2027).
+ */
+export function optionalDate(v: unknown, field = 'date'): string | null {
+  const s = typeof v === 'string' ? v.trim() : '';
+  if (!s) return null;
+  return parseCalendarDate(s, field);
 }
 
 export function bool(v: unknown): boolean {

@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { ValidationError, bool, halfStep, isoDate, optionalTier } from './validate';
+import { ValidationError, bool, halfStep, isoDate, optionalDate, optionalTier } from './validate';
 
 describe('halfStep', () => {
   it('accepts null-ish and multiples of 0.5 from 0 to 10', () => {
@@ -40,6 +40,20 @@ describe('isoDate', () => {
     const lateUtc = new Date('2026-09-23T20:00:00Z');
     expect(isoDate('2026-09-24', 'd', lateUtc)).toBe('2026-09-24');
     expect(() => isoDate('2026-09-25', 'd', lateUtc)).toThrow(ValidationError);
+  });
+});
+
+describe('optionalDate', () => {
+  it('accepts empty as null', () => {
+    expect(optionalDate('')).toBeNull(); expect(optionalDate(null)).toBeNull(); expect(optionalDate(undefined)).toBeNull();
+  });
+  it('accepts real dates in the past, present or future', () => {
+    expect(optionalDate('2020-01-01')).toBe('2020-01-01');
+    expect(optionalDate('2026-09-23')).toBe('2026-09-23');
+    expect(optionalDate('2027-12-31')).toBe('2027-12-31'); // a future fiscal-year period — must not be rejected
+  });
+  it('rejects malformed or impossible dates', () => {
+    for (const v of ['2026-9-1', '2026-02-30', '2026-13-01', 'yesterday']) expect(() => optionalDate(v, 'd'), v).toThrow(ValidationError);
   });
 });
 
