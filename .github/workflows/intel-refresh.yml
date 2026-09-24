@@ -1,7 +1,7 @@
 name: intel-refresh
 on:
   schedule:
-    - cron: '*/30 * * * *'
+    - cron: '7,37 * * * *'
   workflow_dispatch:
 permissions: {}
 jobs:
@@ -13,4 +13,4 @@ jobs:
         env:
           CRON_SECRET: ${{ secrets.CRON_SECRET }}
         run: |
-          curl -fsS --max-time 90 -H "Authorization: Bearer $CRON_SECRET" https://cyber.nanoteofficial.me/api/cron/intel
+          curl -fsS --max-time 90 --retry 2 --retry-all-errors -H "Authorization: Bearer $CRON_SECRET" https://cyber.nanoteofficial.me/api/cron/intel
