@@ -1,5 +1,22 @@
--- cyber v1.3.0: organisation → customer / folder / assessment. One transaction; aborts on any count mismatch.
+-- cyber v1.3.0: organisation → customer / folder / assessment.
+--
+-- Production: psql "$DATABASE_URL_UNPOOLED" -v ON_ERROR_STOP=1 -f scripts/migrate-v1.3.sql
+-- (the direct/unpooled URL, not the pooler — this holds an ACCESS EXCLUSIVE lock and
+-- issues DDL for the duration of the transaction, which doesn't belong on a pooled
+-- connection). Requires a clean exit 0 and a final COMMIT (the "COMMIT" acknowledgement
+-- printed at the end of a successful run) before deploying app code that depends on the
+-- new schema — a nonzero exit or a mid-run abort means the whole transaction rolled back
+-- and the database is still on the v1.2.0 shape.
+--
+-- One transaction; aborts on any count mismatch or unexpected data shape.
 BEGIN;
+
+SET LOCAL lock_timeout = '10s';
+-- Block the live v1.2.0 app from writing to any table this migration touches while it runs,
+-- rather than racing it. lock_timeout above means we fail fast (and roll back) instead of
+-- hanging if something already holds a conflicting lock.
+LOCK TABLE organisation, control_status, csf_score, csf_profile, risk, risk_methodology
+  IN ACCESS EXCLUSIVE MODE;
 
 CREATE TEMP TABLE _before AS SELECT
   (SELECT count(*) FROM organisation) AS orgs,
@@ -7,7 +24,20 @@ CREATE TEMP TABLE _before AS SELECT
   (SELECT count(*) FROM csf_score) AS scores,
   (SELECT count(*) FROM csf_profile) AS profiles,
   (SELECT count(*) FROM risk) AS risks,
-  (SELECT count(*) FROM risk_methodology) AS methods;
+  (SELECT count(*) FROM risk_methodology) AS methods,
+  (SELECT count(DISTINCT "organisationId") FROM control_status) AS orgs_with_iso,
+  (SELECT count(*) FROM organisation o
+     WHERE EXISTS (SELECT 1 FROM csf_score s WHERE s."organisationId" = o."id")
+        OR EXISTS (SELECT 1 FROM csf_profile p WHERE p."organisationId" = o."id")) AS orgs_with_csf;
+
+-- This migration assumes control_status is ISO-only (v1.2.0's control_status.framework
+-- column is dropped below without being read into the new assessment link); confirm that
+-- assumption holds before touching any data.
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM control_status WHERE framework <> 'iso27001') THEN
+    RAISE EXCEPTION 'non-ISO control_status rows present; migration assumes control_status is ISO-only';
+  END IF;
+END $$;
 
 CREATE TABLE customer (
   "id" text PRIMARY KEY NOT NULL, "name" text NOT NULL, "industry" text, "sizeBand" text, "notes" text,
@@ -102,6 +132,11 @@ DECLARE b _before%ROWTYPE;
 BEGIN
   SELECT * INTO b FROM _before;
   IF (SELECT count(*) FROM customer) <> b.orgs THEN RAISE EXCEPTION 'customer count % <> %', (SELECT count(*) FROM customer), b.orgs; END IF;
+  IF (SELECT count(*) FROM folder) <> b.orgs THEN RAISE EXCEPTION 'folder count % <> %', (SELECT count(*) FROM folder), b.orgs; END IF;
+  IF (SELECT count(*) FROM assessment) <> (b.orgs_with_iso + b.orgs_with_csf) THEN
+    RAISE EXCEPTION 'assessment count % <> % (orgs_with_iso % + orgs_with_csf %)',
+      (SELECT count(*) FROM assessment), (b.orgs_with_iso + b.orgs_with_csf), b.orgs_with_iso, b.orgs_with_csf;
+  END IF;
   IF (SELECT count(*) FROM control_status) <> b.statuses THEN RAISE EXCEPTION 'control_status count changed'; END IF;
   IF (SELECT count(*) FROM csf_score) <> b.scores THEN RAISE EXCEPTION 'csf_score count changed'; END IF;
   IF (SELECT count(*) FROM csf_profile) <> b.profiles THEN RAISE EXCEPTION 'csf_profile count changed'; END IF;
