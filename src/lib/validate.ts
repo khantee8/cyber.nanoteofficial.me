@@ -73,14 +73,16 @@ export function optionalTier(v: unknown, field = 'Tier'): number | null {
   return optionalInt(v, 1, 4, field);
 }
 
-/** A calendar date "YYYY-MM-DD" that exists and is not after today (UTC). */
+const BANGKOK_DATE = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Bangkok' });
+
+/** A calendar date "YYYY-MM-DD" that exists and is not after today in Asia/Bangkok (the product's audience) — not UTC, which would reject a Thai user's local "today" between 00:00 and 06:59 ICT. */
 export function isoDate(v: unknown, field = 'date', today = new Date()): string | null {
   const s = typeof v === 'string' ? v.trim() : '';
   if (!s) return null;
   const m = /^(\d{4})-(\d{2})-(\d{2})$/.exec(s);
   const d = m ? new Date(Date.UTC(+m[1], +m[2] - 1, +m[3])) : null;
   if (!m || !d || d.getUTCMonth() !== +m[2] - 1 || d.getUTCDate() !== +m[3]) throw new ValidationError(`${field} is not a valid date`);
-  if (s > today.toISOString().slice(0, 10)) throw new ValidationError(`${field} cannot be in the future`);
+  if (s > BANGKOK_DATE.format(today)) throw new ValidationError(`${field} cannot be in the future`);
   return s;
 }
 

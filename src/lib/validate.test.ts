@@ -34,6 +34,13 @@ describe('isoDate', () => {
   it('rejects malformed, impossible and future dates', () => {
     for (const v of ['2026-9-1', '2026-02-30', '2026-09-24', 'yesterday']) expect(() => isoDate(v, 'd', today), v).toThrow(ValidationError);
   });
+  it('treats "today" as the Asia/Bangkok calendar day, not the UTC day', () => {
+    // 2026-09-23T20:00Z is already 2026-09-24 03:00 ICT (UTC+7) — a Thai user should
+    // be able to enter today's local date, not have it rejected as "in the future".
+    const lateUtc = new Date('2026-09-23T20:00:00Z');
+    expect(isoDate('2026-09-24', 'd', lateUtc)).toBe('2026-09-24');
+    expect(() => isoDate('2026-09-25', 'd', lateUtc)).toThrow(ValidationError);
+  });
 });
 
 describe('bool', () => {
