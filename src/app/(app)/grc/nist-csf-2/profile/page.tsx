@@ -93,8 +93,8 @@ export default async function ProfilePage({ searchParams }: PageProps<'/grc/nist
                       <Link href={`${CSF_BASE}/profile/${s.id}`} className="leading-snug hover:text-accent">{pick(s.text, lang)}</Link>
                       {r?.inScope === false ? <span className="mono ml-2 text-[10.5px] uppercase text-muted-soft">{t(lang, 'csf.outOfScope')}</span> : null}
                     </td>
-                    <td className="px-2 py-2"><ScorePicker subcategoryId={s.id} field="current" value={r?.current ?? null} lang={lang} /></td>
-                    <td className="px-2 py-2"><ScorePicker subcategoryId={s.id} field="target" value={r?.target ?? null} lang={lang} /></td>
+                    <td className="px-2 py-2"><ScorePicker key={`${s.id}:current:${r?.current ?? ''}`} subcategoryId={s.id} field="current" value={r?.current ?? null} lang={lang} /></td>
+                    <td className="px-2 py-2"><ScorePicker key={`${s.id}:target:${r?.target ?? ''}`} subcategoryId={s.id} field="target" value={r?.target ?? null} lang={lang} /></td>
                     <td className="mono px-4 py-2.5 text-right text-[12.5px]">{g === null ? <span className="text-muted-soft">—</span> : g > 0 ? <span className="text-sev-high">−{g.toFixed(1)}</span> : '0.0'}</td>
                   </tr>
                 );
