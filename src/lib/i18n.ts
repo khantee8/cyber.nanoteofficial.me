@@ -287,7 +287,7 @@ const dict = {
   'grc.settings.highMax': { en: 'High up to', th: 'สูง ไม่เกิน' },
   'grc.settings.acceptMax': { en: 'Acceptance threshold', th: 'เกณฑ์การยอมรับ' },
   'grc.settings.reset': { en: 'Reset workspace', th: 'รีเซ็ตพื้นที่ทำงาน' },
-  'grc.settings.resetLede': { en: 'Deletes every control status and every risk in this workspace. The organisation profile stays. Type the organisation name to confirm.', th: 'ลบสถานะการควบคุมและความเสี่ยงทั้งหมดในพื้นที่ทำงานนี้ โปรไฟล์องค์กรยังคงอยู่ พิมพ์ชื่อองค์กรเพื่อยืนยัน' },
+  'grc.settings.resetLede': { en: 'Deletes every control status and every risk. The risk register is shared with NIST CSF 2.0, so its risks go too — CSF scores are not deleted. The organisation profile stays. Type the organisation name to confirm.', th: 'ลบสถานะการควบคุมและความเสี่ยงทั้งหมด ทะเบียนความเสี่ยงใช้ร่วมกับ NIST CSF 2.0 จึงถูกลบไปด้วย ส่วนคะแนน CSF จะไม่ถูกลบ โปรไฟล์องค์กรยังคงอยู่ พิมพ์ชื่อองค์กรเพื่อยืนยัน' },
   'grc.settings.resetDone': { en: 'Workspace reset.', th: 'รีเซ็ตพื้นที่ทำงานแล้ว' },
 
   // module pages (in design)
