@@ -15,13 +15,8 @@ export const INTEL_REVALIDATE_SECONDS = 3600;
 
 async function load(): Promise<IntelSnapshot> {
   if (!process.env.DATABASE_URL) return assembleSnapshot({}, fallback, new Date());
-  try {
-    const { readIntelRows } = await import('./db');
-    return assembleSnapshot(await readIntelRows(), fallback, new Date());
-  } catch (e) {
-    console.error('intel: DB read failed, serving fallback', e);
-    return assembleSnapshot({}, fallback, new Date());
-  }
+  const { readIntelRows } = await import('./db');
+  return assembleSnapshot(await readIntelRows(), fallback, new Date());
 }
 
 /**
@@ -29,10 +24,21 @@ async function load(): Promise<IntelSnapshot> {
  * cycle. Never calls upstream — only `/api/cron/intel` and `npm run intel:snapshot`
  * do that. `"use cache"` was deliberately not used (see CLAUDE.md).
  *
- * Health ages are computed when this is (re)assembled, at most once per refresh
- * cycle, so they can lag up to ~30 minutes behind reality; the next refresh
- * re-assembles.
+ * `load` is allowed to throw on a DB error, so `unstable_cache` never caches a
+ * fallback snapshot as if it were the real one — a transient read failure just
+ * falls through to `getIntelSnapshot`'s own catch below on this request, and the
+ * next call gets a fresh attempt instead of being stuck on the fallback until
+ * the next refresh or the 1 h safety-net revalidation.
  */
-export const getIntelSnapshot = unstable_cache(load, ['intel-snapshot-v2'], {
+const cached = unstable_cache(load, ['intel-snapshot-v2'], {
   revalidate: INTEL_REVALIDATE_SECONDS, tags: [INTEL_TAG],
 });
+
+export async function getIntelSnapshot(): Promise<IntelSnapshot> {
+  try {
+    return await cached();
+  } catch (e) {
+    console.error('intel: DB read failed, serving fallback', e);
+    return assembleSnapshot({}, fallback, new Date());
+  }
+}
