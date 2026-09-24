@@ -1,5 +1,6 @@
 import {
-  boolean, date, integer, jsonb, pgTable, primaryKey, real, text, timestamp, uniqueIndex,
+  boolean, date, index, integer, jsonb, pgTable, primaryKey, real, text, timestamp, uniqueIndex,
+  type AnyPgColumn,
 } from 'drizzle-orm/pg-core';
 import type { AdapterAccountType } from 'next-auth/adapters';
 
@@ -52,19 +53,51 @@ export const accessRequests = pgTable('access_request', {
 });
 
 // ── GRC ─────────────────────────────────────────────────────
-export const organisations = pgTable('organisation', {
+export const FRAMEWORK_IDS = ['iso27001', 'nist-csf-2'] as const;
+export type FrameworkId = (typeof FRAMEWORK_IDS)[number];
+export const ASSESSMENT_STATUSES = ['draft', 'in_progress', 'complete', 'archived'] as const;
+export const SIZE_BANDS = ['1-10', '11-50', '51-250', '251-1000', '1000+'] as const;
+
+export const customers = pgTable('customer', {
   id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
-  ownerId: text('ownerId').notNull().unique().references(() => users.id, { onDelete: 'cascade' }),
   name: text('name').notNull(),
-  scope: text('scope'),
   industry: text('industry'),
-  sizeBand: text('sizeBand', { enum: ['1-10', '11-50', '51-250', '251-1000', '1000+'] }),
-  ismsLead: text('ismsLead'),
+  sizeBand: text('sizeBand', { enum: SIZE_BANDS }),
+  notes: text('notes'),
+  createdBy: text('createdBy').references(() => users.id, { onDelete: 'set null' }),
   createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
+  archivedAt: timestamp('archivedAt', { mode: 'date' }),
 });
 
+export const folders = pgTable('folder', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  customerId: text('customerId').notNull().references(() => customers.id, { onDelete: 'cascade' }),
+  parentId: text('parentId').references((): AnyPgColumn => folders.id, { onDelete: 'cascade' }),
+  name: text('name').notNull(),
+  sortOrder: integer('sortOrder').notNull().default(0),
+  createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
+}, (t) => [index('folder_customer_parent').on(t.customerId, t.parentId)]);
+
+export const assessments = pgTable('assessment', {
+  id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
+  customerId: text('customerId').notNull().references(() => customers.id, { onDelete: 'cascade' }),
+  folderId: text('folderId').references(() => folders.id, { onDelete: 'set null' }),
+  framework: text('framework').notNull(),
+  title: text('title').notNull(),
+  fiscalYear: integer('fiscalYear'),
+  periodStart: date('periodStart', { mode: 'string' }),
+  periodEnd: date('periodEnd', { mode: 'string' }),
+  status: text('status', { enum: ASSESSMENT_STATUSES }).notNull().default('draft'),
+  scope: text('scope'),
+  lead: text('lead'),
+  basedOnId: text('basedOnId').references((): AnyPgColumn => assessments.id, { onDelete: 'set null' }),
+  createdBy: text('createdBy').references(() => users.id, { onDelete: 'set null' }),
+  createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
+  updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull().defaultNow(),
+}, (t) => [index('assessment_customer_folder').on(t.customerId, t.folderId)]);
+
 export const riskMethodologies = pgTable('risk_methodology', {
-  organisationId: text('organisationId').primaryKey().references(() => organisations.id, { onDelete: 'cascade' }),
+  customerId: text('customerId').primaryKey().references(() => customers.id, { onDelete: 'cascade' }),
   lowMax: integer('lowMax').notNull().default(4),
   mediumMax: integer('mediumMax').notNull().default(9),
   highMax: integer('highMax').notNull().default(15),
@@ -72,19 +105,18 @@ export const riskMethodologies = pgTable('risk_methodology', {
 });
 
 export const controlStatuses = pgTable('control_status', {
-  organisationId: text('organisationId').notNull().references(() => organisations.id, { onDelete: 'cascade' }),
-  framework: text('framework').notNull(),
+  assessmentId: text('assessmentId').notNull().references(() => assessments.id, { onDelete: 'cascade' }),
   controlId: text('controlId').notNull(),
   status: text('status', { enum: ['not_started', 'partial', 'implemented', 'not_applicable'] }).notNull().default('not_started'),
   justification: text('justification'),
   owner: text('owner'),
   evidenceUrls: jsonb('evidenceUrls').$type<string[]>().notNull().default([]),
   updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull().defaultNow(),
-}, (t) => [primaryKey({ columns: [t.organisationId, t.framework, t.controlId] })]);
+}, (t) => [primaryKey({ columns: [t.assessmentId, t.controlId] })]);
 
 export const risks = pgTable('risk', {
   id: text('id').primaryKey().$defaultFn(() => crypto.randomUUID()),
-  organisationId: text('organisationId').notNull().references(() => organisations.id, { onDelete: 'cascade' }),
+  customerId: text('customerId').notNull().references(() => customers.id, { onDelete: 'cascade' }),
   framework: text('framework').notNull(),
   ref: text('ref').notNull(),
   title: text('title').notNull(),
@@ -104,10 +136,10 @@ export const risks = pgTable('risk', {
   residualImpact: integer('residualImpact'),
   createdAt: timestamp('createdAt', { mode: 'date' }).notNull().defaultNow(),
   updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull().defaultNow(),
-}, (t) => [uniqueIndex('risk_org_ref').on(t.organisationId, t.ref)]);
+}, (t) => [uniqueIndex('risk_customer_ref').on(t.customerId, t.ref)]);
 
 export const csfScores = pgTable('csf_score', {
-  organisationId: text('organisationId').notNull().references(() => organisations.id, { onDelete: 'cascade' }),
+  assessmentId: text('assessmentId').notNull().references(() => assessments.id, { onDelete: 'cascade' }),
   subcategoryId: text('subcategoryId').notNull(),
   current: real('current'),
   target: real('target'),
@@ -121,17 +153,19 @@ export const csfScores = pgTable('csf_score', {
   notes: text('notes'),
   evidenceUrls: jsonb('evidenceUrls').$type<string[]>().notNull().default([]),
   updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull().defaultNow(),
-}, (t) => [primaryKey({ columns: [t.organisationId, t.subcategoryId] })]);
+}, (t) => [primaryKey({ columns: [t.assessmentId, t.subcategoryId] })]);
 
 export const csfProfiles = pgTable('csf_profile', {
-  organisationId: text('organisationId').primaryKey().references(() => organisations.id, { onDelete: 'cascade' }),
+  assessmentId: text('assessmentId').primaryKey().references(() => assessments.id, { onDelete: 'cascade' }),
   scope: text('scope'),
   currentTier: integer('currentTier'),
   targetTier: integer('targetTier'),
   updatedAt: timestamp('updatedAt', { mode: 'date' }).notNull().defaultNow(),
 });
 
-export type Organisation = typeof organisations.$inferSelect;
+export type Customer = typeof customers.$inferSelect;
+export type Folder = typeof folders.$inferSelect;
+export type Assessment = typeof assessments.$inferSelect;
 export type Risk = typeof risks.$inferSelect;
 export type ControlStatusRow = typeof controlStatuses.$inferSelect;
 export type CsfScore = typeof csfScores.$inferSelect;
