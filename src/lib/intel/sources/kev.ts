@@ -1,3 +1,4 @@
+import type { FetchResult } from '../store';
 import { fetchJson, isRecord, str, type KevEntry } from '../types';
 
 export const KEV_URL = 'https://www.cisa.gov/sites/default/files/feeds/known_exploited_vulnerabilities.json';
@@ -37,5 +38,22 @@ export async function fetchKev(signal?: AbortSignal): Promise<KevEntry[] | null>
     return parseKev(raw);
   } catch {
     return null;
+  }
+}
+
+/** KEV with HTTP validators: a 304 means "unchanged since last time" and costs no download. Never throws. */
+export async function fetchKevConditional(
+  v: { etag: string | null; lastModified: string | null }, signal?: AbortSignal,
+): Promise<FetchResult<KevEntry[]>> {
+  try {
+    const headers: Record<string, string> = { accept: 'application/json', 'user-agent': 'nanote-cyber/1.0 (+https://cyber.nanoteofficial.me)' };
+    if (v.etag) headers['if-none-match'] = v.etag;
+    if (v.lastModified) headers['if-modified-since'] = v.lastModified;
+    const res = await fetch(KEV_URL, { headers, signal: signal ?? AbortSignal.timeout(20000), cache: 'no-store' });
+    if (res.status === 304) return { kind: 'not_modified' };
+    if (!res.ok) return { kind: 'failed', error: `HTTP ${res.status}` };
+    return { kind: 'ok', data: parseKev(await res.json()), etag: res.headers.get('etag'), lastModified: res.headers.get('last-modified') };
+  } catch (e) {
+    return { kind: 'failed', error: e instanceof Error ? e.message : 'fetch failed' };
   }
 }
