@@ -52,4 +52,12 @@ describe('refreshSources', () => {
     const { rows } = await refreshSources({}, now, deps({ kev: async () => ({ kind: 'ok', data: many }) }));
     expect(rows.kev?.data).toHaveLength(60);
   });
+  it('catches a synchronous throw from kev and continues refreshing', async () => {
+    const throwingKev = (() => { throw new Error('sync'); }) as never;
+    const { outcome, rows } = await refreshSources({}, now, deps({ kev: throwingKev }));
+    expect(outcome.kev).toBe('failed');
+    expect(rows.kev?.error).toBeTruthy();
+    expect(outcome.ransomware).toBe('ok');
+    expect(outcome.news).toBe('ok');
+  });
 });

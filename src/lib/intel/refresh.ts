@@ -37,6 +37,14 @@ async function wrap<T>(fn: () => Promise<T | null>): Promise<FetchResult<T>> {
   }
 }
 
+async function safe(fn: () => Promise<FetchResult<KevEntry[]>>): Promise<FetchResult<KevEntry[]>> {
+  try {
+    return await fn();
+  } catch (e) {
+    return { kind: 'failed', error: e instanceof Error ? e.message : 'failed' };
+  }
+}
+
 /** Run every fetcher against the previous rows. Network only through `deps`; never throws. */
 export async function refreshSources(prev: SourceRows, now: Date, deps: Partial<RefreshDeps> = {}) {
   const d: RefreshDeps = { ...live, ...deps };
@@ -44,12 +52,13 @@ export async function refreshSources(prev: SourceRows, now: Date, deps: Partial<
   const outcome = {} as RefreshOutcome;
   const put = <K extends SourceId>(id: K, r: FetchResult<SourceDataMap[K]>) => {
     (rows as Record<SourceId, unknown>)[id] = mergeSourceRow(id, prev[id] as never, r, now);
-    outcome[id] = r.kind === 'failed' ? 'failed' : r.kind;
+    outcome[id] = r.kind;
   };
 
-  const kevResult = await d.kev({ etag: prev.kev?.etag ?? null, lastModified: prev.kev?.lastModified ?? null })
-    .catch((e): FetchResult<KevEntry[]> => ({ kind: 'failed', error: String(e) }));
-  const [rw, c2, isc, news] = await Promise.all([wrap(d.ransomware), wrap(d.feodo), wrap(d.isc), wrap(d.news)]);
+  const [kevResult, rw, c2, isc, news] = await Promise.all([
+    safe(() => d.kev({ etag: prev.kev?.etag ?? null, lastModified: prev.kev?.lastModified ?? null })),
+    wrap(d.ransomware), wrap(d.feodo), wrap(d.isc), wrap(d.news),
+  ]);
   put('kev', kevResult.kind === 'ok' ? { ...kevResult, data: kevResult.data.slice(0, KEV_KEEP) } : kevResult);
   put('ransomware', rw.kind === 'ok' ? { kind: 'ok', data: rw.data.slice(0, RANSOMWARE_KEEP) } : rw);
   put('feodo', c2);
