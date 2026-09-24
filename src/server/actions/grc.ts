@@ -55,6 +55,7 @@ export async function updateOrganisation(_prev: ActionResult | null, fd: FormDat
     return fail(err);
   }
   revalidatePath(BASE, 'layout');
+  revalidatePath(CSF_BASE, 'layout');
   return { ok: true, message: 'saved' };
 }
 
@@ -82,6 +83,7 @@ export async function setControlStatus(input: ControlStatusInput): Promise<Actio
     return fail(err);
   }
   revalidatePath(BASE, 'layout');
+  revalidatePath(CSF_BASE, 'layout');
   return { ok: true, message: 'saved' };
 }
 
@@ -162,6 +164,7 @@ export async function updateMethodology(_prev: ActionResult | null, fd: FormData
     return fail(err);
   }
   revalidatePath(BASE, 'layout');
+  revalidatePath(CSF_BASE, 'layout');
   return { ok: true, message: 'saved' };
 }
 
@@ -177,5 +180,6 @@ export async function resetWorkspace(_prev: ActionResult | null, fd: FormData): 
     return fail(err);
   }
   revalidatePath(BASE, 'layout');
+  revalidatePath(CSF_BASE, 'layout');
   return { ok: true, message: 'reset' };
 }
