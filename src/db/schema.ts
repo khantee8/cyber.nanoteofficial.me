@@ -136,3 +136,15 @@ export type Risk = typeof risks.$inferSelect;
 export type ControlStatusRow = typeof controlStatuses.$inferSelect;
 export type CsfScore = typeof csfScores.$inferSelect;
 export type CsfProfile = typeof csfProfiles.$inferSelect;
+
+// ── Threat Intel ────────────────────────────────────────────
+export const intelSources = pgTable('intel_source', {
+  source: text('source').primaryKey(),
+  data: jsonb('data'),
+  fetchedAt: timestamp('fetchedAt', { mode: 'date' }),
+  attemptedAt: timestamp('attemptedAt', { mode: 'date' }).notNull().defaultNow(),
+  error: text('error'),
+  etag: text('etag'),
+  lastModified: text('lastModified'),
+});
+export type IntelSourceRow = typeof intelSources.$inferSelect;

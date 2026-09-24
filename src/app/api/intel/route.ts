@@ -1,4 +1,4 @@
-import { getIntelSnapshot, INTEL_REVALIDATE_SECONDS } from '@/lib/intel/snapshot';
+import { getIntelSnapshot } from '@/lib/intel/snapshot';
 
 /**
  * Public JSON view of the Threat Intel snapshot. Same cached object the pages
@@ -8,7 +8,7 @@ export async function GET() {
   const snapshot = await getIntelSnapshot();
   return Response.json(snapshot, {
     headers: {
-      'Cache-Control': `public, s-maxage=${INTEL_REVALIDATE_SECONDS}, stale-while-revalidate=300`,
+      'Cache-Control': 'public, s-maxage=300, stale-while-revalidate=600',
     },
   });
 }
