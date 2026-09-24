@@ -15,9 +15,9 @@ export function PanelHeader({ title, sub, source, right, age, lang }: { title: s
         {sub ? <p className="mt-0.5 text-[12px] leading-snug text-muted">{sub}</p> : null}
         {age && lang ? (
           age.status === 'down' ? (
-            <span className="mono text-[10.5px]" style={{ color: 'var(--sev-critical)' }}>{t(lang, 'intel.health.down')}</span>
+            <span className="mono text-[10.5px]" style={{ color: 'var(--sev-critical)' }} suppressHydrationWarning>{t(lang, 'intel.health.down')}</span>
           ) : (
-            <span className="mono text-[10.5px]" style={{ color: age.status === 'ok' ? 'var(--muted-soft)' : 'var(--sev-medium)' }}>{t(lang, 'intel.updated', { ago: ago(age.fetchedAt, new Date(), lang) })}</span>
+            <span className="mono text-[10.5px]" style={{ color: age.status === 'ok' ? 'var(--muted-soft)' : 'var(--sev-medium)' }} suppressHydrationWarning>{t(lang, 'intel.updated', { ago: ago(age.fetchedAt, new Date(), lang) })}</span>
           )
         ) : null}
       </div>
@@ -143,9 +143,7 @@ export function InfraPanel({ snapshot, lang, country }: { snapshot: IntelSnapsho
   const c2 = country ? snapshot.c2.filter((c) => c.country === country) : snapshot.c2;
   const feodo = snapshot.health.feodo;
   const isc = snapshot.health.isc;
-  const age = feodo.status === 'stale' || isc.status === 'stale'
-    ? feodo.status === 'stale' ? feodo : isc
-    : new Date(feodo.fetchedAt) < new Date(isc.fetchedAt) ? feodo : isc;
+  const age = feodo.status === 'down' ? feodo : isc.status === 'down' ? isc : new Date(feodo.fetchedAt) < new Date(isc.fetchedAt) ? feodo : isc;
   return (
     <section className="panel min-w-0 overflow-hidden">
       <PanelHeader title={t(lang, 'intel.infra.title')} sub={t(lang, 'intel.infra.sub')} source="abuse.ch · SANS" age={age} lang={lang} />
