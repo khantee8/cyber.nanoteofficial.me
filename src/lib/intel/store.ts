@@ -89,7 +89,11 @@ export function assembleSnapshot(rows: SourceRows, fallback: IntelSnapshot | und
   const isc = pick('isc');
   const headlines = pick('news');
 
-  const fetched = SOURCE_IDS.map((id) => rows[id]?.fetchedAt).filter((x): x is string => !!x).sort();
+  const fetched = SOURCE_IDS
+    .map((id) => health[id])
+    .filter((h): h is SourceHealth => h.status !== 'down')
+    .map((h) => h.fetchedAt)
+    .sort();
   const partial = { kev, ransomware, c2, isc };
   return {
     generatedAt: fetched.length ? fetched[fetched.length - 1] : now.toISOString(),

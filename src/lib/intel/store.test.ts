@@ -78,6 +78,15 @@ describe('assembleSnapshot', () => {
     expect(s.health.kev).toMatchObject({ status: 'stale', fetchedAt: fallback.health.kev.fetchedAt });
     expect(s.isc.infocon).toBe('yellow');
   });
+  it('uses the fallback capture time as generatedAt when there are no DB rows at all', async () => {
+    const ok: Fetchers = {
+      kev: async () => [kev('CVE-2026-0009')], epss: async () => new Map(), ransomware: async () => [],
+      feodo: async () => [], isc: async () => ({ infocon: 'yellow', topPorts: [] }), news: async () => [],
+    };
+    const fallback = await buildIntelSnapshot(ok, undefined, new Date('2026-09-08T00:00:00Z'));
+    const s = assembleSnapshot({}, fallback, now);
+    expect(s.generatedAt).toBe(fallback.generatedAt);
+  });
   it('returns an all-down empty snapshot with no rows and no fallback, dated now', () => {
     const s = assembleSnapshot({}, undefined, now);
     expect(s.generatedAt).toBe(now.toISOString());
