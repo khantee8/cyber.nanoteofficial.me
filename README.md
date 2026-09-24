@@ -4,7 +4,7 @@
 
 | Module | Status | What it does |
 |---|---|---|
-| Threat Intel | live, public | Ops view over free feeds: CISA KEV joined with FIRST EPSS, ransomware claims by country and sector, botnet C2 servers, most-attacked ports, headlines. SVG world map, 15-minute refresh, graceful fallback, public JSON at `/api/intel`. |
+| Threat Intel | live, public | Ops view over free feeds: CISA KEV joined with FIRST EPSS, ransomware claims by country and sector, botnet C2 servers, most-attacked ports, headlines. SVG world map, background refresh every 30 min into Postgres (pages never call upstream), per-panel data age, graceful fallback, public JSON at `/api/intel`. |
 | GRC · ISO/IEC 27001:2022 | available, invite-only | ISMS workspace: all 93 Annex A controls with status, owner, justification and evidence links; gap assessment by theme; 5×5 risk register with treatment and residual scoring; Statement of Applicability with CSV export. |
 | GRC · NIST CSF 2.0 | available, invite-only | Organisational Profile: Current/Target on a 0–10 scale for all 106 subcategories, gap analysis by Function and Category, Function ratings, Tiers, NIST Implementation Examples, cross-referenced to the ISO 27001 assessment with suggestions, shared risk register, CSV export. |
 | GRC · CRAF | in design | Registry seam is in place; assessment follows. |
