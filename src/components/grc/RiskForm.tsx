@@ -27,8 +27,8 @@ function Scale({ name, value, onChange, label }: { name: string; value: number; 
   );
 }
 
-export default function RiskForm({ risk, methodology, lang, csfOptions }: {
-  risk: Risk | null; methodology: Methodology; lang: Lang; csfOptions: { id: string; text: LStr }[];
+export default function RiskForm({ customerId, risk, methodology, lang, csfOptions }: {
+  customerId: string; risk: Risk | null; methodology: Methodology; lang: Lang; csfOptions: { id: string; text: LStr }[];
 }) {
   const [state, action, pending] = useActionState<ActionResult | null, FormData>(saveRisk, null);
   const [likelihood, setL] = useState(risk?.likelihood ?? 3);
@@ -54,6 +54,7 @@ export default function RiskForm({ risk, methodology, lang, csfOptions }: {
 
   return (
     <form action={action} className="flex flex-col gap-5">
+      <input type="hidden" name="customerId" value={customerId} />
       {risk ? <input type="hidden" name="id" value={risk.id} /> : null}
       <label className="flex flex-col gap-1 text-[13px]">
         <span className="text-muted">{t(lang, 'grc.risk.title')}</span>

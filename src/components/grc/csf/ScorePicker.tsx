@@ -6,8 +6,8 @@ import { SCORE_STEPS, band, bandColor } from '@/lib/grc/nist-csf-2/scale';
 import type { Lang } from '@/lib/lang';
 import { t } from '@/lib/i18n';
 
-export default function ScorePicker({ subcategoryId, field, value, lang }: {
-  subcategoryId: string; field: 'current' | 'target'; value: number | null; lang: Lang;
+export default function ScorePicker({ assessmentId, subcategoryId, field, value, lang }: {
+  assessmentId: string; subcategoryId: string; field: 'current' | 'target'; value: number | null; lang: Lang;
 }) {
   const [v, setV] = useState<number | null>(value);
   const [pending, start] = useTransition();
@@ -26,7 +26,7 @@ export default function ScorePicker({ subcategoryId, field, value, lang }: {
           const prev = v;
           setV(next); setError(null);
           start(async () => {
-            const res = await saveCsfScore({ subcategoryId, [field]: next });
+            const res = await saveCsfScore({ assessmentId, subcategoryId, [field]: next });
             if (!res.ok) { setV(prev); setError(res.message ?? t(lang, 'common.error')); }
           });
         }}

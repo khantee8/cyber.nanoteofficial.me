@@ -7,8 +7,8 @@ import type { Lang } from '@/lib/lang';
 import { t } from '@/lib/i18n';
 
 export default function ControlDetailForm({
-  controlId, status, justification, owner, evidenceUrls, lang,
-}: { controlId: string; status: ControlStatusValue; justification: string; owner: string; evidenceUrls: string[]; lang: Lang }) {
+  assessmentId, controlId, status, justification, owner, evidenceUrls, lang,
+}: { assessmentId: string; controlId: string; status: ControlStatusValue; justification: string; owner: string; evidenceUrls: string[]; lang: Lang }) {
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   return (
@@ -20,6 +20,7 @@ export default function ControlDetailForm({
         setMsg(null);
         start(async () => {
           const res = await setControlStatus({
+            assessmentId,
             controlId,
             status: String(fd.get('status')),
             justification: String(fd.get('justification') ?? ''),

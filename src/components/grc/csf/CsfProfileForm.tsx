@@ -10,10 +10,11 @@ import { t } from '@/lib/i18n';
 const TIERS = [1, 2, 3, 4] as const;
 const TIER_KEY = { 1: 'csf.tier.1', 2: 'csf.tier.2', 3: 'csf.tier.3', 4: 'csf.tier.4' } as const;
 
-export default function CsfProfileForm({ profile, lang }: { profile: CsfProfile | null; lang: Lang }) {
+export default function CsfProfileForm({ assessmentId, profile, lang }: { assessmentId: string; profile: CsfProfile | null; lang: Lang }) {
   const [state, action, pending] = useActionState<ActionResult | null, FormData>(saveCsfProfile, null);
   return (
     <form action={action} className="flex flex-col gap-4">
+      <input type="hidden" name="assessmentId" value={assessmentId} />
       <label className="flex flex-col gap-1 text-[13px]">
         <span className="text-muted">{t(lang, 'csf.settings.scope')}</span>
         <textarea name="scope" rows={4} maxLength={2000} defaultValue={profile?.scope ?? ''} className="field leading-relaxed" placeholder={t(lang, 'csf.settings.scopeHint')} />

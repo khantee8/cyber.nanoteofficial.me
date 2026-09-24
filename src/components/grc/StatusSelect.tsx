@@ -10,7 +10,7 @@ const colors: Record<ControlStatusValue, string> = {
   not_started: 'var(--muted-soft)', partial: 'var(--sev-medium)', implemented: 'var(--accent)', not_applicable: 'var(--sev-low)',
 };
 
-export default function StatusSelect({ controlId, value, lang }: { controlId: string; value: ControlStatusValue; lang: Lang }) {
+export default function StatusSelect({ assessmentId, controlId, value, lang }: { assessmentId: string; controlId: string; value: ControlStatusValue; lang: Lang }) {
   const [current, setCurrent] = useState(value);
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -27,7 +27,7 @@ export default function StatusSelect({ controlId, value, lang }: { controlId: st
           setCurrent(next);
           setError(null);
           start(async () => {
-            const res = await setControlStatus({ controlId, status: next });
+            const res = await setControlStatus({ assessmentId, controlId, status: next });
             if (!res.ok) { setCurrent(prev); setError(res.message ?? 'error'); }
           });
         }}

@@ -6,7 +6,7 @@ import type { Methodology } from '@/lib/grc/iso27001/score';
 import type { Lang } from '@/lib/lang';
 import { t } from '@/lib/i18n';
 
-export default function MethodologyForm({ m, lang }: { m: Methodology; lang: Lang }) {
+export default function MethodologyForm({ customerId, m, lang }: { customerId: string; m: Methodology; lang: Lang }) {
   const [state, action, pending] = useActionState<ActionResult | null, FormData>(updateMethodology, null);
   const fields: { name: keyof Methodology; key: 'grc.settings.lowMax' | 'grc.settings.mediumMax' | 'grc.settings.highMax' | 'grc.settings.acceptMax' }[] = [
     { name: 'lowMax', key: 'grc.settings.lowMax' },
@@ -16,6 +16,7 @@ export default function MethodologyForm({ m, lang }: { m: Methodology; lang: Lan
   ];
   return (
     <form action={action} className="flex flex-col gap-4">
+      <input type="hidden" name="customerId" value={customerId} />
       <div className="grid gap-4 sm:grid-cols-4">
         {fields.map((f) => (
           <label key={f.name} className="flex flex-col gap-1 text-[13px]">

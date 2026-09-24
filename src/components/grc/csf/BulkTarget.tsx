@@ -6,7 +6,7 @@ import { SCORE_STEPS } from '@/lib/grc/nist-csf-2/scale';
 import type { Lang } from '@/lib/lang';
 import { t } from '@/lib/i18n';
 
-export default function BulkTarget({ categoryId, lang }: { categoryId: string; lang: Lang }) {
+export default function BulkTarget({ assessmentId, categoryId, lang }: { assessmentId: string; categoryId: string; lang: Lang }) {
   const [v, setV] = useState('6');
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<string | null>(null);
@@ -20,7 +20,7 @@ export default function BulkTarget({ categoryId, lang }: { categoryId: string; l
       </label>
       <button type="button" disabled={pending} className="btn h-7 min-h-0 px-2 text-[11.5px]"
         onClick={() => start(async () => {
-          const res = await bulkSetTarget(categoryId, v);
+          const res = await bulkSetTarget(assessmentId, categoryId, v);
           setMsg(res.ok ? t(lang, 'common.saved') : (res.message ?? t(lang, 'common.error')));
         })}>
         {t(lang, 'csf.bulk.apply')}

@@ -7,8 +7,8 @@ import type { Suggestion } from '@/lib/grc/nist-csf-2/score';
 import type { Lang } from '@/lib/lang';
 import { t } from '@/lib/i18n';
 
-export default function SuggestionPanel({ subcategoryId, suggestion, current, lang }: {
-  subcategoryId: string; suggestion: Suggestion; current: number | null; lang: Lang;
+export default function SuggestionPanel({ assessmentId, subcategoryId, suggestion, current, lang, base }: {
+  assessmentId: string; subcategoryId: string; suggestion: Suggestion; current: number | null; lang: Lang; base: string;
 }) {
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -24,7 +24,7 @@ export default function SuggestionPanel({ subcategoryId, suggestion, current, la
           {current !== suggestion.value ? (
             <button type="button" disabled={pending} className="btn h-8 min-h-0 text-[12.5px]"
               onClick={() => start(async () => {
-                const res = await acceptSuggestion(subcategoryId);
+                const res = await acceptSuggestion(assessmentId, subcategoryId);
                 if (!res.ok) setError(res.message ?? t(lang, 'common.error'));
               })}>
               {t(lang, 'csf.suggest.accept', { v: suggestion.value.toFixed(1) })}
@@ -36,7 +36,7 @@ export default function SuggestionPanel({ subcategoryId, suggestion, current, la
       <ul className="mono mt-3 flex flex-wrap gap-1.5 text-[11px]">
         {suggestion.parts.map((p) => (
           <li key={p.controlId}>
-            <Link href={`/grc/iso27001/controls/${p.controlId}`} className="rounded border border-line px-1.5 py-0.5 text-muted hover:text-fg">
+            <Link href={`${base}/controls/${p.controlId}`} className="rounded border border-line px-1.5 py-0.5 text-muted hover:text-fg">
               {p.controlId} · {p.status ? t(lang, `grc.status.${p.status}`) : '—'}{p.weight !== null ? ` · ${p.weight}` : ''}
             </Link>
           </li>

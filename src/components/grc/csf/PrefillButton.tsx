@@ -5,7 +5,7 @@ import { prefillFromIso } from '@/server/actions/csf';
 import type { Lang } from '@/lib/lang';
 import { t } from '@/lib/i18n';
 
-export default function PrefillButton({ count, lang }: { count: number; lang: Lang }) {
+export default function PrefillButton({ assessmentId, count, lang }: { assessmentId: string; count: number; lang: Lang }) {
   const [pending, start] = useTransition();
   const [msg, setMsg] = useState<string | null>(null);
   return (
@@ -13,7 +13,7 @@ export default function PrefillButton({ count, lang }: { count: number; lang: La
       <span className="text-[13px]">{t(lang, 'csf.prefill.count', { n: count })}</span>
       <button type="button" disabled={pending || count === 0} className="btn h-9 min-h-0 text-[13px]"
         onClick={() => start(async () => {
-          const res = await prefillFromIso();
+          const res = await prefillFromIso(assessmentId);
           setMsg(res.ok ? t(lang, 'csf.prefill.done', { n: res.count ?? 0 }) : (res.message ?? t(lang, 'common.error')));
         })}>
         {t(lang, 'csf.prefill.button', { n: count })}

@@ -36,8 +36,8 @@ type SaveMsg = { ok: boolean; text: string } | null;
  * remount must never carry the save confirmation, so status is reported
  * upward via `onResult` instead of being held here — see CsfScoreForm below.
  */
-function Fields({ subcategoryId, initial, lang, onResult }: {
-  subcategoryId: string; initial: CsfScore | null; lang: Lang; onResult: (msg: SaveMsg) => void;
+function Fields({ assessmentId, subcategoryId, initial, lang, onResult }: {
+  assessmentId: string; subcategoryId: string; initial: CsfScore | null; lang: Lang; onResult: (msg: SaveMsg) => void;
 }) {
   const [current, setCurrent] = useState(initial?.current == null ? '' : String(initial.current));
   const [target, setTarget] = useState(initial?.target == null ? '' : String(initial.target));
@@ -51,6 +51,7 @@ function Fields({ subcategoryId, initial, lang, onResult }: {
         onResult(null);
         start(async () => {
           const res = await saveCsfScore({
+            assessmentId,
             subcategoryId,
             current, target,
             inScope: fd.get('inScope') === 'on',
@@ -112,11 +113,11 @@ function Fields({ subcategoryId, initial, lang, onResult }: {
   );
 }
 
-export default function CsfScoreForm({ subcategoryId, initial, lang }: { subcategoryId: string; initial: CsfScore | null; lang: Lang }) {
+export default function CsfScoreForm({ assessmentId, subcategoryId, initial, lang }: { assessmentId: string; subcategoryId: string; initial: CsfScore | null; lang: Lang }) {
   const [msg, setMsg] = useState<SaveMsg>(null);
   return (
     <div className="flex flex-col gap-3">
-      <Fields key={String(initial?.updatedAt ?? '')} subcategoryId={subcategoryId} initial={initial} lang={lang} onResult={setMsg} />
+      <Fields key={String(initial?.updatedAt ?? '')} assessmentId={assessmentId} subcategoryId={subcategoryId} initial={initial} lang={lang} onResult={setMsg} />
       {msg ? <span className={`text-[12px] ${msg.ok ? 'text-accent' : 'text-sev-critical'}`}>{msg.text}</span> : null}
     </div>
   );
