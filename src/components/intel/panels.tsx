@@ -3,21 +3,28 @@
 import type { ReactNode } from 'react';
 import type { IntelSnapshot, SourceHealth } from '@/lib/intel/aggregate';
 import { ago, epssBand, fmtDate, fmtInt, sevColor } from '@/lib/intel/format';
+import { healthFromAge } from '@/lib/intel/store';
 import type { Lang } from '@/lib/lang';
 import { t } from '@/lib/i18n';
 import Icon from '@/components/site/Icon';
 
 export function PanelHeader({ title, sub, source, right, age, lang }: { title: string; sub?: string; source?: string; right?: ReactNode; age?: SourceHealth; lang?: Lang }) {
+  // `age.status` was computed when the snapshot was assembled, up to ~30 min
+  // ago; re-derive it from the fetch age at render time so it doesn't lag.
+  // 'down' (never a successful fetch) is the one status that assembly time
+  // knows and render time can't recompute from `fetchedAt` alone, so it's
+  // kept as-is.
+  const status = age ? (age.status === 'down' ? 'down' : healthFromAge(age.fetchedAt, new Date())) : undefined;
   return (
     <header className="flex items-start justify-between gap-3 border-b border-line px-4 py-3">
       <div className="min-w-0">
         <h3 className="text-[14px] font-semibold tracking-tight">{title}</h3>
         {sub ? <p className="mt-0.5 text-[12px] leading-snug text-muted">{sub}</p> : null}
         {age && lang ? (
-          age.status === 'down' ? (
+          status === 'down' ? (
             <span className="mono text-[10.5px]" style={{ color: 'var(--sev-critical)' }} suppressHydrationWarning>{t(lang, 'intel.health.down')}</span>
           ) : (
-            <span className="mono text-[10.5px]" style={{ color: age.status === 'ok' ? 'var(--muted-soft)' : 'var(--sev-medium)' }} suppressHydrationWarning>{t(lang, 'intel.updated', { ago: ago(age.fetchedAt, new Date(), lang) })}</span>
+            <span className="mono text-[10.5px]" style={{ color: status === 'ok' ? 'var(--muted-soft)' : 'var(--sev-medium)' }} suppressHydrationWarning>{t(lang, 'intel.updated', { ago: ago(age.fetchedAt, new Date(), lang) })}</span>
           )
         ) : null}
       </div>

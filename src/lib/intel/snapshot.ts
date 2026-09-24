@@ -13,6 +13,14 @@ export const INTEL_TAG = 'intel';
 /** Safety net only: the refresh job invalidates INTEL_TAG every 30 minutes. */
 export const INTEL_REVALIDATE_SECONDS = 3600;
 
+/**
+ * Assembles `health[id].status` from each row's `fetchedAt` at cache-fill time,
+ * so it's at most ~30 min stale by the time a page renders it. That's fine:
+ * `PanelHeader` re-derives the *displayed* status from `fetchedAt` with
+ * `healthFromAge` at render time (down excepted, since that can't be recomputed
+ * from an age alone), so only the underlying `fetchedAt`/`data` lag — never the
+ * ok/stale label shown to a visitor.
+ */
 async function load(): Promise<IntelSnapshot> {
   if (!process.env.DATABASE_URL) return assembleSnapshot({}, fallback, new Date());
   const { readIntelRows } = await import('./db');
