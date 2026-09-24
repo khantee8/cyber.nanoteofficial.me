@@ -21,6 +21,12 @@ describe('ancestorsOf', () => {
     expect(ancestorsOf(rows, 'c').map((r) => r.id)).toEqual(['a', 'b']);
     expect(ancestorsOf(rows, 'a')).toEqual([]);
   });
+  it('survives cyclic data and excludes the starting folder', () => {
+    const rows = [f('a', 'b'), f('b', 'a')]; // 2-cycle
+    const result = ancestorsOf(rows, 'a').map((r) => r.id);
+    expect(result).not.toContain('a');
+    expect(result).toEqual(['b']);
+  });
 });
 
 describe('canMove', () => {
@@ -42,5 +48,9 @@ describe('canMove', () => {
     const sub = [f('s0', null), f('s1', 's0')];              // a 2-level subtree
     expect(canMove([...chain, ...sub], 's0', `n${MAX_FOLDER_DEPTH - 2}`)).toEqual({ ok: false, reason: 'depth' });
     expect(canMove([...chain, ...sub], 's0', `n${MAX_FOLDER_DEPTH - 3}`)).toEqual({ ok: true });
+  });
+  it('survives cyclic folder data and rejects the move', () => {
+    const rows = [f('a', 'b'), f('b', 'a')]; // 2-cycle
+    expect(canMove(rows, 'a', null)).toEqual({ ok: false, reason: 'cycle' });
   });
 });
