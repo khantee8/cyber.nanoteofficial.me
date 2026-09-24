@@ -2,6 +2,7 @@ import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { BASE, loadWorkspace } from '@/lib/grc/workspace';
 import { getRisk } from '@/lib/grc/queries';
+import { CSF_SUBCATEGORIES } from '@/lib/grc/nist-csf-2/catalogue';
 import { riskBand, riskScore } from '@/lib/grc/iso27001/score';
 import { t } from '@/lib/i18n';
 import RiskForm from '@/components/grc/RiskForm';
@@ -14,6 +15,7 @@ export default async function RiskPage({ params }: PageProps<'/grc/iso27001/risk
   const risk = await getRisk(org.id, id);
   if (!risk) notFound();
   const s = riskScore(risk.likelihood, risk.impact);
+  const csfOptions = CSF_SUBCATEGORIES.map((sub) => ({ id: sub.id, text: sub.text }));
   return (
     <div className="mx-auto max-w-3xl">
       <Link href={`${BASE}/risks`} className="mono text-[11px] uppercase tracking-wider text-muted-soft hover:text-fg">← {t(lang, 'grc.risks.title')}</Link>
@@ -29,7 +31,7 @@ export default async function RiskPage({ params }: PageProps<'/grc/iso27001/risk
         {t(lang, 'grc.risk.created')} {risk.createdAt.toISOString().slice(0, 10)} · {t(lang, 'grc.risk.updated')} {risk.updatedAt.toISOString().slice(0, 10)}
       </p>
       <div className="panel mt-6 p-5">
-        <RiskForm risk={risk} methodology={methodology} lang={lang} />
+        <RiskForm risk={risk} methodology={methodology} lang={lang} csfOptions={csfOptions} />
       </div>
     </div>
   );

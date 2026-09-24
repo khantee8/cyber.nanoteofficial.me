@@ -4,12 +4,11 @@ import { useActionState, useEffect, useMemo, useState } from 'react';
 import { saveRisk, type ActionResult } from '@/server/actions/grc';
 import type { Risk } from '@/db/schema';
 import { ISO27001_CONTROLS } from '@/lib/grc/iso27001/catalogue';
-import { CSF_SUBCATEGORIES } from '@/lib/grc/nist-csf-2/catalogue';
 import { riskBand, riskScore, type Methodology } from '@/lib/grc/iso27001/score';
 import { suggestControls } from '@/lib/grc/iso27001/suggest';
 import { RISK_STATUSES, TREATMENTS } from '@/lib/grc/types';
 import type { Lang } from '@/lib/lang';
-import { pick, t } from '@/lib/i18n';
+import { pick, t, type LStr } from '@/lib/i18n';
 import { BandPill } from './StatusPill';
 
 function Scale({ name, value, onChange, label }: { name: string; value: number; onChange: (n: number) => void; label: string }) {
@@ -28,7 +27,9 @@ function Scale({ name, value, onChange, label }: { name: string; value: number; 
   );
 }
 
-export default function RiskForm({ risk, methodology, lang }: { risk: Risk | null; methodology: Methodology; lang: Lang }) {
+export default function RiskForm({ risk, methodology, lang, csfOptions }: {
+  risk: Risk | null; methodology: Methodology; lang: Lang; csfOptions: { id: string; text: LStr }[];
+}) {
   const [state, action, pending] = useActionState<ActionResult | null, FormData>(saveRisk, null);
   const [likelihood, setL] = useState(risk?.likelihood ?? 3);
   const [impact, setI] = useState(risk?.impact ?? 3);
@@ -156,7 +157,7 @@ export default function RiskForm({ risk, methodology, lang }: { risk: Risk | nul
         {linkedCsf.map((id) => <input key={id} type="hidden" name="linkedCsfIds" value={id} />)}
         <div className="flex flex-wrap gap-1.5">
           {linkedCsf.map((id) => {
-            const s = CSF_SUBCATEGORIES.find((x) => x.id === id);
+            const s = csfOptions.find((x) => x.id === id);
             return (
               <button key={id} type="button" onClick={() => setLinkedCsf(linkedCsf.filter((x) => x !== id))}
                 className="mono inline-flex items-center gap-1.5 rounded border border-accent/50 bg-accent-dim px-2 py-1 text-[11.5px] text-accent"
@@ -174,7 +175,7 @@ export default function RiskForm({ risk, methodology, lang }: { risk: Risk | nul
           className="field mt-1 max-w-md text-[12.5px]"
         >
           <option value="">+ …</option>
-          {CSF_SUBCATEGORIES.filter((s) => !linkedCsf.includes(s.id)).map((s) => (
+          {csfOptions.filter((s) => !linkedCsf.includes(s.id)).map((s) => (
             <option key={s.id} value={s.id}>{s.id} {pick(s.text, lang).slice(0, 80)}</option>
           ))}
         </select>
