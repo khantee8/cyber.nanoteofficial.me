@@ -34,6 +34,7 @@ MIGRATE_SQL=${MIGRATE_SQL:-scripts/migrate-v1.3.sql}
 PG="docker exec -i cyber-pg psql -U postgres -v ON_ERROR_STOP=1 -q"
 OLD_REF=${OLD_REF:-main}
 TMP=$(mktemp -d)
+trap 'rm -rf "$TMP"' EXIT
 
 # require_file <label> <path> -- fail loudly if a file a check depends on is missing or empty.
 require_file() {
@@ -85,11 +86,11 @@ INSERT INTO csf_profile (\"organisationId\", scope, \"currentTier\", \"targetTie
 
 # --- before snapshots ---
 $PG -d mig_old -At -c "select count(*) from control_status; select count(*) from csf_score; select count(*) from csf_profile; select count(*) from risk; select count(*) from risk_methodology" > "$TMP/counts_before.txt"
-$PG -d mig_old -At -c "select \"organisationId\"||'|'||\"controlId\"||'|'||(to_jsonb(t) - 'organisationId' - 'framework' - 'assessmentId' - 'customerId')::text from control_status t order by 1" > "$TMP/rows_control_status_before.txt"
-$PG -d mig_old -At -c "select \"organisationId\"||'|'||\"subcategoryId\"||'|'||(to_jsonb(t) - 'organisationId' - 'framework' - 'assessmentId' - 'customerId')::text from csf_score t order by 1" > "$TMP/rows_csf_score_before.txt"
-$PG -d mig_old -At -c "select \"organisationId\"||'|'||(to_jsonb(t) - 'organisationId' - 'framework' - 'assessmentId' - 'customerId')::text from csf_profile t order by 1" > "$TMP/rows_csf_profile_before.txt"
-$PG -d mig_old -At -c "select id||'|'||(to_jsonb(t) - 'organisationId' - 'framework' - 'assessmentId' - 'customerId')::text from risk t order by 1" > "$TMP/rows_risk_before.txt"
-$PG -d mig_old -At -c "select \"organisationId\"||'|'||(to_jsonb(t) - 'organisationId' - 'framework' - 'assessmentId' - 'customerId')::text from risk_methodology t order by 1" > "$TMP/rows_risk_methodology_before.txt"
+$PG -d mig_old -At -c "select \"organisationId\"||'|'||\"controlId\"||'|'||(to_jsonb(t) - 'organisationId' - 'framework' - 'assessmentId')::text from control_status t order by 1" > "$TMP/rows_control_status_before.txt"
+$PG -d mig_old -At -c "select \"organisationId\"||'|'||\"subcategoryId\"||'|'||(to_jsonb(t) - 'organisationId' - 'assessmentId')::text from csf_score t order by 1" > "$TMP/rows_csf_score_before.txt"
+$PG -d mig_old -At -c "select \"organisationId\"||'|'||(to_jsonb(t) - 'organisationId' - 'assessmentId')::text from csf_profile t order by 1" > "$TMP/rows_csf_profile_before.txt"
+$PG -d mig_old -At -c "select id||'|'||(to_jsonb(t) - 'organisationId' - 'customerId')::text from risk t order by 1" > "$TMP/rows_risk_before.txt"
+$PG -d mig_old -At -c "select \"organisationId\"||'|'||(to_jsonb(t) - 'organisationId' - 'customerId')::text from risk_methodology t order by 1" > "$TMP/rows_risk_methodology_before.txt"
 require_file "before counts" "$TMP/counts_before.txt"
 require_file "before control_status rows" "$TMP/rows_control_status_before.txt"
 require_file "before csf_score rows" "$TMP/rows_csf_score_before.txt"
@@ -104,19 +105,19 @@ $PG -d mig_old < "$MIGRATE_SQL"
 $PG -d mig_old -At -c "select count(*) from control_status; select count(*) from csf_score; select count(*) from csf_profile; select count(*) from risk; select count(*) from risk_methodology" > "$TMP/counts_after.txt"
 check_diff "row counts (control_status/csf_score/csf_profile/risk/risk_methodology)" "$TMP/counts_before.txt" "$TMP/counts_after.txt"
 
-$PG -d mig_old -At -c "select coalesce((select a.\"customerId\" from assessment a where a.id = t.\"assessmentId\"), '')||'|'||t.\"controlId\"||'|'||(to_jsonb(t) - 'organisationId' - 'framework' - 'assessmentId' - 'customerId')::text from control_status t order by 1" > "$TMP/rows_control_status_after.txt"
+$PG -d mig_old -At -c "select coalesce((select a.\"customerId\" from assessment a where a.id = t.\"assessmentId\"), '')||'|'||t.\"controlId\"||'|'||(to_jsonb(t) - 'organisationId' - 'framework' - 'assessmentId')::text from control_status t order by 1" > "$TMP/rows_control_status_after.txt"
 check_diff "control_status full rows" "$TMP/rows_control_status_before.txt" "$TMP/rows_control_status_after.txt"
 
-$PG -d mig_old -At -c "select coalesce((select a.\"customerId\" from assessment a where a.id = t.\"assessmentId\"), '')||'|'||t.\"subcategoryId\"||'|'||(to_jsonb(t) - 'organisationId' - 'framework' - 'assessmentId' - 'customerId')::text from csf_score t order by 1" > "$TMP/rows_csf_score_after.txt"
+$PG -d mig_old -At -c "select coalesce((select a.\"customerId\" from assessment a where a.id = t.\"assessmentId\"), '')||'|'||t.\"subcategoryId\"||'|'||(to_jsonb(t) - 'organisationId' - 'assessmentId')::text from csf_score t order by 1" > "$TMP/rows_csf_score_after.txt"
 check_diff "csf_score full rows" "$TMP/rows_csf_score_before.txt" "$TMP/rows_csf_score_after.txt"
 
-$PG -d mig_old -At -c "select coalesce((select a.\"customerId\" from assessment a where a.id = t.\"assessmentId\"), '')||'|'||(to_jsonb(t) - 'organisationId' - 'framework' - 'assessmentId' - 'customerId')::text from csf_profile t order by 1" > "$TMP/rows_csf_profile_after.txt"
+$PG -d mig_old -At -c "select coalesce((select a.\"customerId\" from assessment a where a.id = t.\"assessmentId\"), '')||'|'||(to_jsonb(t) - 'organisationId' - 'assessmentId')::text from csf_profile t order by 1" > "$TMP/rows_csf_profile_after.txt"
 check_diff "csf_profile full rows" "$TMP/rows_csf_profile_before.txt" "$TMP/rows_csf_profile_after.txt"
 
-$PG -d mig_old -At -c "select id||'|'||(to_jsonb(t) - 'organisationId' - 'framework' - 'assessmentId' - 'customerId')::text from risk t order by 1" > "$TMP/rows_risk_after.txt"
+$PG -d mig_old -At -c "select id||'|'||(to_jsonb(t) - 'organisationId' - 'customerId')::text from risk t order by 1" > "$TMP/rows_risk_after.txt"
 check_diff "risk full rows" "$TMP/rows_risk_before.txt" "$TMP/rows_risk_after.txt"
 
-$PG -d mig_old -At -c "select \"customerId\"||'|'||(to_jsonb(t) - 'organisationId' - 'framework' - 'assessmentId' - 'customerId')::text from risk_methodology t order by 1" > "$TMP/rows_risk_methodology_after.txt"
+$PG -d mig_old -At -c "select \"customerId\"||'|'||(to_jsonb(t) - 'organisationId' - 'customerId')::text from risk_methodology t order by 1" > "$TMP/rows_risk_methodology_after.txt"
 check_diff "risk_methodology full rows" "$TMP/rows_risk_methodology_before.txt" "$TMP/rows_risk_methodology_after.txt"
 
 # --- per-customer folder/assessment counts ---
