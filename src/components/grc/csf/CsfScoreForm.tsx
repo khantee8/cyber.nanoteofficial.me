@@ -27,18 +27,28 @@ function ScoreField({ name, label, value, onChange, lang }: { name: string; labe
   );
 }
 
-export default function CsfScoreForm({ subcategoryId, initial, lang }: { subcategoryId: string; initial: CsfScore | null; lang: Lang }) {
+type SaveMsg = { ok: boolean; text: string } | null;
+
+/**
+ * The actual <form>. Keyed by the caller on the saved row's identity so it
+ * remounts (and re-seeds its local state) when the row changes from outside
+ * this form — e.g. SuggestionPanel's "accept" writing a new `current`. That
+ * remount must never carry the save confirmation, so status is reported
+ * upward via `onResult` instead of being held here — see CsfScoreForm below.
+ */
+function Fields({ subcategoryId, initial, lang, onResult }: {
+  subcategoryId: string; initial: CsfScore | null; lang: Lang; onResult: (msg: SaveMsg) => void;
+}) {
   const [current, setCurrent] = useState(initial?.current == null ? '' : String(initial.current));
   const [target, setTarget] = useState(initial?.target == null ? '' : String(initial.target));
   const [pending, start] = useTransition();
-  const [msg, setMsg] = useState<{ ok: boolean; text: string } | null>(null);
   return (
     <form
       className="flex flex-col gap-4"
       onSubmit={(e) => {
         e.preventDefault();
         const fd = new FormData(e.currentTarget);
-        setMsg(null);
+        onResult(null);
         start(async () => {
           const res = await saveCsfScore({
             subcategoryId,
@@ -53,7 +63,7 @@ export default function CsfScoreForm({ subcategoryId, initial, lang }: { subcate
             notes: String(fd.get('notes') ?? ''),
             evidenceUrls: String(fd.get('evidenceUrls') ?? ''),
           });
-          setMsg(res.ok ? { ok: true, text: t(lang, 'common.saved') } : { ok: false, text: res.message ?? t(lang, 'common.error') });
+          onResult(res.ok ? { ok: true, text: t(lang, 'common.saved') } : { ok: false, text: res.message ?? t(lang, 'common.error') });
         });
       }}
     >
@@ -97,10 +107,17 @@ export default function CsfScoreForm({ subcategoryId, initial, lang }: { subcate
         <span className="text-muted">{t(lang, 'grc.control.evidence')}</span>
         <textarea name="evidenceUrls" rows={3} defaultValue={(initial?.evidenceUrls ?? []).join('\n')} className="field mono text-[12px] leading-relaxed" placeholder={t(lang, 'grc.control.evidenceHint')} />
       </label>
-      <div className="flex items-center gap-3">
-        <button type="submit" disabled={pending} className="btn btn-primary">{pending ? t(lang, 'common.saving') : t(lang, 'common.save')}</button>
-        {msg ? <span className={`text-[12px] ${msg.ok ? 'text-accent' : 'text-sev-critical'}`}>{msg.text}</span> : null}
-      </div>
+      <button type="submit" disabled={pending} className="btn btn-primary self-start">{pending ? t(lang, 'common.saving') : t(lang, 'common.save')}</button>
     </form>
+  );
+}
+
+export default function CsfScoreForm({ subcategoryId, initial, lang }: { subcategoryId: string; initial: CsfScore | null; lang: Lang }) {
+  const [msg, setMsg] = useState<SaveMsg>(null);
+  return (
+    <div className="flex flex-col gap-3">
+      <Fields key={String(initial?.updatedAt ?? '')} subcategoryId={subcategoryId} initial={initial} lang={lang} onResult={setMsg} />
+      {msg ? <span className={`text-[12px] ${msg.ok ? 'text-accent' : 'text-sev-critical'}`}>{msg.text}</span> : null}
+    </div>
   );
 }

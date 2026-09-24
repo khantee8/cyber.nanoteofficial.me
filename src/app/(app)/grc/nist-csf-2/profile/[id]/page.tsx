@@ -33,7 +33,7 @@ export default async function SubcategoryPage({ params }: PageProps<'/grc/nist-c
         <h1 className="mt-1 text-[22px] font-semibold leading-snug tracking-tight">{pick(sub.text, lang)}</h1>
         {lang === 'th' ? <p className="mt-2 text-[12.5px] text-muted">{sub.text.en}</p> : null}
         <div className="panel mt-6 p-5">
-          <CsfScoreForm key={String(row?.updatedAt ?? '')} subcategoryId={id} initial={row} lang={lang} />
+          <CsfScoreForm key={id} subcategoryId={id} initial={row} lang={lang} />
         </div>
         {sub.examples.length ? (
           <section className="mt-6">
