@@ -420,6 +420,8 @@ const dict = {
   'grc.customer.notes':      { en: 'Notes', th: 'บันทึก' },
   'grc.customer.archive':    { en: 'Archive customer', th: 'เก็บลูกค้าถาวร' },
   'grc.customer.unarchive':  { en: 'Restore customer', th: 'กู้คืนลูกค้า' },
+  'grc.customer.details':    { en: 'Customer details', th: 'ข้อมูลลูกค้า' },
+  'grc.customer.create':     { en: 'Create customer', th: 'สร้างลูกค้า' },
   'grc.customer.archiveLede': { en: 'Archived customers are hidden from the list. Nothing is deleted.', th: 'ลูกค้าที่เก็บถาวรจะถูกซ่อนจากรายการ โดยไม่มีข้อมูลใดถูกลบ' },
   'grc.nav.workspace':       { en: 'Assessments', th: 'การประเมิน' },
   'grc.nav.compare':         { en: 'Compare', th: 'เปรียบเทียบ' },

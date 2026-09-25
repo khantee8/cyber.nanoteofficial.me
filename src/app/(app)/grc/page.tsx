@@ -1,45 +1,64 @@
-import { frameworks, plannedFrameworks } from '@/lib/grc/frameworks';
-import { getLang } from '@/lib/lang';
-import { pick, t } from '@/lib/i18n';
+import Link from 'next/link';
+import { customerBase, loadViewer } from '@/lib/grc/context';
+import { listCustomers } from '@/lib/grc/queries';
+import { since } from '@/lib/grc/since';
+import { t } from '@/lib/i18n';
 import Icon from '@/components/site/Icon';
 
-export const metadata = { title: 'GRC' };
+export const metadata = { title: 'GRC customers' };
 
-export default async function GrcHub() {
-  const lang = await getLang();
+export default async function CustomersPage({ searchParams }: PageProps<'/grc'>) {
+  const sp = await searchParams;
+  const q = typeof sp.q === 'string' ? sp.q.slice(0, 120) : '';
+  const includeArchived = sp.archived === '1';
+  const { lang } = await loadViewer();
+  const customers = await listCustomers({ includeArchived, q });
+  const now = new Date();
+
   return (
-    <div className="flex flex-col gap-10">
-      <div className="max-w-2xl">
-        <p className="eyebrow">{t(lang, 'grc.eyebrow')}</p>
-        <h1 className="mt-2 text-3xl font-semibold tracking-tight">{t(lang, 'grc.title')}</h1>
-        <p className="mt-3 text-[14.5px] leading-relaxed text-muted">{t(lang, 'grc.lede')}</p>
-      </div>
-      <div className="grid gap-3 md:grid-cols-3">
-        <div className="grid gap-3 md:col-span-2 sm:grid-cols-2">
-          {frameworks.map((f) => (
-            <div key={f.slug} className="panel flex flex-col p-5">
-              <div className="flex items-center justify-between">
-                <span className="grid h-9 w-9 place-items-center rounded-md border border-line bg-surface-2 text-accent"><Icon name="clipboard" /></span>
-                <span className="mono rounded border border-accent/50 px-1.5 py-0.5 text-[10.5px] uppercase tracking-wider text-accent">{t(lang, 'common.available')}</span>
-              </div>
-              <h2 className="mt-5 text-[20px] font-semibold tracking-tight">{pick(f.name, lang)} <span className="mono text-[12px] font-normal text-muted-soft">{t(lang, 'grc.version')} {f.version}</span></h2>
-              <p className="mt-2 text-[13.5px] leading-relaxed text-muted">{pick(f.blurb, lang)}</p>
-            </div>
-          ))}
+    <div className="flex flex-col gap-8">
+      <div className="flex flex-wrap items-end justify-between gap-4">
+        <div className="max-w-2xl">
+          <p className="eyebrow">{t(lang, 'grc.eyebrow')}</p>
+          <h1 className="mt-2 text-3xl font-semibold tracking-tight">{t(lang, 'grc.customers.title')}</h1>
+          <p className="mt-3 text-[14.5px] leading-relaxed text-muted">{t(lang, 'grc.customers.lede')}</p>
         </div>
-        <div className="flex flex-col gap-3">
-          <p className="eyebrow">{t(lang, 'grc.planned')}</p>
-          {plannedFrameworks.map((p) => (
-            <div key={p.slug} className="panel flex-1 p-4 opacity-80">
-              <div className="flex items-center justify-between">
-                <h3 className="text-[15px] font-semibold">{pick(p.name, lang)}</h3>
-                <span className="mono rounded border border-line-strong px-1.5 py-0.5 text-[10.5px] uppercase tracking-wider text-muted">{t(lang, 'common.inDesign')}</span>
-              </div>
-              <p className="mt-2 text-[12.5px] leading-relaxed text-muted">{pick(p.blurb, lang)}</p>
-            </div>
-          ))}
-        </div>
+        <Link href="/grc/new" className="btn btn-primary"><Icon name="clipboard" className="h-4 w-4" />{t(lang, 'grc.customers.new')}</Link>
       </div>
+
+      <form method="get" className="flex flex-wrap items-center gap-3" role="search">
+        <input type="search" name="q" defaultValue={q} maxLength={120} placeholder={t(lang, 'grc.customers.search')}
+          aria-label={t(lang, 'grc.customers.search')} className="field w-72 max-w-full" />
+        <label className="flex items-center gap-2 text-[13px] text-muted">
+          <input type="checkbox" name="archived" value="1" defaultChecked={includeArchived} />
+          {t(lang, 'grc.customers.showArchived')}
+        </label>
+        <button type="submit" className="btn">{t(lang, 'common.search')}</button>
+      </form>
+
+      {customers.length === 0 ? (
+        <div className="panel px-4 py-12 text-center text-[13px] text-muted">{t(lang, 'grc.customers.none')}</div>
+      ) : (
+        <ul className="grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-3">
+          {customers.map((c) => (
+            <li key={c.id}>
+              <Link href={customerBase(c.id)} className={`panel flex h-full flex-col gap-2 p-5 transition-colors hover:border-line-strong ${c.archivedAt ? 'opacity-60' : ''}`}>
+                <div className="flex items-start justify-between gap-3">
+                  <h2 className="min-w-0 break-words text-[17px] font-semibold tracking-tight">{c.name}</h2>
+                  {c.archivedAt ? (
+                    <span className="mono shrink-0 rounded border border-line-strong px-1.5 py-0.5 text-[10.5px] uppercase tracking-wider text-muted">{t(lang, 'grc.customers.archived')}</span>
+                  ) : null}
+                </div>
+                <p className="text-[13px] text-muted">{c.industry ?? '—'}{c.sizeBand ? ` · ${c.sizeBand}` : ''}</p>
+                <div className="mono mt-auto flex flex-wrap items-center justify-between gap-2 pt-2 text-[11.5px] text-muted-soft">
+                  <span>{t(lang, 'grc.customers.assessments', { n: c.assessmentCount })}</span>
+                  {c.lastActivity ? <span>{t(lang, 'grc.assessment.updated')} {since(c.lastActivity, now, lang)}</span> : null}
+                </div>
+              </Link>
+            </li>
+          ))}
+        </ul>
+      )}
     </div>
   );
 }
