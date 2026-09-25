@@ -479,6 +479,10 @@ const dict = {
   'grc.compare.opened':      { en: 'Gap opened', th: 'เกิดช่องว่างใหม่' },
   'grc.compare.gapChanged':  { en: 'Gap changed', th: 'ช่องว่างเปลี่ยนแปลง' },
   'grc.compare.none':        { en: 'No differences.', th: 'ไม่มีความแตกต่าง' },
+  'grc.compare.needTwo':     { en: 'This customer needs at least two assessments of the same framework to compare.', th: 'ลูกค้ารายนี้ต้องมีการประเมินอย่างน้อยสองชุดในกรอบมาตรฐานเดียวกันจึงจะเปรียบเทียบได้' },
+  'grc.compare.delta':       { en: 'Change', th: 'การเปลี่ยนแปลง' },
+  'grc.compare.transitions': { en: 'Transitions', th: 'การเปลี่ยนสถานะ' },
+  'grc.compare.changes':     { en: 'Changes', th: 'การเปลี่ยนแปลง' },
 } as const;
 
 export type Key = keyof typeof dict;

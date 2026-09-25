@@ -10,11 +10,24 @@ function xy(i: number, n: number, v: number) {
 }
 const poly = (vals: number[]) => vals.map((v, i) => xy(i, vals.length, v).join(',')).join(' ');
 
-export default function Radar({ points, lang }: { points: { fn: CsfFunctionId; current: number | null; target: number | null }[]; lang: Lang }) {
+export default function Radar({ points, points2, labels, lang }: {
+  points: { fn: CsfFunctionId; current: number | null; target: number | null }[];
+  /**
+   * A second series, index-aligned with `points` — e.g. another assessment's Current, for a
+   * year-over-year comparison. When given, it is drawn as a dashed `--sev-low` outline in place
+   * of the Target line.
+   */
+  points2?: (number | null)[];
+  /** Legend labels for the two series when comparing profiles, replacing "Current" / "Target". */
+  labels?: { a: string; b: string };
+  lang: Lang;
+}) {
   const n = points.length;
   const cur = points.map((p) => p.current ?? 0);
+  const hasTarget = points.some((p) => p.target !== null);
   const tgt = points.map((p) => p.target ?? 0);
-  const label = points.map((p) => `${p.fn} ${p.current ?? '—'} / ${p.target ?? '—'}`).join(', ');
+  const cur2 = points2?.map((v) => v ?? 0);
+  const label = points.map((p, i) => `${p.fn} ${p.current ?? '—'} / ${points2 ? (points2[i] ?? '—') : (p.target ?? '—')}`).join(', ');
   return (
     <figure className="flex flex-col items-center gap-2">
       <svg viewBox={`0 0 ${SIZE} ${SIZE}`} className="h-auto w-full max-w-[280px]" role="img" aria-label={`${t(lang, 'csf.dash.radar')}: ${label}`}>
@@ -33,12 +46,20 @@ export default function Radar({ points, lang }: { points: { fn: CsfFunctionId; c
             </g>
           );
         })}
-        <polygon points={poly(tgt)} fill="none" stroke="var(--fg)" strokeOpacity={0.7} strokeDasharray="4 3" strokeWidth={1.5} />
+        {cur2 ? (
+          <polygon points={poly(cur2)} fill="none" stroke="var(--sev-low)" strokeDasharray="4 3" strokeWidth={1.5} />
+        ) : hasTarget ? (
+          <polygon points={poly(tgt)} fill="none" stroke="var(--fg)" strokeOpacity={0.7} strokeDasharray="4 3" strokeWidth={1.5} />
+        ) : null}
         <polygon points={poly(cur)} fill="var(--accent)" fillOpacity={0.18} stroke="var(--accent)" strokeWidth={2} />
       </svg>
-      <figcaption className="mono flex gap-4 text-[11px] text-muted">
-        <span className="inline-flex items-center gap-1.5"><span className="inline-block h-0.5 w-4 bg-accent" />{t(lang, 'csf.current')}</span>
-        <span className="inline-flex items-center gap-1.5"><span className="inline-block h-0 w-4 border-t border-dashed border-fg/70" />{t(lang, 'csf.target')}</span>
+      <figcaption className="mono flex flex-wrap justify-center gap-4 text-[11px] text-muted">
+        <span className="inline-flex items-center gap-1.5"><span className="inline-block h-0.5 w-4 bg-accent" />{labels?.a ?? t(lang, 'csf.current')}</span>
+        {cur2 ? (
+          <span className="inline-flex items-center gap-1.5"><span className="inline-block h-0 w-4 border-t border-dashed" style={{ borderColor: 'var(--sev-low)' }} />{labels?.b ?? t(lang, 'csf.target')}</span>
+        ) : hasTarget ? (
+          <span className="inline-flex items-center gap-1.5"><span className="inline-block h-0 w-4 border-t border-dashed border-fg/70" />{t(lang, 'csf.target')}</span>
+        ) : null}
         <span className="inline-flex items-center gap-1.5"><span className="inline-block h-0 w-4 border-t border-dotted border-sev-medium" />5</span>
       </figcaption>
     </figure>
