@@ -1,6 +1,7 @@
 import { unstable_cache } from 'next/cache';
+import { after } from 'next/server';
 import type { IntelSnapshot } from './aggregate';
-import { assembleSnapshot } from './store';
+import { assembleSnapshot, isRefreshDue } from './store';
 import fallbackJson from './fallback.json';
 
 /**
@@ -10,7 +11,7 @@ import fallbackJson from './fallback.json';
 export const fallback = fallbackJson as unknown as IntelSnapshot;
 
 export const INTEL_TAG = 'intel';
-/** Safety net only: the refresh job invalidates INTEL_TAG every 30 minutes. */
+/** Safety net only: every refresh (on visit or scheduled) invalidates INTEL_TAG. */
 export const INTEL_REVALIDATE_SECONDS = 3600;
 
 /**
@@ -43,10 +44,45 @@ const cached = unstable_cache(load, ['intel-snapshot-v2'], {
 });
 
 export async function getIntelSnapshot(): Promise<IntelSnapshot> {
+  let snapshot: IntelSnapshot;
   try {
-    return await cached();
+    snapshot = await cached();
   } catch (e) {
     console.error('intel: DB read failed, serving fallback', e);
-    return assembleSnapshot({}, fallback, new Date());
+    snapshot = assembleSnapshot({}, fallback, new Date());
+  }
+  refreshIfDue(snapshot);
+  return snapshot;
+}
+
+/**
+ * Refresh on visit: when the data is REFRESH_EVERY_MS old, refresh after the
+ * response is sent (this visitor gets the current copy, the next one fresh data).
+ * `claimRefresh` lets exactly one of many concurrent visits run it, at most once
+ * per 30 min; scheduled runs claim too. Needs a DB and a request scope; never throws.
+ * `lastAttempt` keeps each server instance to one claim query per 5 min, so a
+ * stretch where the data stays due (every source failing) doesn't hit Neon per visit.
+ */
+let lastAttempt = 0;
+const ATTEMPT_GAP_MS = 5 * 60_000;
+function refreshIfDue(snapshot: IntelSnapshot): void {
+  const nowMs = Date.now();
+  if (!process.env.DATABASE_URL || nowMs - lastAttempt < ATTEMPT_GAP_MS || !isRefreshDue(snapshot, new Date(nowMs))) return;
+  lastAttempt = nowMs;
+  try {
+    after(async () => {
+      try {
+        const now = new Date();
+        const { claimRefresh } = await import('./db');
+        if (!(await claimRefresh(now))) return;
+        const { runRefresh } = await import('./job');
+        const outcome = await runRefresh(now);
+        console.log('intel: refreshed on visit', JSON.stringify(outcome));
+      } catch (e) {
+        console.error('intel: refresh on visit failed', e);
+      }
+    });
+  } catch (e) {
+    console.error('intel: could not schedule refresh', e);
   }
 }

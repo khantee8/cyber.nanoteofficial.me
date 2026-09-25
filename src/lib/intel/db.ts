@@ -1,7 +1,8 @@
 import 'server-only';
+import { lt } from 'drizzle-orm';
 import { getDb } from '@/db';
-import { intelSources } from '@/db/schema';
-import { SOURCE_IDS, type SourceRow, type SourceRows } from './store';
+import { intelRefresh, intelSources } from '@/db/schema';
+import { REFRESH_EVERY_MS, SOURCE_IDS, type SourceRow, type SourceRows } from './store';
 import type { SourceId } from './types';
 
 export async function readIntelRows(): Promise<SourceRows> {
@@ -32,4 +33,20 @@ export async function writeIntelRows(rows: SourceRows): Promise<void> {
     await db.insert(intelSources).values({ source: id, ...values })
       .onConflictDoUpdate({ target: intelSources.source, set: values });
   }
+}
+
+/**
+ * Claim the refresh slot. With `force` (the cron route) the claim always succeeds;
+ * otherwise only when the last claim is at least REFRESH_EVERY_MS old — one atomic
+ * statement, so of many concurrent visits exactly one gets `true`.
+ */
+export async function claimRefresh(now: Date, force = false): Promise<boolean> {
+  const cutoff = new Date(now.getTime() - REFRESH_EVERY_MS);
+  const rows = await getDb().insert(intelRefresh).values({ id: 'intel', claimedAt: now })
+    .onConflictDoUpdate({
+      target: intelRefresh.id, set: { claimedAt: now },
+      ...(force ? {} : { setWhere: lt(intelRefresh.claimedAt, cutoff) }),
+    })
+    .returning({ id: intelRefresh.id });
+  return rows.length > 0;
 }

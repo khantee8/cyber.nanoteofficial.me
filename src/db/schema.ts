@@ -182,3 +182,9 @@ export const intelSources = pgTable('intel_source', {
   lastModified: text('lastModified'),
 });
 export type IntelSourceRow = typeof intelSources.$inferSelect;
+
+/** One row ('intel'): when a refresh last started. Claimed atomically so concurrent visits start at most one. */
+export const intelRefresh = pgTable('intel_refresh', {
+  id: text('id').primaryKey(),
+  claimedAt: timestamp('claimedAt', { mode: 'date' }).notNull(),
+});

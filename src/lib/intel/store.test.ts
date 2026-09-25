@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { assembleSnapshot, healthFromAge, mergeSourceRow, type SourceRows } from './store';
+import { assembleSnapshot, healthFromAge, isRefreshDue, mergeSourceRow, REFRESH_EVERY_MS, type SourceRows } from './store';
 import { buildIntelSnapshot, type Fetchers } from './aggregate';
 import type { KevEntry } from './types';
 
@@ -97,5 +97,33 @@ describe('assembleSnapshot', () => {
     const many = Array.from({ length: 80 }, (_, i) => kev(`CVE-2026-${String(1000 + i)}`));
     const s = assembleSnapshot({ kev: { source: 'kev', data: many, fetchedAt: iso(0), attemptedAt: iso(0), error: null, etag: null, lastModified: null } }, undefined, now);
     expect(s.kev).toHaveLength(60);
+  });
+});
+
+describe('isRefreshDue', () => {
+  const snap = (ages: (number | null)[]) => {
+    const rows: SourceRows = {};
+    const ids = ['kev', 'epss', 'ransomware', 'feodo', 'isc', 'news'] as const;
+    ages.forEach((age, i) => {
+      if (age === null) return;
+      (rows as Record<string, unknown>)[ids[i]] = { source: ids[i], data: ids[i] === 'isc' ? { infocon: 'green', topPorts: [] } : ids[i] === 'epss' ? {} : [], fetchedAt: iso(age), attemptedAt: iso(age), error: null, etag: null, lastModified: null };
+    });
+    return assembleSnapshot(rows, undefined, now);
+  };
+  it('is not due while the newest source is younger than 30 min', () => {
+    expect(isRefreshDue(snap([REFRESH_EVERY_MS - 1, 5 * 3_600_000, null, null, null, null]), now)).toBe(false);
+  });
+  it('is due once the newest source is 30 min old', () => {
+    expect(isRefreshDue(snap([REFRESH_EVERY_MS, REFRESH_EVERY_MS + 1, REFRESH_EVERY_MS, REFRESH_EVERY_MS, REFRESH_EVERY_MS, REFRESH_EVERY_MS]), now)).toBe(true);
+  });
+  it('is due when no source has ever succeeded', () => {
+    expect(isRefreshDue(snap([null, null, null, null, null, null]), now)).toBe(true);
+  });
+  it('is due when every source comes from an old fallback', () => {
+    const fb = assembleSnapshot({}, snap([3_600_000, 3_600_000, 3_600_000, 3_600_000, 3_600_000, 3_600_000]), now);
+    expect(isRefreshDue(fb, now)).toBe(true);
+  });
+  it('keeps the refresh cadence at 30 min or slower (Neon free tier)', () => {
+    expect(REFRESH_EVERY_MS).toBeGreaterThanOrEqual(30 * 60_000);
   });
 });

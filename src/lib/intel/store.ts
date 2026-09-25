@@ -29,6 +29,8 @@ export type FetchResult<T> =
 
 export const SOURCE_IDS: SourceId[] = ['kev', 'epss', 'ransomware', 'feodo', 'isc', 'news'];
 export const STALE_AFTER_MS = 60 * 60_000;
+/** A visit refreshes the data once it is this old. Never below 30 min: that's the Neon free-tier compute budget. */
+export const REFRESH_EVERY_MS = 30 * 60_000;
 
 export function mergeSourceRow<K extends SourceId>(
   source: K, prev: SourceRow<K> | undefined, result: FetchResult<SourceDataMap[K]>, now: Date,
@@ -102,4 +104,13 @@ export function assembleSnapshot(rows: SourceRows, fallback: IntelSnapshot | und
     health,
     stats: computeStats(partial, now),
   };
+}
+
+/** True when the newest non-down source is at least REFRESH_EVERY_MS old, or none has data. Pure. */
+export function isRefreshDue(snapshot: IntelSnapshot, now: Date): boolean {
+  const newest = SOURCE_IDS
+    .map((id) => snapshot.health[id])
+    .filter((h) => h && h.status !== 'down')
+    .reduce((max, h) => Math.max(max, new Date(h.fetchedAt).getTime()), -Infinity);
+  return !Number.isFinite(newest) || now.getTime() - newest >= REFRESH_EVERY_MS;
 }
