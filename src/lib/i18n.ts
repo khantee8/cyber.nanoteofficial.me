@@ -483,6 +483,7 @@ const dict = {
   'grc.compare.delta':       { en: 'Change', th: 'การเปลี่ยนแปลง' },
   'grc.compare.transitions': { en: 'Transitions', th: 'การเปลี่ยนสถานะ' },
   'grc.compare.changes':     { en: 'Changes', th: 'การเปลี่ยนแปลง' },
+  'grc.compare.radar':       { en: 'Current by Function, year over year', th: 'ระดับปัจจุบันรายฟังก์ชัน เทียบปีต่อปี' },
 } as const;
 
 export type Key = keyof typeof dict;

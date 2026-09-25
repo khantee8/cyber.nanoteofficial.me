@@ -14,7 +14,7 @@ export default function CompareCsf({ lang, aLabel, bLabel, cc }: { lang: Lang; a
   return (
     <div className="flex flex-col gap-4">
       <section className="panel flex flex-col items-center p-5">
-        <p className="eyebrow mb-3 self-start">{t(lang, 'csf.dash.radar')}</p>
+        <p className="eyebrow mb-3 self-start">{t(lang, 'grc.compare.radar')}</p>
         <Radar
           points={cc.byFunction.map((f) => ({ fn: f.fn, current: f.a.avgCurrent, target: null }))}
           points2={cc.byFunction.map((f) => f.b.avgCurrent)}

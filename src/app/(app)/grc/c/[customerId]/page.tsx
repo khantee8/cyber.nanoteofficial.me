@@ -1,6 +1,7 @@
 import { loadCustomer } from '@/lib/grc/context';
 import { frameworks } from '@/lib/grc/frameworks';
 import { getCsfScores, getFolders, getStatuses, listAssessments, toScoreRows } from '@/lib/grc/queries';
+import { byChronologyDesc } from '@/lib/grc/order';
 import { ancestorsOf, buildTree, type FolderNode } from '@/lib/grc/tree';
 import { compliance } from '@/lib/grc/iso27001/score';
 import { ISO27001_CONTROLS } from '@/lib/grc/iso27001/catalogue';
@@ -32,10 +33,6 @@ async function keyScore(a: Assessment): Promise<string | null> {
   }
   return null;
 }
-
-/** Newest fiscal year first, then newest created — the default "From" source is the first of its framework. */
-const newestFirst = (a: Assessment, b: Assessment) =>
-  (b.fiscalYear ?? -Infinity) - (a.fiscalYear ?? -Infinity) || b.createdAt.getTime() - a.createdAt.getTime();
 
 export default async function CustomerWorkspace({ params, searchParams }: PageProps<'/grc/c/[customerId]'>) {
   const [{ customerId }, sp] = await Promise.all([params, searchParams]);
@@ -70,7 +67,7 @@ export default async function CustomerWorkspace({ params, searchParams }: PagePr
 
   const tree = buildTree(folders);
   const selectedName = selected === 'all' ? t(lang, 'grc.folders.all') : selected === 'root' ? t(lang, 'grc.folders.root') : byId.get(selected)!.name;
-  const sources = [...assessments].sort(newestFirst).map((a) => ({ id: a.id, title: a.title, framework: a.framework }));
+  const sources = [...assessments].sort(byChronologyDesc).map((a) => ({ id: a.id, title: a.title, framework: a.framework }));
 
   return (
     <div className="grid grid-cols-1 gap-6 md:grid-cols-[16rem_minmax(0,1fr)] lg:grid-cols-[18rem_minmax(0,1fr)]">

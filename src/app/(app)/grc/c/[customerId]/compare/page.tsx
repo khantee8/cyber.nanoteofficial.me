@@ -2,6 +2,7 @@ import type { ReactNode } from 'react';
 import { loadCustomer } from '@/lib/grc/context';
 import { getCsfScores, getStatuses, listAssessments, toScoreRows } from '@/lib/grc/queries';
 import { compareCsf, compareIso } from '@/lib/grc/compare';
+import { byChronologyDesc } from '@/lib/grc/order';
 import { frameworkBySlug, frameworks } from '@/lib/grc/frameworks';
 import type { Assessment } from '@/db/schema';
 import { pick, t } from '@/lib/i18n';
@@ -15,15 +16,36 @@ function optionLabel(a: Assessment): string {
 }
 
 /**
+ * The other id in `group` (chronological, newest-first) adjacent to `id` — newer by default
+ * (`preferOlder` false, used to fill `b` from a given `a`), older when `preferOlder` is true
+ * (used to fill `a` from a given `b`). Falls back to the other neighbour when `id` is already at
+ * that end of the list, and to `undefined` when `group` has fewer than two assessments — the
+ * caller then leaves the pair incomplete rather than forcing a cross-framework guess.
+ */
+function adjacent(group: Assessment[], id: string, preferOlder: boolean): string | undefined {
+  if (group.length < 2) return undefined;
+  const idx = group.findIndex((x) => x.id === id);
+  if (idx === -1) return undefined;
+  const otherIdx = preferOlder
+    ? (idx < group.length - 1 ? idx + 1 : idx - 1)
+    : (idx > 0 ? idx - 1 : idx + 1);
+  return group[otherIdx]?.id;
+}
+
+/**
  * Year-over-year comparison. Both `a` and `b` are resolved strictly against this customer's own
  * assessments (`listAssessments(customer.id)`) — an id for another customer's assessment simply
  * won't be found here, which is what keeps a forged query param from crossing customers. A
  * framework mismatch (or an unresolved id) shows `grc.compare.sameFramework` instead of crashing.
+ *
+ * Ordering is fiscal-year chronology (`byChronologyDesc`), the same "later" a reader means by
+ * FY2027 vs FY2026 — not `updatedAt`, which would make an older assessment someone just edited
+ * look like the "later" side.
  */
 export default async function ComparePage({ params, searchParams }: PageProps<'/grc/c/[customerId]/compare'>) {
   const [{ customerId }, sp] = await Promise.all([params, searchParams]);
   const { lang, customer } = await loadCustomer(customerId);
-  const assessments = await listAssessments(customer.id); // newest updatedAt first
+  const assessments = [...await listAssessments(customer.id)].sort(byChronologyDesc);
 
   const byFramework = new Map<string, Assessment[]>();
   for (const a of assessments) {
@@ -32,23 +54,30 @@ export default async function ComparePage({ params, searchParams }: PageProps<'/
     else byFramework.set(a.framework, [a]);
   }
 
-  // Default: the two most recent assessments of the framework with the most assessments (needs >= 2).
-  let defaultA: string | undefined;
-  let defaultB: string | undefined;
-  let bestCount = 1;
-  for (const fw of frameworks) {
-    const arr = byFramework.get(fw.slug);
-    if (arr && arr.length > bestCount) {
-      bestCount = arr.length;
-      defaultA = arr[1].id; // earlier
-      defaultB = arr[0].id; // later
-    }
-  }
-
   const rawA = typeof sp.a === 'string' ? sp.a : undefined;
   const rawB = typeof sp.b === 'string' ? sp.b : undefined;
-  const aId = rawA ?? defaultA;
-  const bId = rawB ?? defaultB;
+
+  let aId = rawA;
+  let bId = rawB;
+  if (!rawA && !rawB) {
+    // Default: the two most recent assessments of the framework with the most assessments (needs >= 2).
+    let bestCount = 1;
+    for (const fw of frameworks) {
+      const arr = byFramework.get(fw.slug);
+      if (arr && arr.length > bestCount) {
+        bestCount = arr.length;
+        aId = arr[1].id; // earlier
+        bId = arr[0].id; // later
+      }
+    }
+  } else if (rawA && !rawB) {
+    const a = assessments.find((x) => x.id === rawA);
+    bId = a ? adjacent(byFramework.get(a.framework) ?? [], rawA, false) : undefined;
+  } else if (!rawA && rawB) {
+    const b = assessments.find((x) => x.id === rawB);
+    aId = b ? adjacent(byFramework.get(b.framework) ?? [], rawB, true) : undefined;
+  }
+
   const aAssessment = aId ? (assessments.find((x) => x.id === aId) ?? null) : null;
   const bAssessment = bId ? (assessments.find((x) => x.id === bId) ?? null) : null;
   const picked = Boolean(aId && bId);
