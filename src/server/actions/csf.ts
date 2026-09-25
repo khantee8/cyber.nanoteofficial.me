@@ -1,8 +1,9 @@
 'use server';
 
 import { revalidatePath } from 'next/cache';
+import { eq } from 'drizzle-orm';
 import { getDb } from '@/db';
-import { csfProfiles, csfScores } from '@/db/schema';
+import { assessments, csfProfiles, csfScores } from '@/db/schema';
 import { getCsfScore, getCsfScores, getStatuses, listAssessments, toScoreRows } from '@/lib/grc/queries';
 import { CSF_BY_ID, CSF_CATEGORY_BY_ID, CSF_SUBCATEGORIES } from '@/lib/grc/nist-csf-2/catalogue';
 import { pickIsoSource } from '@/lib/grc/isoSource';
@@ -36,6 +37,11 @@ async function upsert(assessmentId: string, subcategoryId: string, patch: Patch)
     .onConflictDoUpdate({ target: [csfScores.assessmentId, csfScores.subcategoryId], set });
 }
 
+/** Bumps the parent assessment's updatedAt so day-to-day CSF edits show up as recent activity. */
+async function touchAssessment(assessmentId: string) {
+  await getDb().update(assessments).set({ updatedAt: new Date() }).where(eq(assessments.id, assessmentId));
+}
+
 /** The ISO 27001 assessment to source suggestions/prefill from, per the copy rule in isoSource.ts. */
 async function requireIsoSource(customerId: string, fiscalYear: number | null): Promise<string> {
   const all = await listAssessments(customerId);
@@ -61,6 +67,7 @@ export async function saveCsfScore(input: CsfScoreInput): Promise<ActionResult> 
     if (input.notes !== undefined) p.notes = str(input.notes, 4000, { field: 'Notes' });
     if (input.evidenceUrls !== undefined) p.evidenceUrls = urlList(input.evidenceUrls);
     await upsert(assessment.id, input.subcategoryId, p);
+    await touchAssessment(assessment.id);
   } catch (err) {
     return fail(err);
   }
@@ -75,6 +82,7 @@ export async function bulkSetTarget(assessmentId: string, categoryId: string, ta
     const value = halfStep(target, 'Target');
     if (value === null) throw new ValidationError('choose a Target');
     for (const s of CSF_SUBCATEGORIES.filter((x) => x.category === categoryId)) await upsert(assessment.id, s.id, { target: value });
+    await touchAssessment(assessment.id);
   } catch (err) {
     return fail(err);
   }
@@ -91,6 +99,7 @@ export async function acceptSuggestion(assessmentId: string, subcategoryId: stri
     const { value } = suggestCurrent(sub.iso27001, await getStatuses(sourceId));
     if (value === null) throw new ValidationError('no suggestion for this subcategory');
     await upsert(assessment.id, subcategoryId, { current: value });
+    await touchAssessment(assessment.id);
   } catch (err) {
     return fail(err);
   }
@@ -112,6 +121,7 @@ export async function prefillFromIso(assessmentId: string): Promise<ActionResult
       await upsert(assessment.id, p.subcategoryId, { current: p.value });
       count++;
     }
+    if (count > 0) await touchAssessment(assessment.id);
   } catch (err) {
     return fail(err);
   }
@@ -130,6 +140,7 @@ export async function saveCsfProfile(_prev: ActionResult | null, fd: FormData): 
     };
     await getDb().insert(csfProfiles).values({ assessmentId: assessment.id, ...values })
       .onConflictDoUpdate({ target: csfProfiles.assessmentId, set: values });
+    await touchAssessment(assessment.id);
   } catch (err) {
     return fail(err);
   }

@@ -17,7 +17,6 @@ export default async function CustomerLayout({ children, params }: LayoutProps<'
       <div className="flex flex-col gap-3 border-b border-line pb-4">
         <nav aria-label="Breadcrumb" className="flex flex-wrap items-center gap-x-2 gap-y-1">
           <Link href="/grc" className="mono text-[11px] uppercase tracking-wider text-muted-soft hover:text-fg">{t(lang, 'grc.customers.title')}</Link>
-          <span className="text-muted-soft">/</span>
         </nav>
         <div className="flex flex-wrap items-center justify-between gap-3">
           <div className="flex min-w-0 flex-wrap items-baseline gap-3">

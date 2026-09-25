@@ -14,8 +14,8 @@ import { BandPill, StatusPill } from '@/components/grc/StatusPill';
 
 export default async function SubcategoryPage({ params }: PageProps<'/grc/a/[assessmentId]/csf/profile/[id]'>) {
   const { assessmentId, id } = await params;
+  if (!Object.hasOwn(CSF_BY_ID, id)) notFound();
   const sub = CSF_BY_ID[id];
-  if (!sub) notFound();
   const { lang, assessment, customer, methodology, base, customerBase } = await loadAssessment(assessmentId, 'nist-csf-2');
   const CSF_BASE = `${base}/csf`;
   // Same source rule as acceptSuggestion/prefillFromIso: no ISO assessment → no statuses → no suggestion.

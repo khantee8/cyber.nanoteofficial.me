@@ -18,7 +18,7 @@ export default function CustomerForm({ customer, lang }: { customer: Fields | nu
     <form action={action} className="flex flex-col gap-4">
       {customer ? <input type="hidden" name="customerId" value={customer.id} /> : null}
       <label className={label}>
-        <span className="text-muted">{t(lang, 'grc.org.name')}</span>
+        <span className="text-muted">{t(lang, 'grc.customer.name')}</span>
         <input name="name" required maxLength={120} defaultValue={customer?.name ?? ''} className="field" />
       </label>
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">

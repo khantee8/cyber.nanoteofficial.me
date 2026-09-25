@@ -307,6 +307,7 @@ export async function setControlStatus(input: ControlStatusInput): Promise<Actio
     await getDb().insert(controlStatuses)
       .values({ assessmentId: assessment.id, controlId: input.controlId, ...patch })
       .onConflictDoUpdate({ target: [controlStatuses.assessmentId, controlStatuses.controlId], set: patch });
+    await getDb().update(assessments).set({ updatedAt: new Date() }).where(eq(assessments.id, assessment.id));
   } catch (err) {
     return fail(err);
   }

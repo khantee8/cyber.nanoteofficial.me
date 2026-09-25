@@ -81,7 +81,7 @@ export default async function ComparePage({ params, searchParams }: PageProps<'/
   const aAssessment = aId ? (assessments.find((x) => x.id === aId) ?? null) : null;
   const bAssessment = bId ? (assessments.find((x) => x.id === bId) ?? null) : null;
   const picked = Boolean(aId && bId);
-  const valid = Boolean(aAssessment && bAssessment && aAssessment.framework === bAssessment.framework);
+  const valid = Boolean(aAssessment && bAssessment && aAssessment.id !== bAssessment.id && aAssessment.framework === bAssessment.framework);
 
   // Frameworks present among this customer's assessments, in catalogue order (unknown ones last).
   const present = [...byFramework.keys()];

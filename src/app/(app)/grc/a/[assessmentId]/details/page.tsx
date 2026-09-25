@@ -8,7 +8,7 @@ import DeleteAssessment from '@/components/grc/DeleteAssessment';
 export const metadata = { title: 'Assessment details' };
 
 function flatten(nodes: FolderNode[]): { id: string; label: string }[] {
-  return nodes.flatMap((n) => [{ id: n.id, label: `${'  '.repeat(n.depth - 1)}${n.name}` }, ...flatten(n.children)]);
+  return nodes.flatMap((n) => [{ id: n.id, label: `${'\u00a0\u00a0'.repeat(n.depth - 1)}${n.name}` }, ...flatten(n.children)]);
 }
 
 export default async function DetailsPage({ params }: PageProps<'/grc/a/[assessmentId]/details'>) {

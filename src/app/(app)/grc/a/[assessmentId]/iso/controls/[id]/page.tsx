@@ -11,8 +11,8 @@ import Icon from '@/components/site/Icon';
 
 export default async function ControlPage({ params }: PageProps<'/grc/a/[assessmentId]/iso/controls/[id]'>) {
   const { assessmentId, id } = await params;
+  if (!Object.hasOwn(CONTROL_BY_ID, id)) notFound();
   const control = CONTROL_BY_ID[id];
-  if (!control) notFound();
   const { lang, assessment, customer, methodology, base, customerBase } = await loadAssessment(assessmentId, 'iso27001');
   const BASE = `${base}/iso`;
   const [row, risks] = await Promise.all([getStatusRow(assessment.id, id), getRisks(customer.id)]);
