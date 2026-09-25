@@ -8,7 +8,9 @@ import type { Lang } from '@/lib/lang';
 import { t } from '@/lib/i18n';
 
 export default function SuggestionPanel({ assessmentId, subcategoryId, suggestion, current, lang, base }: {
-  assessmentId: string; subcategoryId: string; suggestion: Suggestion; current: number | null; lang: Lang; base: string;
+  assessmentId: string; subcategoryId: string; suggestion: Suggestion; current: number | null; lang: Lang;
+  /** The ISO source assessment's `/grc/a/<id>/iso` path, or null when the customer has none (parts render unlinked). */
+  base: string | null;
 }) {
   const [pending, start] = useTransition();
   const [error, setError] = useState<string | null>(null);
@@ -36,9 +38,13 @@ export default function SuggestionPanel({ assessmentId, subcategoryId, suggestio
       <ul className="mono mt-3 flex flex-wrap gap-1.5 text-[11px]">
         {suggestion.parts.map((p) => (
           <li key={p.controlId}>
-            <Link href={`${base}/controls/${p.controlId}`} className="rounded border border-line px-1.5 py-0.5 text-muted hover:text-fg">
-              {p.controlId} · {p.status ? t(lang, `grc.status.${p.status}`) : '—'}{p.weight !== null ? ` · ${p.weight}` : ''}
-            </Link>
+            {base ? (
+              <Link href={`${base}/controls/${p.controlId}`} className="rounded border border-line px-1.5 py-0.5 text-muted hover:text-fg">
+                {p.controlId} · {p.status ? t(lang, `grc.status.${p.status}`) : '—'}{p.weight !== null ? ` · ${p.weight}` : ''}
+              </Link>
+            ) : (
+              <span className="rounded border border-line px-1.5 py-0.5 text-muted">{p.controlId} · —</span>
+            )}
           </li>
         ))}
       </ul>

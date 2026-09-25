@@ -24,6 +24,16 @@ const csp = [
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  // The single-organisation workspaces became per-customer assessments under /grc/a/[id];
+  // there is no way to map an old URL to one assessment, so they all land on the GRC hub.
+  async redirects() {
+    return [
+      { source: "/grc/iso27001/:path*", destination: "/grc", permanent: true },
+      { source: "/grc/nist-csf-2/:path*", destination: "/grc", permanent: true },
+      { source: "/api/grc/iso27001/:path*", destination: "/grc", permanent: true },
+      { source: "/api/grc/nist-csf-2/:path*", destination: "/grc", permanent: true },
+    ];
+  },
   async headers() {
     return [
       {

@@ -8,10 +8,9 @@ export interface Framework {
   version: string;
   blurb: LStr;
   status: 'available';
-  href: string;
 }
 
-/** Frameworks with a working workspace. Adding one = adding an entry here plus its routes. */
+/** Frameworks an assessment can use. Adding one = adding an entry here plus its `/grc/a/[assessmentId]/<slug>` routes. */
 export const frameworks: Framework[] = [
   {
     slug: 'iso27001',
@@ -22,7 +21,6 @@ export const frameworks: Framework[] = [
       th: 'ระบบบริหารความมั่นคงปลอดภัยสารสนเทศ: การควบคุม Annex A 93 ข้อ การประเมินช่องว่าง ทะเบียนความเสี่ยง Statement of Applicability',
     },
     status: 'available',
-    href: '/grc/iso27001',
   },
   {
     slug: 'nist-csf-2',
@@ -33,7 +31,6 @@ export const frameworks: Framework[] = [
       th: 'โปรไฟล์องค์กร: คะแนนปัจจุบันและเป้าหมายของหัวข้อย่อยทั้ง 106 ข้อ ช่องว่างรายฟังก์ชันและรายหมวด เชื่อมโยงกับการประเมิน ISO 27001 ของคุณ',
     },
     status: 'available',
-    href: '/grc/nist-csf-2',
   },
 ];
 
